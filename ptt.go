@@ -106,6 +106,7 @@ type Result struct {
 	Subbed      bool
 	ThreeD      string
 	Title       string
+	Uncensored  bool
 	Unrated     bool
 	Upscaled    bool
 	Volumes     []int
@@ -343,6 +344,8 @@ func Parse(title string) *Result {
 			r.Subbed = v.(bool)
 		case "threeD":
 			r.ThreeD = v.(string)
+		case "uncensored":
+			r.Uncensored = v.(bool)
 		case "unrated":
 			r.Unrated = v.(bool)
 		case "upscaled":

@@ -13,7 +13,7 @@ func TestUnrated(t *testing.T) {
 		unrated bool
 	}{
 		{"unrated", "Identity.Thief.2013.Vostfr.UNRATED.BluRay.720p.DTS.x264-Nenuko", true},
-		{"uncensored", "Charlie.les.filles.lui.disent.merci.2007.UNCENSORED.TRUEFRENCH.DVDRiP.AC3.Libe", true},
+		{"uncensored", "Charlie.les.filles.lui.disent.merci.2007.UNCENSORED.TRUEFRENCH.DVDRiP.AC3.Libe", false},
 		{"not unrated", "Have I Got News For You S53E02 EXTENDED 720p HDTV x264-QPEL", false},
 	} {
 		t.Run(tc.name, func(t *testing.T) {

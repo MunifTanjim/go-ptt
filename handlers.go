@@ -761,10 +761,17 @@ var handlers = []handler{
 		SkipFromTitle: true,
 	},
 
-	// parser.addHandler("unrated", /\bunrated|uncensored\b/i, boolean);
+	// parser.addHandler("unrated", /\bunrated\b/i, boolean);
 	{
 		Field:     "unrated",
-		Pattern:   regexp.MustCompile(`(?i)\bunrated|uncensored\b`),
+		Pattern:   regexp.MustCompile(`(?i)\bunrated\b`),
+		Transform: to_boolean(),
+	},
+
+	// parser.add_handler("uncensored", regex.compile(r"\buncensored\b", regex.IGNORECASE), boolean)
+	{
+		Field:     "uncensored",
+		Pattern:   regexp.MustCompile(`(?i)\buncensored\b`),
 		Transform: to_boolean(),
 	},
 

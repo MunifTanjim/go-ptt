@@ -77,6 +77,7 @@ type Result struct {
 	BitDepth    string
 	Channels    []string
 	Codec       string
+	Commentary  bool
 	Complete    bool
 	Container   string
 	Convert     bool
@@ -278,6 +279,8 @@ func Parse(title string) *Result {
 			r.Channels = values
 		case "codec":
 			r.Codec = v.(string)
+		case "commentary":
+			r.Commentary = v.(bool)
 		case "complete":
 			r.Complete = v.(bool)
 		case "container":

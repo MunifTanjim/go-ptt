@@ -775,6 +775,13 @@ var handlers = []handler{
 		Transform: to_boolean(),
 	},
 
+	// parser.add_handler("commentary", regex.compile(r"\bcommentary\b", regex.IGNORECASE), boolean)
+	{
+		Field:     "commentary",
+		Pattern:   regexp.MustCompile(`(?i)\bcommentary\b`),
+		Transform: to_boolean(),
+	},
+
 	// x parser.addHandler("region", /R\d\b/, none, { skipIfFirst: true });
 	// {
 	// 	Field:       "region",

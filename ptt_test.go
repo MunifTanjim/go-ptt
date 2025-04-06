@@ -1356,6 +1356,22 @@ func TestPTT(t *testing.T) {
 			Group:      "Ralf",
 			Network:    "Amazon",
 		}},
+		{"Deadpool (2016) [2160p] [7.1 AAC ENG] [5.1 AAC ENG FRE GER ITA SPA] [COMMENTARY] [Multi-Sub] [10bit] [UHD] [HEVC] [x265] [pseudo].mkv", Result{
+			Audio:      []string{"AAC"},
+			BitDepth:   "10bit",
+			Channels:   []string{"5.1"}, //FIXME
+			Codec:      "hevc",
+			Commentary: true,
+			Container:  "mkv",
+			Episodes:   []int{7}, // FIXME
+			Extension:  "mkv",
+			Languages:  []string{"multi subs", "english", "french", "spanish", "italian", "german"},
+			Resolution: "4k",
+			Site:       "7.1  ENG", // FIXME
+			Subbed:     true,
+			Title:      "Deadpool",
+			Year:       "2016",
+		}},
 		{"X-Men Complete 13 Movie Collection Sci-Fi 2000 - 2020 Eng Rus Multi-Subs 1080p [H264-mp4]", Result{
 			Container:  "mp4",
 			Resolution: "1080p",

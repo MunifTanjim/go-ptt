@@ -2902,8 +2902,8 @@ var handlers = []handler{
 	// parser.addHandler("languages", /\bfinnish\b/i, uniqConcat(value("finnish")), { skipFromTitle: true, skipIfAlreadyFound: false });
 	{
 		Field:         "languages",
-		Pattern:       regexp.MustCompile(`(?i)\b(?:(?:w{3}\.\w+\.)?FI|finsk|finsub|nordic)\b`),
-		ValidateMatch: validate_not_match(regexp.MustCompile(`(?i)(?:w{3}\.\w+\.)FI`)),
+		Pattern:       regexp.MustCompile(`(?i)\b(?:(?:w{3}\.\w+\.|Sci-)?FI|finsk|finsub|nordic)\b`),
+		ValidateMatch: validate_not_match(regexp.MustCompile(`(?i)(?:w{3}\.\w+\.|Sci-)FI`)),
 		Transform:     to_value_set("finnish"),
 		KeepMatching:  true,
 	},

@@ -1369,9 +1369,9 @@ func TestPTT(t *testing.T) {
 			Resolution: "1080p",
 			Complete:   true,
 			Codec:      "h264",
-			Languages:  []string{"multi subs", "english", "russian", "finnish"}, // FIXME
+			Languages:  []string{"multi subs", "english", "russian"},
 			Subbed:     true,
-			Title:      "X-Men Complete 13 Movie Collection Sci", // FIXME
+			Title:      "X-Men Complete 13 Movie Collection Sci-Fi",
 			Year:       "2000-2020",
 		}},
 		{"BLACK PANTHER - Wakanda Forever (2022) 10bit.m1080p.BRRip.H265.MKV.AC3-5.1 DUBPL-ENG-NapisyPL [StarLord]", Result{

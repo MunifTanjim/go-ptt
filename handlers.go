@@ -1775,6 +1775,7 @@ var handlers = []handler{
 		Field:     "seasons",
 		Pattern:   regexp.MustCompile(`(?i)(\d{1,2})(?:-?й)?[. _]?(?:[Сс]езон|sez(?:on)?)(?:\W?\D|$)`),
 		Transform: to_int_array(),
+		Remove:    true,
 	},
 	{
 		Field:     "seasons",
@@ -1786,6 +1787,7 @@ var handlers = []handler{
 		Pattern:       regexp.MustCompile(`(?i)[Сс]езон:?[. _]?№?(\d{1,2})(?:\d)?`),
 		ValidateMatch: validate_not_match(regexp.MustCompile(`(?i)\d{3}`)),
 		Transform:     to_int_array(),
+		Remove:        true,
 	},
 	{
 		Field:     "seasons",

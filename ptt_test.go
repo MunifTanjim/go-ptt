@@ -1386,6 +1386,20 @@ func TestPTT(t *testing.T) {
 			Year:       "2022",
 			Title:      "BLACK PANTHER - Wakanda Forever",
 		}},
+		{"The.White.Lotus.2.Sezon.7.Bölüm.2021.1080p.BLUTV.WEB-DL.AAC2.0.H.264-TURG.mkv", Result{
+			Container:  "mkv",
+			Resolution: "1080p",
+			Codec:      "h264",
+			Episodes:   []int{7},
+			Seasons:    []int{2},
+			Audio:      []string{"AAC"},
+			Channels:   []string{"2.0"},
+			Quality:    "WEB-DL",
+			Title:      "The White Lotus",
+			Year:       "2021",
+			Extension:  "mkv",
+			Group:      "TURG",
+		}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)
@@ -1412,6 +1426,29 @@ func TestPTT(t *testing.T) {
 			Quality:    "BluRay",
 			Title:      "The Matrix",
 			Year:       "1999",
+		}},
+	} {
+		t.Run(tc.ttitle, func(t *testing.T) {
+			result := Parse(tc.ttitle)
+			assert.Equal(t, &tc.result, result)
+		})
+	}
+
+	// Go
+	for _, tc := range []struct {
+		ttitle string
+		result Result
+	}{
+		{"Game of Thrones - Sezon 4 Odcinek 10 [480p.720p.WEB-DL.H264-NitroTeam] [Lektor PL].mkv", Result{
+			Codec:      "h264",
+			Container:  "mkv",
+			Extension:  "mkv",
+			Languages:  []string{"polish"},
+			Quality:    "WEB-DL",
+			Resolution: "720p",
+			Seasons:    []int{4},
+			Site:       "480p...-NitroTeam", // FIXME
+			Title:      "Game of Thrones",
 		}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {

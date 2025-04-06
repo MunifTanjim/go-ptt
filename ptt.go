@@ -134,8 +134,6 @@ func has_value_set(field string) bool {
 	return ok
 }
 
-const VERSION = 0
-
 func Parse(title string) *Result {
 	title = underscores_regex.ReplaceAllString(title, " ")
 	result := map[string]*parseMeta{}

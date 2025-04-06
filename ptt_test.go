@@ -1345,6 +1345,17 @@ func TestPTT(t *testing.T) {
 			Audio:      []string{"DDP", "Atmos"},
 			Channels:   []string{"5.1"},
 		}},
+		{"[Ex-torrenty.org]iCarly.S04.PLDUB.1080p.AMZN.WEB-DL.DDP2.0.H264-Ralf", Result{
+			Title:      "iCarly",
+			Seasons:    []int{4},
+			Languages:  []string{"polish"},
+			Quality:    "WEB-DL",
+			Resolution: "1080p",
+			Codec:      "h264",
+			Audio:      []string{"DDP"},
+			Group:      "Ralf",
+			Network:    "Amazon",
+		}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)

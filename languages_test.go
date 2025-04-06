@@ -297,4 +297,22 @@ func TestLanguages(t *testing.T) {
 			assert.Equal(t, tc.languages, result.Languages)
 		})
 	}
+
+	// Go
+	for _, tc := range []struct {
+		ttitle    string
+		languages []string
+	}{
+		{"[Ex-torrenty.org]iCarly.S04.PLDUB.1080p.AMZN.WEB-DL.DDP2.0.H264-Ralf", []string{"polish"}},
+		{"BLACK PANTHER - Wakanda Forever (2022) 10bit.m1080p.BRRip.H265.MKV.AC3-5.1 DUBPL-ENG-NapisyPL [StarLord]", []string{"english", "polish"}},
+		{"Shrek_Forever_After_(2010)__3D_HSBS_(DubbingPL).mkv", []string{"polish"}},
+		{"Star Trek [2009] [RmvB] [LekPL].rmvb", []string{"polish"}},
+		{"[FileTracker] Breaking Bad S02E08 [lektorPL][480p.WEB-DL.XviD][avi]", []string{"polish"}},
+		{"Game of Thrones - Sezon 4 Odcinek 10 [480p.720p.WEB-DL.H264-NitroTeam] [Lektor PL].mkv", []string{"polish"}},
+	} {
+		t.Run(tc.ttitle, func(t *testing.T) {
+			result := Parse(tc.ttitle)
+			assert.Equal(t, tc.languages, result.Languages)
+		})
+	}
 }

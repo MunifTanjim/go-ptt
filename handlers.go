@@ -2678,17 +2678,18 @@ var handlers = []handler{
 		KeepMatching: true,
 		SkipIfFirst:  true,
 	},
-	// parser.addHandler("languages", /\b(?:PLDUB|Dubbing.PL|Lektor.PL|Film.Polski)\b/i, uniqConcat(value("polish")), { skipIfAlreadyFound: false, remove: true });
-	// parser.addHandler("languages", /\b(?:Napisy.PL|PLSUB(?:BED)?)\b/i, uniqConcat(value("polish")), { skipIfAlreadyFound: false, remove: true });
-	// parser.addHandler("languages", /\b(?:(?<!w{3}\.\w+\.)PL|pol)\b/i, uniqConcat(value("polish")), { skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\b(polish|polon[eê]s|polaco)\b/i, uniqConcat(value("polish")), { skipIfFirst: true, skipIfAlreadyFound: false });
+	// + parser.addHandler("languages", /\b(?:PLDUB|Dubbing.PL|Lektor.PL|Film.Polski)\b/i, uniqConcat(value("polish")), { skipIfAlreadyFound: false, remove: true });
+	// + parser.add_handler("languages", regex.compile(r"\b(PLDUB|DUBPL|DubbingPL|LekPL|LektorPL)\b", regex.IGNORECASE), uniq_concat(value("pl")), {"remove": True})
 	{
 		Field:        "languages",
-		Pattern:      regexp.MustCompile(`(?i)\b(?:PLDUB|Dubbing.PL|Lektor.PL|Film.Polski)\b`),
+		Pattern:      regexp.MustCompile(`(?i)\b(?:PLDUB|Dub(?:bing.?)?PL|Lek(?:tor.?)?PL|Film.Polski)\b`),
 		Transform:    to_value_set("polish"),
 		KeepMatching: true,
 		Remove:       true,
 	},
+	// parser.addHandler("languages", /\b(?:Napisy.PL|PLSUB(?:BED)?)\b/i, uniqConcat(value("polish")), { skipIfAlreadyFound: false, remove: true });
+	// parser.addHandler("languages", /\b(?:(?<!w{3}\.\w+\.)PL|pol)\b/i, uniqConcat(value("polish")), { skipIfAlreadyFound: false });
+	// parser.addHandler("languages", /\b(polish|polon[eê]s|polaco)\b/i, uniqConcat(value("polish")), { skipIfFirst: true, skipIfAlreadyFound: false });
 	{
 		Field:        "languages",
 		Pattern:      regexp.MustCompile(`(?i)\b(?:Napisy.PL|PLSUB(?:BED)?)\b`),

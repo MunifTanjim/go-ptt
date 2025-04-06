@@ -1447,7 +1447,7 @@ func TestPTT(t *testing.T) {
 			Quality:    "WEB-DL",
 			Resolution: "720p",
 			Seasons:    []int{4},
-			Site:       "480p...-NitroTeam", // FIXME
+			Site:       "",
 			Title:      "Game of Thrones",
 		}},
 	} {

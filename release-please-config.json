@@ -1,0 +1,11 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/refs/heads/main/schemas/config.json",
+  "release-type": "go",
+  "bump-minor-pre-major": true,
+  "separate-pull-requests": true,
+  "extra-files": ["version.go"],
+  "pull-request-title-pattern": "chore: release ${version}",
+  "packages": {
+    ".": {}
+  }
+}

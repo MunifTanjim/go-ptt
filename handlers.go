@@ -1249,70 +1249,75 @@ var handlers = []handler{
 		Process: remove_from_value(regexp.MustCompile(`[ .-]`)),
 	},
 
-	// parser.add_handler("channels", regex.compile(r"\bDDP?5[ \.\_]1\b", regex.IGNORECASE), uniq_concat(value("5.1")), {"remove": False})
-	// parser.add_handler("channels", regex.compile(r"\b5\.1(ch)?\b", regex.IGNORECASE), uniq_concat(value("5.1")), {"remove": False})
-	// parser.add_handler("channels", regex.compile(r"\b7[\.\- ]1(.?ch(annel)?)?\b", regex.IGNORECASE), uniq_concat(value("7.1")), {"remove": False})
-	// parser.add_handler("channels", regex.compile(r"\b2\.0\b", regex.IGNORECASE), uniq_concat(value("2.0")), {"remove": False})
-	// parser.add_handler("channels", regex.compile(r"\bstereo\b", regex.IGNORECASE), uniq_concat(value("stereo")), {"remove": False})
-	// parser.add_handler("channels", regex.compile(r"\bmono\b", regex.IGNORECASE), uniq_concat(value("mono")), {"remove": False})
-	// parser.add_handler("channels", regex.compile(r"\b(?:x[2-4]|5[\W]1(?:x[2-4])?)\b", regex.IGNORECASE), uniq_concat(value("5.1")), {"remove": True})
-	// parser.add_handler("channels", regex.compile(r"\b2\.0(?:x[2-4])\b", regex.IGNORECASE), uniq_concat(value("2.0")), {"remove": True})
+	// parser.add_handler("channels", regex.compile(r"5[\.\s]1(ch)?\b", regex.IGNORECASE), uniq_concat(value("5.1")), {"remove": True, "skipIfAlreadyFound": False})
+	// parser.add_handler("channels", regex.compile(r"\b(?:x[2-4]|5[\W]1(?:x[2-4])?)\b", regex.IGNORECASE), uniq_concat(value("5.1")), {"remove": True, "skipIfAlreadyFound": False})
+	// parser.add_handler("channels", regex.compile(r"\b7[\.\- ]1(.?ch(annel)?)?\b", regex.IGNORECASE), uniq_concat(value("7.1")), {"remove": True, "skipIfAlreadyFound": False})
+	// parser.add_handler("channels", regex.compile(r"\+?2[\.\s]0(?:x[2-4])?\b", regex.IGNORECASE), uniq_concat(value("2.0")), {"remove": True, "skipIfAlreadyFound": False})
+	// parser.add_handler("channels", regex.compile(r"\b2\.0\b", regex.IGNORECASE), uniq_concat(value("2.0")), {"remove": True, "skipIfAlreadyFound": False})
+	// parser.add_handler("channels", regex.compile(r"\bstereo\b", regex.IGNORECASE), uniq_concat(value("stereo")), {"remove": False, "skipIfAlreadyFound": False})
+	// parser.add_handler("channels", regex.compile(r"\bmono\b", regex.IGNORECASE), uniq_concat(value("mono")), {"remove": False, "skipIfAlreadyFound": False})
 	{
-		Field:     "channels",
-		Pattern:   regexp.MustCompile(`(?i)\bDDP?5[ ._]1\b`),
-		Transform: to_value_set("5.1"),
+		Field:        "channels",
+		Pattern:      regexp.MustCompile(`(?i)5[.\s]1(?:ch)?\b`),
+		Transform:    to_value_set("5.1"),
+		KeepMatching: true,
+		Remove:       true,
 	},
 	{
-		Field:     "channels",
-		Pattern:   regexp.MustCompile(`(?i)\b5\.1(?:ch)?\b`),
-		Transform: to_value_set("5.1"),
+		Field:        "channels",
+		Pattern:      regexp.MustCompile(`(?i)\b(?:x[2-4]|5[\W]1(?:x[2-4])?)\b`),
+		Transform:    to_value_set("5.1"),
+		KeepMatching: true,
+		Remove:       true,
 	},
 	{
-		Field:     "channels",
-		Pattern:   regexp.MustCompile(`(?i)\b7[.\- ]1(?:.?ch(?:annel)?)?\b`),
-		Transform: to_value_set("7.1"),
+		Field:        "channels",
+		Pattern:      regexp.MustCompile(`(?i)\b7[.\- ]1(?:.?ch(?:annel)?)?\b`),
+		Transform:    to_value_set("7.1"),
+		KeepMatching: true,
+		Remove:       true,
 	},
 	{
-		Field:     "channels",
-		Pattern:   regexp.MustCompile(`(?i)\b2\.0\b`),
-		Transform: to_value_set("2.0"),
+		Field:        "channels",
+		Pattern:      regexp.MustCompile(`(?i)\+?2[.\s]0(?:x[2-4])?\b`),
+		Transform:    to_value_set("2.0"),
+		KeepMatching: true,
+		Remove:       true,
 	},
 	{
-		Field:     "channels",
-		Pattern:   regexp.MustCompile(`(?i)\bstereo\b`),
-		Transform: to_value_set("stereo"),
+		Field:        "channels",
+		Pattern:      regexp.MustCompile(`(?i)\b2\.0\b`),
+		Transform:    to_value_set("2.0"),
+		KeepMatching: true,
+		Remove:       true,
 	},
 	{
-		Field:     "channels",
-		Pattern:   regexp.MustCompile(`(?i)\bmono\b`),
-		Transform: to_value_set("mono"),
+		Field:        "channels",
+		Pattern:      regexp.MustCompile(`(?i)\bstereo\b`),
+		Transform:    to_value_set("stereo"),
+		KeepMatching: true,
 	},
 	{
-		Field:     "channels",
-		Pattern:   regexp.MustCompile(`(?i)\b(?:x[2-4]|5[\W]1(?:x[2-4])?)\b`),
-		Transform: to_value_set("5.1"),
-		Remove:    true,
-	},
-	{
-		Field:     "channels",
-		Pattern:   regexp.MustCompile(`(?i)\b2\.0(?:x[2-4])\b`),
-		Transform: to_value_set("2.0"),
-		Remove:    true,
+		Field:        "channels",
+		Pattern:      regexp.MustCompile(`(?i)\bmono\b`),
+		Transform:    to_value_set("mono"),
+		KeepMatching: true,
 	},
 
-	// parser.add_handler("audio", regex.compile(r"\bDDP5[ \.\_]1\b", regex.IGNORECASE), uniq_concat(value("Dolby Digital Plus")), {"remove": True, "skipIfFirst": True})
+	// // parser.add_handler("audio", regex.compile(r"\bDDP5[ \.\_]1\b", regex.IGNORECASE), uniq_concat(value("Dolby Digital Plus")), {"remove": True, "skipIfFirst": True})
+	// {
+	// 	Field:       "audio",
+	// 	Pattern:     regexp.MustCompile(`(?i)\bDDP5[ ._]1\b`),
+	// 	Transform:   to_value_set("DDP"),
+	// 	Remove:      true,
+	// 	SkipIfFirst: true,
+	// },
+
 	// parser.add_handler("audio", regex.compile(r"\b(?!.+HR)(DTS.?HD.?Ma(ster)?|DTS.?X)\b", regex.IGNORECASE), uniq_concat(value("DTS Lossless")), {"remove": True, "skipIfAlreadyFound": False})
 	// parser.add_handler("audio", regex.compile(r"\bDTS(?!(.?HD.?Ma(ster)?|.X)).?(HD.?HR|HD)?\b", regex.IGNORECASE), uniq_concat(value("DTS Lossy")), {"remove": True, "skipIfAlreadyFound": False})
 	// parser.add_handler("audio", regex.compile(r"\b(Dolby.?)?Atmos\b", regex.IGNORECASE), uniq_concat(value("Atmos")), {"remove": True, "skipIfAlreadyFound": False})
-	// parser.add_handler("audio", regex.compile(r"\b(TrueHD|\.True\.)\b", regex.IGNORECASE), uniq_concat(value("TrueHD")), {"remove": True, "skipIfAlreadyFound": False, "skipFromTitle": True})
+	// parser.add_handler("audio", regex.compile(r"\b(True[ .-]?HD|\.True\.)\b", regex.IGNORECASE), uniq_concat(value("TrueHD")), {"remove": True, "skipIfAlreadyFound": False, "skipFromTitle": True})
 	// parser.add_handler("audio", regex.compile(r"\bTRUE\b"), uniq_concat(value("TrueHD")), {"remove": True, "skipIfAlreadyFound": False, "skipFromTitle": True})
-	{
-		Field:       "audio",
-		Pattern:     regexp.MustCompile(`(?i)\bDDP5[ ._]1\b`),
-		Transform:   to_value_set("DDP"),
-		Remove:      true,
-		SkipIfFirst: true,
-	},
 	{
 		Field:         "audio",
 		Pattern:       regexp.MustCompile(`(?i)\b(?:.+HR)?(?:DTS.?HD.?Ma(?:ster)?|DTS.?X)\b`),
@@ -1338,24 +1343,22 @@ var handlers = []handler{
 	},
 	{
 		Field:         "audio",
-		Pattern:       regexp.MustCompile(`(?i)\b(?:TrueHD|\.True\.)\b`),
+		Pattern:       regexp.MustCompile(`(?i)\b(?:True[ .-]?HD|\.True\.)\b`),
 		Transform:     to_value_set("TrueHD"),
-		Remove:        true,
 		KeepMatching:  true,
+		Remove:        true,
 		SkipFromTitle: true,
 	},
 	{
 		Field:         "audio",
 		Pattern:       regexp.MustCompile(`\bTRUE\b`),
 		Transform:     to_value_set("TrueHD"),
-		Remove:        true,
 		KeepMatching:  true,
+		Remove:        true,
 		SkipFromTitle: true,
 	},
 	// x parser.addHandler("audio", /7\.1[. ]?Atmos\b/i, value("7.1 Atmos"), { remove: true });
 	// x parser.addHandler("audio", /\b(?:mp3|Atmos|DTS(?:-HD)?|TrueHD)\b/i, lowercase);
-	// parser.addHandler("audio", /\bFLAC(?:\+?2\.0)?(?:x[2-4])?\b/i, value("flac"), { remove: true });
-	// parser.addHandler("audio", /\bEAC-?3(?:[. -]?[256]\.[01])?/i, value("eac3"), { remove: true, skipIfAlreadyFound: false });
 	// {
 	// 	Field:     "audio",
 	// 	Pattern:   regexp.MustCompile(`(?i)7\.1[. ]?Atmos\b`),
@@ -1367,20 +1370,30 @@ var handlers = []handler{
 	// 	Pattern:   regexp.MustCompile(`(?i)\b(?:mp3|Atmos|DTS(?:-HD)?|TrueHD)\b`),
 	// 	Transform: to_lowercase(),
 	// },
+	// x parser.addHandler("audio", /\bFLAC(?:\+?2\.0)?(?:x[2-4])?\b/i, value("flac"), { remove: true });
+	// parser.add_handler("audio", regex.compile(r"\bFLAC(?:\d\.\d)?(?:x\d+)?\b", regex.IGNORECASE), uniq_concat(value("FLAC")), {"remove": True, "skipIfAlreadyFound": False})
+	// {
+	// 	Field:        "audio",
+	// 	Pattern:      regexp.MustCompile(`(?i)\bFLAC(?:\+?2\.0)?(?:x[2-4])?\b`),
+	// 	Transform:    to_value_set("FLAC"),
+	// 	Remove:       true,
+	// 	KeepMatching: true,
+	// },
 	{
 		Field:        "audio",
-		Pattern:      regexp.MustCompile(`(?i)\bFLAC(?:\+?2\.0)?(?:x[2-4])?\b`),
+		Pattern:      regexp.MustCompile(`(?i)\bFLAC(?:\d\.\d)?(?:x\d+)?\b`),
 		Transform:    to_value_set("FLAC"),
-		Remove:       true,
 		KeepMatching: true,
-	},
-	{
-		Field:        "audio",
-		Pattern:      regexp.MustCompile(`(?i)\bEAC-?3(?:[. -]?[256]\.[01])?`),
-		Transform:    to_value_set("EAC3"),
 		Remove:       true,
-		KeepMatching: true,
 	},
+	// x parser.addHandler("audio", /\bEAC-?3(?:[. -]?[256]\.[01])?/i, value("eac3"), { remove: true, skipIfAlreadyFound: false });
+	// {
+	// 	Field:        "audio",
+	// 	Pattern:      regexp.MustCompile(`(?i)\bEAC-?3(?:[. -]?[256]\.[01])?`),
+	// 	Transform:    to_value_set("EAC3"),
+	// 	Remove:       true,
+	// 	KeepMatching: true,
+	// },
 	// x parser.addHandler("audio", /\bAC-?3(?:[.-]5\.1|x2\.?0?)?\b/i, value("ac3"), { remove: true, skipIfAlreadyFound: false });
 	// {
 	// 	Field:        "audio",
@@ -1389,17 +1402,9 @@ var handlers = []handler{
 	// 	Remove:       true,
 	// 	KeepMatching: true,
 	// },
-	// parser.add_handler("audio", regex.compile(r"\bAC-?3(x2)?(?:[ .-](5\.1)?[x+]2\.?0?x?3?)?\b", regex.IGNORECASE), uniq_concat(value("AC3")), {"remove": True, "skipIfAlreadyFound": False})
-	{
-		Field:        "audio",
-		Pattern:      regexp.MustCompile(`(?i)\bAC-?3(?:x2)?(?:[ .-](?:5\.1)?[x+]2\.?0?x?3?)?\b`),
-		Transform:    to_value_set("AC3"),
-		Remove:       true,
-		KeepMatching: true,
-	},
 	// x parser.addHandler("audio", /\b5\.1(?:x[2-4]+)?\+2\.0(?:x[2-4])?\b/i, value("2.0"), { remove: true, skipIfAlreadyFound: false });
 	// x parser.addHandler("audio", /\b2\.0(?:x[2-4]|\+5\.1(?:x[2-4])?)\b/i, value("2.0"), { remove: true, skipIfAlreadyFound: false });
-	// parser.addHandler("audio", /\b5\.1ch\b/i, value("ac3"), { remove: true, skipIfAlreadyFound: false });
+	// x parser.addHandler("audio", /\b5\.1ch\b/i, value("ac3"), { remove: true, skipIfAlreadyFound: false });
 	// {
 	// 	Field:        "audio",
 	// 	Pattern:      regexp.MustCompile(`(?i)\b5\.1(?:x[2-4]+)?\+2\.0(?:x[2-4])?\b`),
@@ -1414,52 +1419,74 @@ var handlers = []handler{
 	// 	Remove:       true,
 	// 	KeepMatching: true,
 	// },
+	// {
+	// 	Field:        "audio",
+	// 	Pattern:      regexp.MustCompile(`(?i)\b5\.1ch\b`),
+	// 	Transform:    to_value_set("AC3"),
+	// 	Remove:       true,
+	// 	KeepMatching: true,
+	// },
+	// parser.add_handler("audio", regex.compile(r"DD2?[\+p]|DD Plus|Dolby Digital Plus|DDP5[ \.\_]1|EAC-?3", regex.IGNORECASE), uniq_concat(value("Dolby Digital Plus")), {"remove": True, "skipIfAlreadyFound": False})
+	// parser.add_handler("audio", regex.compile(r"\b(DD|Dolby.?Digital|DolbyD|AC-?3(x2)?)\b", regex.IGNORECASE), uniq_concat(value("Dolby Digital")), {"remove": True, "skipIfAlreadyFound": False})
 	{
 		Field:        "audio",
-		Pattern:      regexp.MustCompile(`(?i)\b5\.1ch\b`),
-		Transform:    to_value_set("AC3"),
-		Remove:       true,
-		KeepMatching: true,
-	},
-	// parser.add_handler("audio", regex.compile(r"\b(DD2?[\+p]2?(.?5.1)?|DD Plus|Dolby Digital Plus)\b", regex.IGNORECASE), uniq_concat(value("Dolby Digital Plus")), {"remove": True, "skipIfAlreadyFound": False})
-	// parser.add_handler("audio", regex.compile(r"\b(DD|Dolby.?Digital.?)2?(5.?1)?(?!.?(Plus|P|\+))\b", regex.IGNORECASE), uniq_concat(value("Dolby Digital")), {"remove": True, "skipIfAlreadyFound": False})
-	// parser.add_handler("audio", regex.compile(r"\bDolbyD\b", regex.IGNORECASE), uniq_concat(value("Dolby Digital")), {"remove": True, "skipIfFirst": True})
-	{
-		Field:        "audio",
-		Pattern:      regexp.MustCompile(`(?i)\b(DD2?[\+p]2?(?:.?5.1)?|DD Plus|Dolby Digital Plus)\b`),
+		Pattern:      regexp.MustCompile(`(?i)DD2?[+p]|DD Plus|Dolby Digital Plus|DDP5[ ._]1`),
 		Transform:    to_value_set("DDP"),
-		Remove:       true,
 		KeepMatching: true,
+		Remove:       true,
 	},
 	{
-		Field:         "audio",
-		Pattern:       regexp.MustCompile(`(?i)\b(DD|Dolby.?Digital.?)2?(?:5.?1)?(?:.?(?:Plus|P|\+))?\b`),
-		ValidateMatch: validate_not_match(regexp.MustCompile(`(?i)(?:Plus|P|\+)`)),
-		Transform:     to_value_set("DD"),
-		Remove:        true,
-		KeepMatching:  true,
+		Field:        "audio",
+		Pattern:      regexp.MustCompile(`(?i)EAC-?3`),
+		Transform:    to_value_set("EAC3"),
+		KeepMatching: true,
+		Remove:       true,
 	},
 	{
-		Field:       "audio",
-		Pattern:     regexp.MustCompile(`(?i)\bDolbyD\b`),
-		Transform:   to_value_set("DD"),
-		Remove:      true,
-		SkipIfFirst: true,
+		Field:        "audio",
+		Pattern:      regexp.MustCompile(`(?i)\b(DD|Dolby.?Digital|DolbyD)\b`),
+		Transform:    to_value_set("DD"),
+		KeepMatching: true,
+		Remove:       true,
+	},
+	{
+		Field:        "audio",
+		Pattern:      regexp.MustCompile(`(?i)\b(AC-?3(?:x2)?)\b`),
+		Transform:    to_value_set("AC3"),
+		KeepMatching: true,
+		Remove:       true,
 	},
 	// x parser.addHandler("audio", /\bDD5[. ]?1\b/i, value("dd5.1"), { remove: true });
-	// parser.addHandler("audio", /\bQ?AAC(?:[. ]?2[. ]0|x2)?\b/, value("aac"), { remove: true });
 	// {
 	// 	Field:     "audio",
 	// 	Pattern:   regexp.MustCompile(`(?i)\bDD5[. ]?1\b`),
 	// 	Transform: to_value_set("dd5.1"),
 	// 	Remove:    true,
 	// },
+	// parser.addHandler("audio", /\bQ?AAC(?:[. ]?2[. ]0|x2)?\b/, value("aac"), { remove: true });
 	{
 		Field:        "audio",
 		Pattern:      regexp.MustCompile(`\bQ?AAC(?:[. ]?2[. ]0|x2)?\b`),
 		Transform:    to_value_set("AAC"),
-		Remove:       true,
 		KeepMatching: true,
+		Remove:       true,
+	},
+	// parser.add_handler("audio", regex.compile(r"\bL?PCM\b", regex.IGNORECASE), uniq_concat(value("PCM")), {"remove": True, "skipIfAlreadyFound": False})
+	{
+		Field:        "audio",
+		Pattern:      regexp.MustCompile(`(?i)\bL?PCM\b`),
+		Transform:    to_value_set("PCM"),
+		KeepMatching: true,
+		Remove:       true,
+	},
+	// parser.add_handler("audio", regex.compile(r"\bOPUS(\b|\d)(?!.*[ ._-](\d{3,4}p))"), uniq_concat(value("OPUS")), {"remove": True, "skipIfAlreadyFound": False})
+	{
+		Field:         "audio",
+		Pattern:       regexp.MustCompile(`(?i)\bOPUS(?:\b|\d)(?:.*[ ._-](?:\d{3,4}p))?`),
+		ValidateMatch: validate_not_match(regexp.MustCompile(`(?i)OPUS(?:\b|\d)(?:.*[ ._-](?:\d{3,4}p))`)),
+		Transform:     to_value_set("OPUS"),
+		KeepMatching:  true,
+		Remove:        true,
 	},
 	// parser.add_handler("audio", regex.compile(r"\b(H[DQ])?.?(Clean.?Aud(io)?)\b", regex.IGNORECASE), uniq_concat(value("HQ Clean Audio")), {"remove": True, "skipIfAlreadyFound": False})
 	{

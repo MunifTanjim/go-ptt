@@ -1,3 +1,4 @@
+[![GitHub Workflow Status: CI](https://img.shields.io/github/actions/workflow/status/MunifTanjim/go-ptt/ci.yml?branch=main&label=CI&style=for-the-badge)](https://github.com/MunifTanjim/go-ptt/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/MunifTanjim/go-ptt?style=for-the-badge)](https://github.com/MunifTanjim/go-ptt/blob/main/LICENSE)
 
 # go-ptt

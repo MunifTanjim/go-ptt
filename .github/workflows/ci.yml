@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Install Dependencies
+        run: go get .
+      - name: Check Format
+        run: test -z "$(gofmt -l . | tee /dev/stderr)"
+      - name: Lint
+        run: go vet
+      - name: Test
+        run: go test -v ./...

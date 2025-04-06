@@ -93,10 +93,9 @@ func TestPTT(t *testing.T) {
 			Group:      "HTG",
 		}},
 		{"Game of Thrones - The Complete Season 3 [HDTV]", Result{
-			Title:    "Game of Thrones",
-			Seasons:  []int{3},
-			Quality:  "HDTV",
-			Complete: true,
+			Title:   "Game of Thrones",
+			Seasons: []int{3},
+			Quality: "HDTV",
 		}},
 		{"The Sopranos: The Complete Series (Season 1,2,3,4,5&6) + Extras", Result{
 			Title:    "The Sopranos",
@@ -366,10 +365,9 @@ func TestPTT(t *testing.T) {
 			Group:      "HTG",
 		}},
 		{"Game of Thrones - The Complete Season 3 [HDTV]", Result{
-			Title:    "Game of Thrones",
-			Seasons:  []int{3},
-			Quality:  "HDTV",
-			Complete: true,
+			Title:   "Game of Thrones",
+			Seasons: []int{3},
+			Quality: "HDTV",
 		}},
 		{"The Sopranos: The Complete Series { Season 1,2,3,4,5&6 } + Extras", Result{
 			Title:    "The Sopranos",
@@ -1336,6 +1334,16 @@ func TestPTT(t *testing.T) {
 			Subbed:     true,
 			Year:       "2024",
 			Group:      "Eng", // FIXME
+		}},
+		{"A Complete Unknown 2024 1080p MA WEB-DL DDP5 1 Atmos H 264-BYNDR mkv", Result{
+			Title:      "A Complete Unknown",
+			Year:       "2024",
+			Quality:    "WEB-DL",
+			Resolution: "1080p",
+			Codec:      "h264",
+			Container:  "mkv",
+			Audio:      []string{"DDP", "Atmos"},
+			Channels:   []string{"5.1"},
 		}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {

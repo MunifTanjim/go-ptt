@@ -1607,7 +1607,6 @@ var handlers = []handler{
 	// parser.add_handler("complete", regex.compile(r"duology|trilogy|quadr[oi]logy|tetralogy|pentalogy|hexalogy|heptalogy|anthology", regex.IGNORECASE), boolean, {"skipIfAlreadyFound": False})
 	// parser.add_handler("complete", regex.compile(r"\bcompleta\b", regex.IGNORECASE), boolean, {"remove": True})
 	// parser.add_handler("complete", regex.compile(r"\bsaga\b", regex.IGNORECASE), boolean, {"skipFromTitle": True, "skipIfAlreadyFound": True})
-	// parser.add_handler("complete", regex.compile(r"(The.)?\[?\bComplete\b\]?", regex.IGNORECASE), boolean, {"remove": True})
 	{
 		Field:        "complete",
 		Pattern:      regexp.MustCompile(`(?i)duology|trilogy|quadr[oi]logy|tetralogy|pentalogy|hexalogy|heptalogy|anthology`),
@@ -1627,9 +1626,25 @@ var handlers = []handler{
 		KeepMatching:  true,
 		SkipFromTitle: true,
 	},
+	// parser.add_handler("complete", regex.compile(r"\b\[Complete\]\b", regex.IGNORECASE), boolean, {"remove": True})
 	{
 		Field:     "complete",
-		Pattern:   regexp.MustCompile(`(?i)(?:The.)?\[?\bComplete\b\]?`),
+		Pattern:   regexp.MustCompile(`(?i)\b\[Complete\]\b`),
+		Transform: to_boolean(),
+		Remove:    true,
+	},
+	// parser.add_handler("complete", regex.compile(r"(?<!A.?|The.?)\bComplete\b", regex.IGNORECASE), boolean, {"remove": True})
+	{
+		Field:         "complete",
+		Pattern:       regexp.MustCompile(`(?i)(?:A.?|The.?)?\bComplete\b`),
+		ValidateMatch: validate_not_match(regexp.MustCompile(`(?i)(?:A.?|The.?)\bComplete`)),
+		Transform:     to_boolean(),
+		Remove:        true,
+	},
+	// parser.add_handler("complete", regex.compile(r"COMPLETE"), boolean, {"remove": True})
+	{
+		Field:     "complete",
+		Pattern:   regexp.MustCompile(`\bCOMPLETE\b`),
 		Transform: to_boolean(),
 		Remove:    true,
 	},

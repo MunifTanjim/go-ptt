@@ -1356,6 +1356,16 @@ func TestPTT(t *testing.T) {
 			Group:      "Ralf",
 			Network:    "Amazon",
 		}},
+		{"X-Men Complete 13 Movie Collection Sci-Fi 2000 - 2020 Eng Rus Multi-Subs 1080p [H264-mp4]", Result{
+			Container:  "mp4",
+			Resolution: "1080p",
+			Complete:   true,
+			Codec:      "h264",
+			Languages:  []string{"multi subs", "english", "russian", "finnish"}, // FIXME
+			Subbed:     true,
+			Title:      "X-Men Complete 13 Movie Collection Sci", // FIXME
+			Year:       "2000-2020",
+		}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)

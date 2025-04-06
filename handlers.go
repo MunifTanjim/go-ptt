@@ -272,7 +272,7 @@ func remove_from_value(re *regexp.Regexp) hProcessor {
 
 var handlers = []handler{
 	// parser.add_handler("title", regex.compile(r"360.Degrees.of.Vision.The.Byakugan'?s.Blind.Spot", regex.IGNORECASE), none, {"remove": True}) # episode title
-	// parser.add_handler("title", regex.compile(r"\b(?:INTEGRALE?|INTÉGRALE?|INTERNAL|HFR)\b", regex.IGNORECASE), none, {"remove": True})
+	// parser.add_handler("title", regex.compile(r"\b(?:INTERNAL|HFR)\b", regex.IGNORECASE), none, {"remove": True})
 	{
 		Field:   "title",
 		Pattern: regexp.MustCompile(`(?i)360.Degrees.of.Vision.The.Byakugan'?s.Blind.Spot`),
@@ -1538,6 +1538,14 @@ var handlers = []handler{
 		KeepMatching: true,
 	},
 
+	// parser.add_handler("complete", regex.compile(r"\b(?:INTEGRALE?|INTÉGRALE?)\b", regex.IGNORECASE), none, {"remove": True, "skipIfAlreadyFound": False})
+	{
+		Field:        "complete",
+		Pattern:      regexp.MustCompile(`(?i)\b(?:INTEGRALE?|INTÉGRALE?)\b`),
+		Transform:    to_boolean(),
+		KeepMatching: true,
+		Remove:       true,
+	},
 	// parser.addHandler("complete", /(?:\bthe\W)?(?:\bcomplete|collection|dvd)?\b[ .]?\bbox[ .-]?set\b/i, boolean);
 	// parser.addHandler("complete", /(?:\bthe\W)?(?:\bcomplete|collection|dvd)?\b[ .]?\bmini[ .-]?series\b/i, boolean);
 	// parser.addHandler("complete", /(?:\bthe\W)?(?:\bcomplete|full|all)\b.*\b(?:series|seasons|collection|episodes|set|pack|movies)\b/i, boolean);

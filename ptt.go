@@ -112,6 +112,8 @@ type Result struct {
 	Upscaled    bool
 	Volumes     []int
 	Year        string
+
+	is_normalized bool
 }
 
 type parseMeta struct {

@@ -25,7 +25,10 @@ func TestNormalizer(t *testing.T) {
 		{"resolution 1440p", Result{Resolution: "1440p"}, Result{Resolution: "2k"}},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
+			assert.Equal(t, tc.input.is_normalized, false)
+			tc.output.is_normalized = true
 			assert.Equal(t, tc.input.Normalize(), &tc.output)
+			assert.Equal(t, tc.input.is_normalized, true)
 		})
 	}
 }

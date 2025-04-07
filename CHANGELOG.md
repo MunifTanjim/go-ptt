@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/MunifTanjim/go-ptt/compare/v0.2.0...v0.2.1) (2025-04-07)
+
+
+### Bug Fixes
+
+* normalize once and mark as normalized ([3454789](https://github.com/MunifTanjim/go-ptt/commit/3454789704c7acad907096f652d0b9d1f9fb41a2))
+
 ## [0.2.0](https://github.com/MunifTanjim/go-ptt/compare/v0.1.0...v0.2.0) (2025-04-07)
 
 

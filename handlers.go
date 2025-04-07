@@ -2171,6 +2171,12 @@ var handlers = []handler{
 		}(),
 	},
 
+	{
+		Field:     "subbed",
+		Pattern:   regexp.MustCompile(`(?i)\bSUB(?:FRENCH)\b|\b(?:DAN|E|FIN|PL|SWE)SUBS?\b`),
+		Transform: to_boolean(),
+	},
+
 	// parser.addHandler("languages", /\bmulti(?:ple)?[ .-]*(?:su?$|sub\w*|dub\w*)\b|msub/i, uniqConcat(value("multi subs")), { skipIfAlreadyFound: false, remove: true });
 	{
 		Field:        "languages",

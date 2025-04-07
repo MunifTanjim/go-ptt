@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.0](https://github.com/MunifTanjim/go-ptt/compare/v0.1.0...v0.2.0) (2025-04-07)
+
+
+### Features
+
+* add normalizer ([eea120f](https://github.com/MunifTanjim/go-ptt/commit/eea120fcbb2efef239d1d6a040e00deb3c5386b3))
+* improve parsing - subbed ([1f3d8d2](https://github.com/MunifTanjim/go-ptt/commit/1f3d8d27a097fd2b1f21cdefda80b957e6b0b066))
+* use lang code for languages ([ed1cfa8](https://github.com/MunifTanjim/go-ptt/commit/ed1cfa8e4895b2e53c981c66d5240f76999c5311))
+
 ## 0.1.0 (2025-04-07)
 
 

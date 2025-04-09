@@ -19,7 +19,7 @@ func TestLanguages(t *testing.T) {
 		{"vff", "After Earth 2013 VFF BDrip x264 YJ", []string{"fr"}},
 		{"french", "127.Heures.FRENCH.DVDRip.AC3.XViD-DVDFR", []string{"fr"}},
 		{"vostfr", "Color.Of.Night.Unrated.DC.VostFR.BRrip.x264", []string{"fr"}},
-		{"multi language", "Le Labyrinthe 2014 Multi-VF2 1080p BluRay x264-PopHD", []string{"multi audio"}},
+		{"multi language", "Le Labyrinthe 2014 Multi-VF2 1080p BluRay x264-PopHD", []string{"multi audio", "fr"}},
 		{"VFI", "Maman, j'ai raté l'avion 1990 VFI 1080p BluRay DTS x265-HTG", []string{"fr"}},
 		{"italian", "South.Park.S21E10.iTALiAN.FiNAL.AHDTV.x264-NTROPiC", []string{"it"}},
 	} {
@@ -309,6 +309,11 @@ func TestLanguages(t *testing.T) {
 		{"Star Trek [2009] [RmvB] [LekPL].rmvb", []string{"pl"}},
 		{"[FileTracker] Breaking Bad S02E08 [lektorPL][480p.WEB-DL.XviD][avi]", []string{"pl"}},
 		{"Game of Thrones - Sezon 4 Odcinek 10 [480p.720p.WEB-DL.H264-NitroTeam] [Lektor PL].mkv", []string{"pl"}},
+
+		{"Everest.2015.FRENCH.VFQ.BDRiP.x264-CNF30", []string{"fr"}},
+		{"Showdown.In.Little.Tokyo.1991.MULTI.VFQ.VFF.DTSHD-MASTER.1080p.BluRay.x264-ZombiE", []string{"multi audio", "fr"}},
+		{"Nocturnal Animals (2016) MULTi VFQ [1080p] BluRay x264-PopHD", []string{"multi audio", "fr"}},
+		{"Nocturnal Animals 2016 VFQ 1080p BluRay DTS x265-HDHEVC", []string{"fr"}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)

@@ -1225,7 +1225,7 @@ func TestPTT(t *testing.T) {
 		}},
 		{"[JySzE] Naruto [v2] [R2J] [VFR] [Dual Audio] [Complete] [Extras] [x264]", Result{
 			Title:     "Naruto",
-			Languages: []string{"dual audio"},
+			Languages: []string{"dual audio", "fr"},
 			Codec:     "x264",
 			Dubbed:    true,
 			Group:     "JySzE",
@@ -1234,7 +1234,7 @@ func TestPTT(t *testing.T) {
 		}},
 		{"[JySzE] Naruto [v2] [R2J] [VFR] [Dual Audio] [Complete] [Extras] [x264]", Result{
 			Title:     "Naruto",
-			Languages: []string{"dual audio"},
+			Languages: []string{"dual audio", "fr"},
 			Codec:     "x264",
 			Dubbed:    true,
 			Group:     "JySzE",
@@ -1250,7 +1250,7 @@ func TestPTT(t *testing.T) {
 		}},
 		{"[JySzE] Naruto [v3] [R2J] [VFR] [Dual Audio] [Complete] [Extras] [x264]", Result{
 			Title:     "Naruto",
-			Languages: []string{"dual audio"},
+			Languages: []string{"dual audio", "fr"},
 			Codec:     "x264",
 			Dubbed:    true,
 			Group:     "JySzE",

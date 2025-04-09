@@ -2351,25 +2351,32 @@ var handlers = []handler{
 		Transform:    to_value_set("zh"),
 		KeepMatching: true,
 	},
-	// parser.addHandler("languages", /\bFR(?:ench|a|e|anc[eê]s)?\b/i, uniqConcat(value("french")), { skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\b(Truefrench|VF[FI])\b/i, uniqConcat(value("french")), { skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\b(VOST(?:FR?|A)?|SUBFRENCH)\b/i, uniqConcat(value("french")), { skipIfAlreadyFound: false });
+	// parser.add_handler("languages", regex.compile(r"\bFR(?:a|e|anc[eê]s|VF[FQIB2]?)\b", regex.IGNORECASE), uniq_concat(value("fr")), {"skipFromTitle": True, "skipIfAlreadyFound": False})
+	// parser.add_handler("languages", regex.compile(r"\b(TRUE|SUB).?FRENCH\b|\bFRENCH\b|\bFre?\b"), uniq_concat(value("fr")), {"remove": True, "skipIfAlreadyFound": False})
+	// parser.add_handler("languages", regex.compile(r"\b\[?(VF[FQRIB2]?\]?\b|(VOST)?FR2?)\b"), uniq_concat(value("fr")), {"remove": True, "skipIfAlreadyFound": False})
+	// parser.add_handler("languages", regex.compile(r"\b(VOST(?:FR?|A)?)\b", regex.IGNORECASE), uniq_concat(value("fr")), {"skipIfAlreadyFound": False})
 	{
 		Field:        "languages",
-		Pattern:      regexp.MustCompile(`(?i)\bFR(?:ench|a|e|anc[eê]s)?\b`),
+		Pattern:      regexp.MustCompile(`(?i)\bFR(?:ench|a|e|anc[eê]s|VF[FQIB2]?)?\b`),
 		Transform:    to_value_set("fr"),
 		KeepMatching: true,
 		SkipIfFirst:  true,
 	},
 	{
 		Field:        "languages",
-		Pattern:      regexp.MustCompile(`(?i)\b(Truefrench|VF[FI])\b`),
+		Pattern:      regexp.MustCompile(`(?i)\b(?:TRUE|SUB).?FRENCH\b`),
 		Transform:    to_value_set("fr"),
 		KeepMatching: true,
 	},
 	{
 		Field:        "languages",
-		Pattern:      regexp.MustCompile(`(?i)\b(VOST(?:FR?|A)?|SUBFRENCH)\b`),
+		Pattern:      regexp.MustCompile(`(?i)\b\[?(?:VF[FQRIB2]?\]?\b|(?:VOST)?FR2?)\b`),
+		Transform:    to_value_set("fr"),
+		KeepMatching: true,
+	},
+	{
+		Field:        "languages",
+		Pattern:      regexp.MustCompile(`(?i)\bVOST(?:FR?|A)?\b`),
 		Transform:    to_value_set("fr"),
 		KeepMatching: true,
 	},

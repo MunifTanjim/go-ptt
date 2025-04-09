@@ -3223,6 +3223,31 @@ var handlers = []handler{
 		},
 	},
 
+	// parser.add_handler("dubbed", regex.compile(r"\b(fan\s?dub)\b", regex.IGNORECASE), boolean, {"remove": True, "skipFromTitle": True})
+	// parser.add_handler("dubbed", regex.compile(r"\b(Fan.*)?(?:DUBBED|dublado|dubbing|DUBS?)\b", regex.IGNORECASE), boolean, {"remove": True})
+	// parser.add_handler("dubbed", regex.compile(r"\b(?!.*\bsub(s|bed)?\b)([ _\-\[(\.])?(dual|multi)([ _\-\[(\.])?(audio)\b", regex.IGNORECASE), boolean, {"remove": True})
+	// x parser.add_handler("dubbed", regex.compile(r"\b(JAP?(anese)?|ZH)\+ENG?(lish)?|ENG?(lish)?\+(JAP?(anese)?|ZH)\b", regex.IGNORECASE), boolean, {"remove": True})
+	// x parser.add_handler("dubbed", regex.compile(r"\bMULTi\b", regex.IGNORECASE), boolean, {"remove": True})
+	{
+		Field:         "dubbed",
+		Pattern:       regexp.MustCompile(`(?i)\b(?:fan\s?dub)\b`),
+		Transform:     to_boolean(),
+		Remove:        true,
+		SkipFromTitle: true,
+	},
+	{
+		Field:     "dubbed",
+		Pattern:   regexp.MustCompile(`(?i)\b(?:Fan.*)?(?:DUBBED|dublado|dubbing|DUBS?)\b`),
+		Transform: to_boolean(),
+		Remove:    true,
+	},
+	{
+		Field:         "dubbed",
+		Pattern:       regexp.MustCompile(`(?i)\b(?:.*\bsub(?:s|bed)?\b)?(?:[ _\-\[(\.])?(dual|multi)(?:[ _\-\[(\.])?(?:audio)\b`),
+		ValidateMatch: validate_not_match(regexp.MustCompile(`(?i)\b(?:.*\bsub(s|bed)?\b)`)),
+		Transform:     to_boolean(),
+		Remove:        true,
+	},
 	// parser.addHandler("dubbed", /\b(?:DUBBED|dublado|dubbing|DUBS?)\b/i, boolean);
 	// parser.addHandler("dubbed", ({ result }) => {
 	//     if (result.languages && ["multi audio", "dual audio"].some(l => result.languages.includes(l))) {

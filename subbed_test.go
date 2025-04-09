@@ -17,6 +17,7 @@ func TestSubbed(t *testing.T) {
 		{"Evil.Dead.Rise.2023.PLSUB.720p.MA.WEB-DL.H264.E-AC3-CMRG", true},
 		{"You.[Uncut].S01.SweSub.1080p.x264-Justiso", true},
 		{"A.Good.Day.To.Die.Hard.2013.SWESUB.DANSUB.FiNSUB.720p.WEB-DL.-Ro", true},
+		{"Seinfeld.COMPLETE.SLOSUBS.DVDRip.XviD", true},
 
 		{"[HorribleSubs] White Album 2 - 06 [1080p].mkv", false},
 	} {

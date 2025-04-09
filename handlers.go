@@ -2173,7 +2173,7 @@ var handlers = []handler{
 
 	{
 		Field:     "subbed",
-		Pattern:   regexp.MustCompile(`(?i)\bSUB(?:FRENCH)\b|\b(?:DAN|E|FIN|PL|SWE)SUBS?\b`),
+		Pattern:   regexp.MustCompile(`(?i)\bSUB(?:FRENCH)\b|\b(?:DAN|E|FIN|PL|SLO|SWE)SUBS?\b`),
 		Transform: to_boolean(),
 	},
 

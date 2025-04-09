@@ -26,4 +26,18 @@ func TestEdition(t *testing.T) {
 			assert.Equal(t, tc.edition, result.Edition)
 		})
 	}
+
+	// Go
+	for _, tc := range []struct {
+		ttitle  string
+		edition string
+	}{
+		{"Basic.Instinct.1992.Unrated.Directors.Cut.Bluray.1080p.DTS-HD-HR-6.1.x264-Grym@BTNET", "Director's Cut"},
+	} {
+		t.Run(tc.ttitle, func(t *testing.T) {
+			result := Parse(tc.ttitle)
+			assert.Equal(t, tc.edition, result.Edition)
+		})
+	}
+
 }

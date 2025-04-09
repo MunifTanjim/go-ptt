@@ -603,43 +603,43 @@ var handlers = []handler{
 	// parser.add_handler("edition", regex.compile(r"\bRemaster(?:ed)?\b", regex.IGNORECASE), value("Remastered"), {"remove": True, "skipIfAlreadyFound": True})
 	{
 		Field:     "edition",
-		Pattern:   regexp.MustCompile(`(?i)\b\d{2,3}(th)?[\.\s\-\+_\/(),]Anniversary[\.\s\-\+_\/(),](Edition|Ed)?`),
+		Pattern:   regexp.MustCompile(`(?i)\b\d{2,3}(?:th)?[\.\s\-\+_\/(),]Anniversary[\.\s\-\+_\/(),](?:Edition|Ed)?\b`),
 		Transform: to_value("Anniversary Edition"),
 		Remove:    true,
 	},
 	{
 		Field:     "edition",
-		Pattern:   regexp.MustCompile(`(?i)\bUltimate[\.\s\-\+_\/(),]Edition`),
+		Pattern:   regexp.MustCompile(`(?i)\bUltimate[\.\s\-\+_\/(),]Edition\b`),
 		Transform: to_value("Ultimate Edition"),
 		Remove:    true,
 	},
 	{
 		Field:     "edition",
-		Pattern:   regexp.MustCompile(`(?i)\bExtended[\.\s\-\+_\/(),]Director(?:\')?s`),
-		Transform: to_value("Directors Cut"),
+		Pattern:   regexp.MustCompile(`(?i)\bExtended[\.\s\-\+_\/(),]Director'?s\b`),
+		Transform: to_value("Director's Cut"),
 		Remove:    true,
 	},
 	{
 		Field:     "edition",
-		Pattern:   regexp.MustCompile(`(?i)\b(?:custom.?)?Extended`),
+		Pattern:   regexp.MustCompile(`(?i)\b(?:custom.?)?Extended\b`),
 		Transform: to_value("Extended Edition"),
 		Remove:    true,
 	},
 	{
 		Field:     "edition",
-		Pattern:   regexp.MustCompile(`(?i)\bDirector(?:\')?s.?Cut`),
-		Transform: to_value("Directors Cut"),
+		Pattern:   regexp.MustCompile(`(?i)\bDirector'?s.?Cut\b`),
+		Transform: to_value("Director's Cut"),
 		Remove:    true,
 	},
 	{
 		Field:     "edition",
-		Pattern:   regexp.MustCompile(`(?i)\bCollector(\')?s`),
-		Transform: to_value("Collectors Edition"),
+		Pattern:   regexp.MustCompile(`(?i)\bCollector'?s\b`),
+		Transform: to_value("Collector's Edition"),
 		Remove:    true,
 	},
 	{
 		Field:     "edition",
-		Pattern:   regexp.MustCompile(`(?i)\bTheatrical`),
+		Pattern:   regexp.MustCompile(`(?i)\bTheatrical\b`),
 		Transform: to_value("Theatrical"),
 		Remove:    true,
 	},
@@ -652,7 +652,7 @@ var handlers = []handler{
 	},
 	{
 		Field:         "edition",
-		Pattern:       regexp.MustCompile(`(?i)\bIMAX`),
+		Pattern:       regexp.MustCompile(`(?i)\bIMAX\b`),
 		Transform:     to_value("IMAX"),
 		Remove:        true,
 		SkipFromTitle: true,
@@ -665,7 +665,7 @@ var handlers = []handler{
 	},
 	{
 		Field:        "edition",
-		Pattern:      regexp.MustCompile(`(?i)\bRemaster(?:ed)?`),
+		Pattern:      regexp.MustCompile(`(?i)\bRemaster(?:ed)?\b|\b[[(]?REKONSTRUKCJA[\])]?\b`),
 		Transform:    to_value("Remastered"),
 		KeepMatching: true,
 		Remove:       true,
@@ -673,9 +673,6 @@ var handlers = []handler{
 	{
 		Field: "edition",
 		Process: func(title string, m *parseMeta, result map[string]*parseMeta) *parseMeta {
-			if m.value == nil {
-				return m
-			}
 			switch m.value {
 			case "Remastered":
 				if _, ok := result["remastered"]; !ok {
@@ -705,51 +702,42 @@ var handlers = []handler{
 		Transform: to_boolean(),
 	},
 
-	// parser.addHandler("convert", /CONVERT/, boolean);
+	// parser.add_handler("convert", regex.compile(r"\bCONVERT\b"), boolean, {"remove": True})
 	{
 		Field:     "convert",
-		Pattern:   regexp.MustCompile(`CONVERT`),
+		Pattern:   regexp.MustCompile(`\bCONVERT\b`),
 		Transform: to_boolean(),
+		Remove:    true,
 	},
 
-	// parser.addHandler("hardcoded", /HC|HARDCODED/, boolean);
+	// parser.add_handler("hardcoded", regex.compile(r"\b(HC|HARDCODED)\b"), boolean, {"remove": True})
 	{
 		Field:     "hardcoded",
-		Pattern:   regexp.MustCompile(`HC|HARDCODED`),
+		Pattern:   regexp.MustCompile(`\bHC|HARDCODED\b`),
 		Transform: to_boolean(),
+		Remove:    true,
 	},
 
-	// parser.addHandler("proper", /(?:REAL.)?PROPER/, boolean);
+	// parser.add_handler("proper", regex.compile(r"\b(?:REAL.)?PROPER\b", regex.IGNORECASE), boolean, {"remove": True})
 	{
 		Field:     "proper",
-		Pattern:   regexp.MustCompile(`(?:REAL.)?PROPER`),
+		Pattern:   regexp.MustCompile(`(?i)\b(?:REAL.)?PROPER\b`),
 		Transform: to_boolean(),
+		Remove:    true,
 	},
 
-	// parser.addHandler("repack", /REPACK|RERIP/, boolean);
+	// parser.add_handler("repack", regex.compile(r"\bREPACK|RERIP\b", regex.IGNORECASE), boolean, {"remove": True})
 	{
 		Field:     "repack",
-		Pattern:   regexp.MustCompile(`REPACK|RERIP`),
+		Pattern:   regexp.MustCompile(`\b(?i)REPACK|RERIP\b`),
 		Transform: to_boolean(),
+		Remove:    true,
 	},
 
-	// parser.addHandler("retail", /\bRetail\b/i, boolean);
+	// parser.add_handler("retail", regex.compile(r"\bRetail\b", regex.IGNORECASE), boolean, {"remove": True})
 	{
 		Field:     "retail",
 		Pattern:   regexp.MustCompile(`(?i)\bRetail\b`),
-		Transform: to_boolean(),
-	},
-
-	// x parser.addHandler("remastered", /\bRemaster(?:ed)?\b/i, boolean);
-	// parser.addHandler("remastered", /\b[[(]?REKONSTRUKCJA[\])]?\b/i, boolean);
-	// {
-	// 	Field:     "remastered",
-	// 	Pattern:   regexp.MustCompile(`(?i)\bRemaster(?:ed)?\b`),
-	// 	Transform: to_boolean(),
-	// },
-	{
-		Field:     "remastered",
-		Pattern:   regexp.MustCompile(`(?i)\b[[(]?REKONSTRUKCJA[\])]?\b`),
 		Transform: to_boolean(),
 	},
 
@@ -761,33 +749,30 @@ var handlers = []handler{
 		SkipFromTitle: true,
 	},
 
-	// parser.addHandler("unrated", /\bunrated\b/i, boolean);
+	// parser.add_handler("unrated", regex.compile(r"\bunrated\b", regex.IGNORECASE), boolean, {"remove": True})
 	{
 		Field:     "unrated",
 		Pattern:   regexp.MustCompile(`(?i)\bunrated\b`),
 		Transform: to_boolean(),
+		Remove:    true,
 	},
 
-	// parser.add_handler("uncensored", regex.compile(r"\buncensored\b", regex.IGNORECASE), boolean)
+	// parser.add_handler("uncensored", regex.compile(r"\buncensored\b", regex.IGNORECASE), boolean, {"remove": True})
 	{
 		Field:     "uncensored",
 		Pattern:   regexp.MustCompile(`(?i)\buncensored\b`),
 		Transform: to_boolean(),
+		Remove:    true,
 	},
 
-	// parser.add_handler("commentary", regex.compile(r"\bcommentary\b", regex.IGNORECASE), boolean)
+	// parser.add_handler("commentary", regex.compile(r"\bcommentary\b", regex.IGNORECASE), boolean, {"remove": True})
 	{
 		Field:     "commentary",
 		Pattern:   regexp.MustCompile(`(?i)\bcommentary\b`),
 		Transform: to_boolean(),
+		Remove:    true,
 	},
 
-	// x parser.addHandler("region", /R\d\b/, none, { skipIfFirst: true });
-	// {
-	// 	Field:       "region",
-	// 	Pattern:     regexp.MustCompile(`R\d\b`),
-	// 	SkipIfFirst: true,
-	// },
 	// parser.add_handler("region", regex.compile(r"R\dJ?\b"), uppercase, {"remove": True})
 	// parser.add_handler("region", regex.compile(r"\b(PAL|NTSC|SECAM)\b", regex.IGNORECASE), uppercase, {"remove": True})
 	{
@@ -2415,6 +2400,7 @@ var handlers = []handler{
 		Pattern:      regexp.MustCompile(`(?i)\b(?:audio.)?(?:ESP|spa|(?:en[ .]+)?espa[nñ]ola?|castellano)\b`),
 		Transform:    to_value_set("es"),
 		KeepMatching: true,
+		Remove:       true,
 	},
 	// {
 	// 	Field:       "languages",

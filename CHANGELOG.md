@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.3.0](https://github.com/MunifTanjim/go-ptt/compare/v0.2.1...v0.3.0) (2025-04-09)
+
+
+### Features
+
+* cleanup and housekeeping ([c3953a2](https://github.com/MunifTanjim/go-ptt/commit/c3953a22ce71605b476b2f525ebe1358a2808d07))
+* improve french languages pattern ([f9ce15c](https://github.com/MunifTanjim/go-ptt/commit/f9ce15c567bb702ecd812efc4e79b927fb51c9eb))
+* improve parsing - dubbed ([51b3b55](https://github.com/MunifTanjim/go-ptt/commit/51b3b551b17e31641a7293b0f73a89274617a1ad))
+* improve parsing - subbed ([0263311](https://github.com/MunifTanjim/go-ptt/commit/0263311c6bd40a3fb5f8b3be8c02c59e63d455b7))
+
 ## [0.2.1](https://github.com/MunifTanjim/go-ptt/compare/v0.2.0...v0.2.1) (2025-04-07)
 
 

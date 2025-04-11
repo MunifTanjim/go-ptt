@@ -693,7 +693,7 @@ var handlers = []handler{
 	},
 	{
 		Field:     "upscaled",
-		Pattern:   regexp.MustCompile(`(?i)\b(?:iris2|regrade|ups(uhd|fhd|hd|4k))\b`),
+		Pattern:   regexp.MustCompile(`(?i)\b(?:iris2|regrade|ups(?:uhd|fhd|hd|4k)?)\b`),
 		Transform: to_boolean(),
 	},
 	{

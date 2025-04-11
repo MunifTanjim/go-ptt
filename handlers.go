@@ -3324,7 +3324,7 @@ var handlers = []handler{
 	},
 	{
 		Field:     "network",
-		Pattern:   regexp.MustCompile(`(?i)\bNICK(elodeon)?\b`),
+		Pattern:   regexp.MustCompile(`(?i)\bNICK(?:elodeon)?\b`),
 		Transform: to_value("Nickelodeon"),
 		Remove:    true,
 	},

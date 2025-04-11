@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.2](https://github.com/MunifTanjim/go-ptt/compare/v0.4.1...v0.4.2) (2025-04-11)
+
+
+### Bug Fixes
+
+* remove optional capture group in upscaled pattern ([8cddafb](https://github.com/MunifTanjim/go-ptt/commit/8cddafbdeb0fbf4176dba2ede790f939e65fb970))
+
 ## [0.4.1](https://github.com/MunifTanjim/go-ptt/compare/v0.4.0...v0.4.1) (2025-04-11)
 
 

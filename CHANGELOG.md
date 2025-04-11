@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/MunifTanjim/go-ptt/compare/v0.4.0...v0.4.1) (2025-04-11)
+
+
+### Bug Fixes
+
+* remove optional capture group in network pattern ([adfe2b7](https://github.com/MunifTanjim/go-ptt/commit/adfe2b7058057b9665c0f73604fb9358bde13df0))
+
 ## [0.4.0](https://github.com/MunifTanjim/go-ptt/compare/v0.3.0...v0.4.0) (2025-04-11)
 
 

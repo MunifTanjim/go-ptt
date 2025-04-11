@@ -53,6 +53,9 @@ func normalize_resolution(resolution string) string {
 }
 
 func (r *Result) Normalize() *Result {
+	if r.Error() != nil {
+		return r
+	}
 	if !r.is_normalized {
 		r.Audio = normalize_audio(r.Audio)
 		r.Codec = normalize_codec(r.Codec)

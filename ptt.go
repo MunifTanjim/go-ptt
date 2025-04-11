@@ -113,7 +113,15 @@ type Result struct {
 	Volumes     []int
 	Year        string
 
+	err           error
 	is_normalized bool
+}
+
+func (r *Result) Error() error {
+	if r.err == nil {
+		return nil
+	}
+	return r.err
 }
 
 type parseMeta struct {
@@ -136,7 +144,19 @@ func has_value_set(field string) bool {
 	return ok
 }
 
-func Parse(title string) *Result {
+func Parse(title string) (r *Result) {
+	r = &Result{}
+
+	defer func() {
+		if err := recover(); err != nil {
+			if e, ok := err.(error); ok {
+				r.err = e
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
 	title = underscores_regex.ReplaceAllString(title, " ")
 	result := map[string]*parseMeta{}
 	endOfTitle := len(title)
@@ -255,8 +275,6 @@ func Parse(title string) *Result {
 		m.remove = false
 		m.processed = true
 	}
-
-	r := &Result{}
 
 	for field, fieldMeta := range result {
 		v := fieldMeta.value

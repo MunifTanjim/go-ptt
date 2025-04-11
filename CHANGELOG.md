@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/MunifTanjim/go-ptt/compare/v0.3.0...v0.4.0) (2025-04-11)
+
+
+### Features
+
+* add panic recovery and Error method ([5c22519](https://github.com/MunifTanjim/go-ptt/commit/5c22519979a1fa819e7bf66c52531a7ca5435984))
+
 ## [0.3.0](https://github.com/MunifTanjim/go-ptt/compare/v0.2.1...v0.3.0) (2025-04-09)
 
 

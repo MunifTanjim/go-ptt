@@ -1407,6 +1407,35 @@ func TestPTT(t *testing.T) {
 			Extension:  "mkv",
 			Group:      "TURG",
 		}},
+		{"Apollo 13 (1995) [1080p] [WEB-DL] [x264] [E-AC3-S78] [Lektor PL]", Result{
+			Audio:      []string{"EAC3"},
+			Codec:      "x264",
+			Languages:  []string{"pl"},
+			Quality:    "WEB-DL",
+			Resolution: "1080p",
+			Title:      "Apollo 13",
+			Year:       "1995",
+		}},
+		{"The Killer's Game 2024 PL 1080p WEB-DL H264 DD5.1-S56", Result{
+			Audio:      []string{"DD"},
+			Channels:   []string{"5.1"},
+			Codec:      "h264",
+			Languages:  []string{"pl"},
+			Quality:    "WEB-DL",
+			Resolution: "1080p",
+			Title:      "The Killer's Game",
+			Year:       "2024",
+		}},
+		{"[a-s]_fairy_tail_-_003_-_infiltrate_the_everlue_mansion__rs2_[1080p_bd-rip][4CB16872].mkv", Result{
+			Container:   "mkv",
+			EpisodeCode: "4CB16872",
+			Episodes:    []int{3},
+			Extension:   "mkv",
+			Group:       "a-s",
+			Quality:     "BDRip",
+			Resolution:  "1080p",
+			Title:       "fairy tail",
+		}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)

@@ -363,4 +363,18 @@ func TestSeasons(t *testing.T) {
 			assert.Equal(t, tc.seasons, result.Seasons)
 		})
 	}
+
+	// Go
+	for _, tc := range []struct {
+		ttitle  string
+		seasons []int
+	}{
+		{"추노.The.Slave.Hunters.S01", []int{1}},
+		{"[AniDub]_Love.Scout.s01", []int{1}},
+	} {
+		t.Run(tc.ttitle, func(t *testing.T) {
+			result := Parse(tc.ttitle)
+			assert.Equal(t, tc.seasons, result.Seasons)
+		})
+	}
 }

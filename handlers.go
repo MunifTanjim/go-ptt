@@ -1234,7 +1234,7 @@ var handlers = []handler{
 		Process: remove_from_value(regexp.MustCompile(`[ .-]`)),
 	},
 
-	// parser.add_handler("channels", regex.compile(r"5[\.\s]1(ch)?\b", regex.IGNORECASE), uniq_concat(value("5.1")), {"remove": True, "skipIfAlreadyFound": False})
+	// parser.add_handler("channels", regex.compile(r"5[\.\s]1(?:ch|-S\d+)?\b", regex.IGNORECASE), uniq_concat(value("5.1")), {"remove": True, "skipIfAlreadyFound": False})
 	// parser.add_handler("channels", regex.compile(r"\b(?:x[2-4]|5[\W]1(?:x[2-4])?)\b", regex.IGNORECASE), uniq_concat(value("5.1")), {"remove": True, "skipIfAlreadyFound": False})
 	// parser.add_handler("channels", regex.compile(r"\b7[\.\- ]1(.?ch(annel)?)?\b", regex.IGNORECASE), uniq_concat(value("7.1")), {"remove": True, "skipIfAlreadyFound": False})
 	// parser.add_handler("channels", regex.compile(r"\+?2[\.\s]0(?:x[2-4])?\b", regex.IGNORECASE), uniq_concat(value("2.0")), {"remove": True, "skipIfAlreadyFound": False})
@@ -1243,7 +1243,7 @@ var handlers = []handler{
 	// parser.add_handler("channels", regex.compile(r"\bmono\b", regex.IGNORECASE), uniq_concat(value("mono")), {"remove": False, "skipIfAlreadyFound": False})
 	{
 		Field:        "channels",
-		Pattern:      regexp.MustCompile(`(?i)5[.\s]1(?:ch)?\b`),
+		Pattern:      regexp.MustCompile(`(?i)5[.\s]1(?:ch|-S\d+)?\b`),
 		Transform:    to_value_set("5.1"),
 		KeepMatching: true,
 		Remove:       true,
@@ -1411,8 +1411,8 @@ var handlers = []handler{
 	// 	Remove:       true,
 	// 	KeepMatching: true,
 	// },
-	// parser.add_handler("audio", regex.compile(r"DD2?[\+p]|DD Plus|Dolby Digital Plus|DDP5[ \.\_]1|EAC-?3", regex.IGNORECASE), uniq_concat(value("Dolby Digital Plus")), {"remove": True, "skipIfAlreadyFound": False})
-	// parser.add_handler("audio", regex.compile(r"\b(DD|Dolby.?Digital|DolbyD|AC-?3(x2)?)\b", regex.IGNORECASE), uniq_concat(value("Dolby Digital")), {"remove": True, "skipIfAlreadyFound": False})
+	// parser.add_handler("audio", regex.compile(r"DD2?[\+p]|DD Plus|Dolby Digital Plus|DDP5[ \.\_]1|E-?AC-?3(?:-S\d+)?", regex.IGNORECASE), uniq_concat(value("Dolby Digital Plus")), {"remove": True, "skipIfAlreadyFound": False})
+	// parser.add_handler("audio", regex.compile(r"\b(DD|Dolby.?Digital|DolbyD|AC-?3(x2)?(?:-S\d+)?)\b", regex.IGNORECASE), uniq_concat(value("Dolby Digital")), {"remove": True, "skipIfAlreadyFound": False})
 	{
 		Field:        "audio",
 		Pattern:      regexp.MustCompile(`(?i)DD2?[+p]|DD Plus|Dolby Digital Plus|DDP5[ ._]1`),
@@ -1422,7 +1422,7 @@ var handlers = []handler{
 	},
 	{
 		Field:        "audio",
-		Pattern:      regexp.MustCompile(`(?i)EAC-?3`),
+		Pattern:      regexp.MustCompile(`(?i)E-?AC-?3(?:-S\d+)?`),
 		Transform:    to_value_set("EAC3"),
 		KeepMatching: true,
 		Remove:       true,
@@ -1436,7 +1436,7 @@ var handlers = []handler{
 	},
 	{
 		Field:        "audio",
-		Pattern:      regexp.MustCompile(`(?i)\b(AC-?3(?:x2)?)\b`),
+		Pattern:      regexp.MustCompile(`(?i)\b(AC-?3(?:x2)?(?:-S\d+)?)\b`),
 		Transform:    to_value_set("AC3"),
 		KeepMatching: true,
 		Remove:       true,
@@ -1843,6 +1843,14 @@ var handlers = []handler{
 		Field:     "seasons",
 		Pattern:   regexp.MustCompile(`(?i)\bEp(?:isode)?\W+(\d{1,2})\.\d{1,3}\b`),
 		Transform: to_int_array(),
+	},
+	// parser.add_handler("seasons", regex.compile(r"(?:(?:\bthe\W)?\bcomplete)?(?<![a-z])\bs(\d{1,3})(?:[\Wex]|\d{2}\b|$)", regex.IGNORECASE), array(integer), {"remove": False, "skipIfAlreadyFound": False})
+	{
+		Field:         "seasons",
+		Pattern:       regexp.MustCompile(`(?i)(?:(?:\bthe\W)?\bcomplete)?(?:[a-z])?\bs(\d{1,3})(?:[\Wex]|\d{2}\b|$)`),
+		ValidateMatch: validate_not_match(regexp.MustCompile(`(?i)(?:[a-z])\bs\d{1,3}`)),
+		Transform:     to_int_array(),
+		KeepMatching:  true,
 	},
 	// parser.add_handler("seasons", regex.compile(r"\bSeasons?\b.*\b(\d{1,2}-\d{1,2})\b", regex.IGNORECASE), range_func)
 	// parser.add_handler("seasons", regex.compile(r"(?:\W|^)(\d{1,2})(?:e|ep)\d{1,3}(?:\W|$)", regex.IGNORECASE), array(integer))

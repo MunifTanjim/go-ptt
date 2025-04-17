@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.0](https://github.com/MunifTanjim/go-ptt/compare/v0.4.2...v0.5.0) (2025-04-17)
+
+
+### Features
+
+* improve parsing - audio, channels, seasons ([2fcc15b](https://github.com/MunifTanjim/go-ptt/commit/2fcc15b76bdf22580b282ac71df2f697351bb05c))
+* improve parsing - site ([6009dab](https://github.com/MunifTanjim/go-ptt/commit/6009dab6e098e93c589b8b12763a7aa98a1ec8b8))
+* update normalization - codec ([c838065](https://github.com/MunifTanjim/go-ptt/commit/c838065888f48cea74d122606b187539e5e67448))
+
 ## [0.4.2](https://github.com/MunifTanjim/go-ptt/compare/v0.4.1...v0.4.2) (2025-04-11)
 
 

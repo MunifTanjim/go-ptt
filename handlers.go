@@ -298,12 +298,12 @@ var handlers = []handler{
 		SkipFromTitle: true,
 	},
 
-	// parser.add_handler("site", regex.compile(r"^(www?[\.,][\w-]+\.[\w-]+(?:\.[\w-]+)?)\s+-\s*", regex.IGNORECASE), options={"skipFromTitle": True, "remove": True, "skipIfAlreadyFound": False})
+	// ~ parser.add_handler("site", regex.compile(r"^(www?[\.,][\w-]+\.[\w-]+(?:\.[\w-]+)?)\s+-\s*", regex.IGNORECASE), options={"skipFromTitle": True, "remove": True, "skipIfAlreadyFound": False})
 	// parser.add_handler("site", regex.compile(r"^((?:www?[\.,])?[\w-]+\.[\w-]+(?:\.[\w-]+)*?)\s+-\s*", regex.IGNORECASE), options={"skipIfAlreadyFound": False})
 	// parser.add_handler("site", regex.compile(r"\bwww.+rodeo\b", regex.IGNORECASE), lowercase, {"remove": True})
 	{
 		Field:         "site",
-		Pattern:       regexp.MustCompile(`(?i)^(www?[\.,][\w-]+\.[\w-]+(?:\.[\w-]+)?)\s+-\s*`),
+		Pattern:       regexp.MustCompile(`(?i)^(www?[., ][\w-]+[. ][\w-]+(?:[. ][\w-]+)?)\s+-\s*`),
 		KeepMatching:  true,
 		SkipFromTitle: true,
 		Remove:        true,
@@ -536,10 +536,10 @@ var handlers = []handler{
 		}(),
 		Remove: true,
 	},
-	// parser.add_handler("year", regex.compile(r"\b(20[0-9]{2}|2100)(?!\D*\d{4}\b)"), integer, {"remove": True})
+	// ~ parser.add_handler("year", regex.compile(r"\b(20[0-9]{2}|2100)(?!\D*\d{4}\b)"), integer, {"remove": True})
 	{
 		Field:   "year",
-		Pattern: regexp.MustCompile(`[([*]?\b(20[0-9]{2}|2100)[*)\]]?`),
+		Pattern: regexp.MustCompile(`[([*]?\b(20[0-9]{2}|2100)[*\])]?`),
 		ValidateMatch: func() hMatchValidator {
 			re := regexp.MustCompile(`(?:\D*\d{4}\b)`)
 			return func(input string, match []int) bool {
@@ -3275,17 +3275,16 @@ var handlers = []handler{
 		Remove:  true,
 	},
 
-	// parser.add_handler("site", regex.compile(r"\[([^\]]+\.[^\]]+)\](?=\.\w{2,4}$|\s)", regex.IGNORECASE), value("$1"), {"remove": True})
+	// ~ parser.add_handler("site", regex.compile(r"\[([^\]]+\.[^\]]+)\](?=\.\w{2,4}$|\s)", regex.IGNORECASE), value("$1"), {"remove": True})
 	// parser.add_handler("site", regex.compile(r"\bwww.\w*.\w+\b", regex.IGNORECASE), value("$1"), {"remove": True})
 	{
 		Field:         "site",
-		Pattern:       regexp.MustCompile(`(?i)(\[((?:[^\].]+\.)+[^\].]+)\])(?:\.\w{2,4}$|\s)`),
+		Pattern:       regexp.MustCompile(`(?i)\[([^[\].]+\.[^\].]+)\](?:\.\w{2,4}$|\s)`),
 		Transform:     to_trimmed(),
 		Remove:        true,
 		SkipFromTitle: true,
 
 		MatchGroup: 1,
-		ValueGroup: 2,
 	},
 	{
 		Field:         "site",

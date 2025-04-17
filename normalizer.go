@@ -31,10 +31,10 @@ func normalize_audio(audio []string) []string {
 func normalize_codec(codec string) string {
 	codec = strings.ToLower(codec)
 	switch codec {
-	case "h264", "x264":
-		return "avc"
-	case "h265", "x265":
-		return "hevc"
+	case "avc", "h264", "x264":
+		return "AVC"
+	case "hevc", "h265", "x265":
+		return "HEVC"
 	default:
 		return codec
 	}

@@ -298,9 +298,9 @@ var handlers = []handler{
 		SkipFromTitle: true,
 	},
 
-	// ~ parser.add_handler("site", regex.compile(r"^(www?[\.,][\w-]+\.[\w-]+(?:\.[\w-]+)?)\s+-\s*", regex.IGNORECASE), options={"skipFromTitle": True, "remove": True, "skipIfAlreadyFound": False})
+	// parser.add_handler("site", regex.compile(r"^(www?[., ][\w-]+[. ][\w-]+(?:[. ][\w-]+)?)\s+-\s*", regex.IGNORECASE), options={"skipFromTitle": True, "remove": True, "skipIfAlreadyFound": False})
 	// parser.add_handler("site", regex.compile(r"^((?:www?[\.,])?[\w-]+\.[\w-]+(?:\.[\w-]+)*?)\s+-\s*", regex.IGNORECASE), options={"skipIfAlreadyFound": False})
-	// parser.add_handler("site", regex.compile(r"\bwww.+rodeo\b", regex.IGNORECASE), lowercase, {"remove": True})
+	// ~ parser.add_handler("site", regex.compile(r"\bwww.+rodeo\b", regex.IGNORECASE), lowercase, {"remove": True})
 	{
 		Field:         "site",
 		Pattern:       regexp.MustCompile(`(?i)^(www?[., ][\w-]+[. ][\w-]+(?:[. ][\w-]+)?)\s+-\s*`),
@@ -314,10 +314,10 @@ var handlers = []handler{
 		KeepMatching: true,
 	},
 	{
-		Field:     "site",
-		Pattern:   regexp.MustCompile(`(?i)\bwww.+rodeo\b`),
-		Transform: to_lowercase(),
-		Remove:    true,
+		Field:         "site",
+		Pattern:       regexp.MustCompile(`(?i)\bwww[., ][\w-]+[., ](?:rodeo|hair)\b`),
+		Remove:        true,
+		SkipFromTitle: true,
 	},
 
 	// parser.addHandler("episodeCode", /[[(]([a-z0-9]{8}|[A-Z0-9]{8})[\])](?=\.[a-zA-Z0-9]{1,5}$|$)/, uppercase, { remove: true });
@@ -3276,7 +3276,7 @@ var handlers = []handler{
 	},
 
 	// ~ parser.add_handler("site", regex.compile(r"\[([^\]]+\.[^\]]+)\](?=\.\w{2,4}$|\s)", regex.IGNORECASE), value("$1"), {"remove": True})
-	// parser.add_handler("site", regex.compile(r"\bwww.\w*.\w+\b", regex.IGNORECASE), value("$1"), {"remove": True})
+	// ~ parser.add_handler("site", regex.compile(r"\bwww.\w*.\w+\b", regex.IGNORECASE), value("$1"), {"remove": True})
 	{
 		Field:         "site",
 		Pattern:       regexp.MustCompile(`(?i)\[([^[\].]+\.[^\].]+)\](?:\.\w{2,4}$|\s)`),
@@ -3288,7 +3288,14 @@ var handlers = []handler{
 	},
 	{
 		Field:         "site",
-		Pattern:       regexp.MustCompile(`(?i)\bwww.\w*.\w+\b`),
+		Pattern:       regexp.MustCompile(`(?i)[[{(](www.\w*.\w+)[)}\]]`),
+		Remove:        true,
+		SkipFromTitle: true,
+	},
+	// parser.add_handler("site", regex.compile(r"\b(?:www?.?)?(?:\w+\-)?\w+[\.\s](?:com|org|net|ms|tv|mx|co|party|vip|nu|pics)\b", regex.IGNORECASE), value("$1"), {"remove": True})
+	{
+		Field:         "site",
+		Pattern:       regexp.MustCompile(`(?i)\b(?:www?.?)?(?:\w+\-)?\w+[\.\s](?:com|org|net|ms|tv|mx|co|party|vip|nu|pics)\b`),
 		Remove:        true,
 		SkipFromTitle: true,
 	},

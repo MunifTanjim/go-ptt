@@ -38,6 +38,7 @@ func TestTitle(t *testing.T) {
 		{"remove ep range in parenthesis", "GTO (Great Teacher Onizuka) (Ep. 1-43) Sub 480p lakshay", "GTO (Great Teacher Onizuka)"},
 		{"not fully remove partially russian title", "Книгоноши / Кнiганошы (1987) TVRip от AND03AND | BLR", "Кнiганошы"},
 		{"remove extension fully", "Yurusarezaru_mono2.srt", "Yurusarezaru mono2"},
+		{"not detect season prefix in title", "COMPASS2.0.ANIMATION.PROJECT.S01E02.Will.You.Be.My.Partner.1080p.CR.WEB-DL.JPN.AAC2.0.H.264.MSubs-ToonsHub.mkv", "COMPASS2 0 ANIMATION PROJECT"},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			result := Parse(tc.ttitle)

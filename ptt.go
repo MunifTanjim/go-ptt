@@ -198,6 +198,18 @@ func Parse(title string) (r *Result) {
 				continue
 			}
 
+			if len(handler.SkipIfBefore) > 0 {
+				for _, skipField := range handler.SkipIfBefore {
+					if fm, ok := result[skipField]; ok && idxs[0] < fm.mIndex {
+						shouldSkip = true
+						break
+					}
+				}
+				if shouldSkip {
+					continue
+				}
+			}
+
 			rawMatchedPart := title[idxs[0]:idxs[1]]
 			matchedPart := rawMatchedPart
 			if len(idxs) > 2 {

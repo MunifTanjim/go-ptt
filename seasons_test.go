@@ -223,6 +223,8 @@ func TestSeasons(t *testing.T) {
 		{"not season when it's part of the name", "Ranma-12-86.mp4", nil},
 		{"not season when it's part of group", "The Killer's Game 2024 PL 1080p WEB-DL H264 DD5.1-S56", nil},
 		{"not season when it's part of group v2", "Apollo 13 (1995) [1080p] [WEB-DL] [x264] [E-AC3-S78] [Lektor PL]", nil},
+		{"not season dot episode notation when it's a title", "3.10 to Yuma (2007).mkv", nil},
+		{"not season dot episode notation when there is year in name", "18.11 - A Code Of Secrecy (2014) x264 1080p-AAC-ESUB [Parth].mkv", nil},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			result := Parse(tc.ttitle)

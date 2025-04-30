@@ -18,10 +18,11 @@ type handler struct {
 	Transform     hTransformer
 	Process       hProcessor
 
-	Remove        bool // remove
-	KeepMatching  bool // !skipIfAlreadyFound
-	SkipIfFirst   bool // skipIfFirst
-	SkipFromTitle bool // skipFromTitle
+	Remove        bool     // remove
+	KeepMatching  bool     // !skipIfAlreadyFound
+	SkipIfFirst   bool     // skipIfFirst
+	SkipIfBefore  []string // skipIfBefore
+	SkipFromTitle bool     // skipFromTitle
 
 	MatchGroup int // capture group to use as match
 	ValueGroup int // capture group to use as value
@@ -1237,10 +1238,6 @@ var handlers = []handler{
 	// parser.add_handler("channels", regex.compile(r"5[\.\s]1(?:ch|-S\d+)?\b", regex.IGNORECASE), uniq_concat(value("5.1")), {"remove": True, "skipIfAlreadyFound": False})
 	// parser.add_handler("channels", regex.compile(r"\b(?:x[2-4]|5[\W]1(?:x[2-4])?)\b", regex.IGNORECASE), uniq_concat(value("5.1")), {"remove": True, "skipIfAlreadyFound": False})
 	// parser.add_handler("channels", regex.compile(r"\b7[\.\- ]1(.?ch(annel)?)?\b", regex.IGNORECASE), uniq_concat(value("7.1")), {"remove": True, "skipIfAlreadyFound": False})
-	// parser.add_handler("channels", regex.compile(r"\+?2[\.\s]0(?:x[2-4])?\b", regex.IGNORECASE), uniq_concat(value("2.0")), {"remove": True, "skipIfAlreadyFound": False})
-	// parser.add_handler("channels", regex.compile(r"\b2\.0\b", regex.IGNORECASE), uniq_concat(value("2.0")), {"remove": True, "skipIfAlreadyFound": False})
-	// parser.add_handler("channels", regex.compile(r"\bstereo\b", regex.IGNORECASE), uniq_concat(value("stereo")), {"remove": False, "skipIfAlreadyFound": False})
-	// parser.add_handler("channels", regex.compile(r"\bmono\b", regex.IGNORECASE), uniq_concat(value("mono")), {"remove": False, "skipIfAlreadyFound": False})
 	{
 		Field:        "channels",
 		Pattern:      regexp.MustCompile(`(?i)5[.\s]1(?:ch|-S\d+)?\b`),
@@ -1262,13 +1259,18 @@ var handlers = []handler{
 		KeepMatching: true,
 		Remove:       true,
 	},
+	// ~ parser.add_handler("channels", regex.compile(r"\+?2[\.\s]0(?:x[2-4])?\b", regex.IGNORECASE), uniq_concat(value("2.0")), {"remove": True, "skipIfAlreadyFound": False})
 	{
 		Field:        "channels",
-		Pattern:      regexp.MustCompile(`(?i)\+?2[.\s]0(?:x[2-4])?\b`),
+		Pattern:      regexp.MustCompile(`(?i)(?:\b|AAC|DDP)\+?(2[.\s]0)(?:x[2-4])?\b`),
 		Transform:    to_value_set("2.0"),
 		KeepMatching: true,
 		Remove:       true,
+		MatchGroup:   1,
 	},
+	// parser.add_handler("channels", regex.compile(r"\b2\.0\b", regex.IGNORECASE), uniq_concat(value("2.0")), {"remove": True, "skipIfAlreadyFound": False})
+	// parser.add_handler("channels", regex.compile(r"\bstereo\b", regex.IGNORECASE), uniq_concat(value("stereo")), {"remove": False, "skipIfAlreadyFound": False})
+	// parser.add_handler("channels", regex.compile(r"\bmono\b", regex.IGNORECASE), uniq_concat(value("mono")), {"remove": False, "skipIfAlreadyFound": False})
 	{
 		Field:        "channels",
 		Pattern:      regexp.MustCompile(`(?i)\b2\.0\b`),
@@ -1727,6 +1729,7 @@ var handlers = []handler{
 	// parser.addHandler("seasons", /\bSn([1-9])(?:\D|$)/, array(integer));
 	// parser.addHandler("seasons", /[[(](\d{1,2})\.\d{1,3}[)\]]/, array(integer));
 	// parser.addHandler("seasons", /-\s?(\d{1,2})\.\d{2,3}\s?-/, array(integer));
+	// parser.addHandler("seasons", /^(\d{1,2})\.\d{2,3} - /, array(integer), { skipIfBefore: ["year, source", "resolution"] });
 	// parser.addHandler("seasons", /(?:^|\/)(?!20-20)(\d{1,2})-\d{2}\b(?!-\d)/, array(integer));
 	// parser.addHandler("seasons", /[^\w-](\d{1,2})-\d{2}(?=\.\w{2,4}$)/, array(integer));
 	// parser.addHandler("seasons", /(?<!\bEp?(?:isode)? ?\d+\b.*)\b(\d{2})[ ._]\d{2}(?:.F)?\.\w{2,4}$/, array(integer));
@@ -1823,6 +1826,12 @@ var handlers = []handler{
 		Transform: to_int_array(),
 	},
 	{
+		Field:        "seasons",
+		Pattern:      regexp.MustCompile(`^(\d{1,2})\.\d{2,3} - `),
+		Transform:    to_int_array(),
+		SkipIfBefore: []string{"year", "source", "resolution"},
+	},
+	{
 		Field:         "seasons",
 		Pattern:       regexp.MustCompile(`(?:^|\/)(?:20-20)?(\d{1,2})-\d{2}\b(?:-\d)?`),
 		ValidateMatch: validate_not_match(regexp.MustCompile(`^(?:20-20)|(\d{1,2})-\d{2}\b(?:-\d)`)),
@@ -1871,7 +1880,8 @@ var handlers = []handler{
 	// parser.addHandler("episodes", /(?:[\W\d]|^)(?:episodes?|[Сс]ерии:?)[ .]?[([]?(\d{1,3}(?:[ .+]*[&+][ .]?\d{1,3})+)(?:\W|$)/i, range);
 	// parser.addHandler("episodes", /[([]?(?:\D|^)(\d{1,3}[ .]?ao[ .]?\d{1,3})[)\]]?(?:\W|$)/i, range);
 	// parser.addHandler("episodes", /(?:[\W\d]|^)(?:e|eps?|episodes?|[Сс]ерии:?|\d+[xх])[ .]*[([]?(\d{1,3}(?:-\d{1,3})+)(?:\W|$)/i, range);
-	// parser.addHandler("episodes", /(?:so?|t)\d{1,2}[. ]?[xх-]?[. ]?(?:e|x|х|ep|-|\.)[. ]?(\d{1,4})(?:[abc]|v0?[1-4]|\D|$)/i, array(integer));
+	// parser.addHandler("episodes", /(?:so?|t)\d{1,2}[. ]?[xх-]?[. ]?(?:e|x|х|ep)[. ]?(\d{1,4})(?:[abc]|v0?[1-4]|\D|$)/i, array(integer));
+	// parser.addHandler("episodes", /(?:so?|t)\d{1,2}\s?[-.]\s?(\d{1,4})(?:[abc]|v0?[1-4]|\D|$)/i, array(integer));
 	// parser.addHandler("episodes", /\b(?:so?|t)\d{2}(\d{2})\b/i, array(integer));
 	// parser.addHandler("episodes", /(?:\W|^)(\d{1,3}(?:[ .]*~[ .]*\d{1,3})+)(?:\W|$)/i, range);
 	// parser.addHandler("episodes", /-\s(\d{1,3}[ .]*-[ .]*\d{1,3})(?!-\d)(?:\W|$)/i, range);
@@ -1914,7 +1924,12 @@ var handlers = []handler{
 	},
 	{
 		Field:     "episodes",
-		Pattern:   regexp.MustCompile(`(?i)(?:so?|t)\d{1,2}[. ]?[xх-]?[. ]?(?:e|x|х|ep|-|\.)[. ]?(\d{1,4})(?:[abc]|v0?[1-4]|\D|$)`),
+		Pattern:   regexp.MustCompile(`(?i)(?:so?|t)\d{1,2}[. ]?[xх-]?[. ]?(?:e|x|х|ep)[. ]?(\d{1,4})(?:[abc]|v0?[1-4]|\D|$)`),
+		Transform: to_int_array(),
+	},
+	{
+		Field:     "episodes",
+		Pattern:   regexp.MustCompile(`(?i)(?:so?|t)\d{1,2}\s?[-.]\s?(\d{1,4})(?:[abc]|v0?[1-4]|\D|$)`),
 		Transform: to_int_array(),
 	},
 	{
@@ -1987,6 +2002,7 @@ var handlers = []handler{
 	// parser.addHandler("episodes", /[[(]\d{1,2}\.(\d{1,3})[)\]]/, array(integer));
 	// parser.addHandler("episodes", /\b[Ss](?:eason\W?)?\d{1,2}[ .](\d{1,2})\b/, array(integer));
 	// parser.addHandler("episodes", /-\s?\d{1,2}\.(\d{2,3})\s?-/, array(integer));
+	// parser.addHandler("episodes", /^\d{1,2}\.(\d{2,3}) - /, array(integer), { skipIfBefore: ["year, source", "resolution"] });
 	// parser.addHandler("episodes", /(?<=\D|^)(\d{1,3})[. ]?(?:of|из|iz)[. ]?\d{1,3}(?=\D|$)/i, array(integer));
 	// parser.addHandler("episodes", /\b\d{2}[ ._-](\d{2})(?:.F)?\.\w{2,4}$/, array(integer));
 	// parser.addHandler("episodes", /(?<!^)\[(\d{2,3})](?!(?:\.\w{2,4})?$)/, array(integer));
@@ -2021,6 +2037,12 @@ var handlers = []handler{
 		Transform: to_int_array(),
 	},
 	{
+		Field:        "episodes",
+		Pattern:      regexp.MustCompile(`^\d{1,2}\.(\d{2,3}) - `),
+		SkipIfBefore: []string{"year", "quality", "resolution"},
+		Transform:    to_int_array(),
+	},
+	{
 		Field:     "episodes",
 		Pattern:   regexp.MustCompile(`(?i)(?:\D|^)(\d{1,3})[. ]?(?:of|из|iz)[. ]?\d{1,3}(?:\D|$)`),
 		Transform: to_int_array(),
@@ -2038,6 +2060,12 @@ var handlers = []handler{
 			validate_not_at_end(),
 			validate_not_match(regexp.MustCompile(`(?i)(?:720|1080)|\[(\d{2,3})](?:(?:\.\w{2,4})$)`)),
 		),
+		Transform: to_int_array(),
+	},
+	// parser.addHandler("episodes", /\bodc[. ]+(\d{1,3})\b/i, array(integer));
+	{
+		Field:     "episodes",
+		Pattern:   regexp.MustCompile(`(?i)\bodc[. ]+(\d{1,3})\b`),
 		Transform: to_int_array(),
 	},
 	// parser.add_handler("episodes", regex.compile(r"(?<![xh])\b264\b|\b265\b", regex.IGNORECASE), array(integer), {"remove": True})

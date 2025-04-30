@@ -11,9 +11,9 @@ type ver struct {
 }
 
 var v = ver{
-	v:     "0.5.0", // x-release-please-version
+	v:     "0.6.0", // x-release-please-version
 	major: "0",     // x-release-please-major
-	minor: "5",     // x-release-please-minor
+	minor: "6",     // x-release-please-minor
 	patch: "0",     // x-release-please-patch
 }
 

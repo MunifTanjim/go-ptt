@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.0](https://github.com/MunifTanjim/go-ptt/compare/v0.5.0...v0.6.0) (2025-04-30)
+
+
+### Features
+
+* improve parsing - episodes, seasons ([b8638c9](https://github.com/MunifTanjim/go-ptt/commit/b8638c9a072f09ff1e5df8e764fa533513b3e4c6))
+* improve parsing - site ([d2f1055](https://github.com/MunifTanjim/go-ptt/commit/d2f1055c9cf19a8a119cf3abe26c39f310d63cce))
+
 ## [0.5.0](https://github.com/MunifTanjim/go-ptt/compare/v0.4.2...v0.5.0) (2025-04-17)
 
 

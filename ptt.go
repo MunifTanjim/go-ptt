@@ -390,7 +390,7 @@ func Parse(title string) (r *Result) {
 		}
 	}
 
-	r.Title = clean_title(title[:min(endOfTitle, len(title))])
+	r.Title = clean_title(title[:max(min(endOfTitle, len(title)), 0)])
 
 	return r
 }

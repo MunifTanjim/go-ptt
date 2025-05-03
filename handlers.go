@@ -462,6 +462,7 @@ var handlers = []handler{
 		Pattern:       regexp.MustCompile(`(?:\W)[([]?((?:0[1-9]|[12][0-9]|3[01])([. \-/\\])(?:0[1-9]|1[012])([. \-/\\])(?:[0][1-9]|[0126789][0-9]))[)\]]?(?:\W|$)`),
 		ValidateMatch: validate_matched_groups_are_same(2, 3),
 		Transform:     to_date("02 01 06"),
+		MatchGroup:    1,
 		Remove:        true,
 	},
 	{
@@ -503,11 +504,11 @@ var handlers = []handler{
 		Remove:    true,
 	},
 
-	// parser.addHandler("year", /[([*]?[ .]?((?:19\d|20[012])\d[ .]?-[ .]?(?:19\d|20[012])\d)(?:\s?[*)\]])?/, yearRange, { remove: true });
+	// ~ parser.addHandler("year", /[([*]?[ .]?((?:19\d|20[012])\d[ .]?-[ .]?(?:19\d|20[012])\d)(?:\s?[*)\]])?/, yearRange, { remove: true });
 	// parser.addHandler("year", /[([*][ .]?((?:19\d|20[012])\d[ .]?-[ .]?\d{2})(?:\s?[*)\]])?/, yearRange, { remove: true });
 	{
 		Field:   "year",
-		Pattern: regexp.MustCompile(`[([*]?[ .]?((?:19\d|20[012])\d[ .]?-[ .]?(?:19\d|20[012])\d)(?:\s?[*)\]])?`),
+		Pattern: regexp.MustCompile(`[ .]?([([*]?((?:19\d|20[012])\d[ .]?-[ .]?(?:19\d|20[012])\d)[*)\]]?)[ .]?`),
 		Transform: func() hTransformer {
 			ty := to_year()
 			return func(title string, m *parseMeta, result map[string]*parseMeta) {
@@ -519,7 +520,9 @@ var handlers = []handler{
 				}
 			}
 		}(),
-		Remove: true,
+		MatchGroup: 1,
+		ValueGroup: 2,
+		Remove:     true,
 	},
 	{
 		Field:   "year",
@@ -561,8 +564,9 @@ var handlers = []handler{
 			}
 			return len(input[match[2]:match[3]]) == 4
 		},
-		Transform: to_year(),
-		Remove:    true,
+		Transform:  to_year(),
+		Remove:     true,
+		MatchGroup: 1,
 	},
 	{
 		Field:   "year",
@@ -1497,8 +1501,10 @@ var handlers = []handler{
 	// parser.addHandler("group", /- ?(?!\d+$|S\d+|\d+x|ep?\d+|[^[]+]$)([^\-. []+[^\-. [)\]\d][^\-. [)\]]*)(?:\[[\w.-]+])?(?=\.\w{2,4}$|$)/i, { remove: true });
 	{
 		Field:         "group",
-		Pattern:       regexp.MustCompile(`(?i)- ?([^\-. []+[^\-. [)\]\d][^\-. [)\]]*)(?:\[[\w.-]+])?(?:\.\w{2,4}$|$)`),
+		Pattern:       regexp.MustCompile(`(?i)(- ?([^\-. []+[^\-. [)\]\d][^\-. [)\]]*))(?:\[[\w.-]+])?(?:\.\w{2,4}$|$)`),
 		ValidateMatch: validate_not_match(regexp.MustCompile(`(?i)- ?(?:\d+$|S\d+|\d+x|ep?\d+|[^[]+]$)`)),
+		MatchGroup:    1,
+		ValueGroup:    2,
 		// Remove:        true,
 	},
 

@@ -1557,6 +1557,20 @@ func TestPTT(t *testing.T) {
 			Seasons:    []int{2},
 			Title:      "That 70s Show",
 		}},
+		{"Emma.1996.TV.Movie.x264.aac.2.0.mkv", Result{
+			Channels:  []string{"2.0"},
+			Codec:     "x264",
+			Container: "mkv",
+			Extension: "mkv",
+			Title:     "Emma",
+			Year:      "1996",
+		}},
+		{"\"Popeye 1960-1961 TV Version MKV\"", Result{
+			Complete:  true,
+			Container: "mkv",
+			Title:     "Popeye",
+			Year:      "1960-1961",
+		}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)

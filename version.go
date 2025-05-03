@@ -11,10 +11,10 @@ type ver struct {
 }
 
 var v = ver{
-	v:     "0.6.0", // x-release-please-version
+	v:     "0.6.1", // x-release-please-version
 	major: "0",     // x-release-please-major
 	minor: "6",     // x-release-please-minor
-	patch: "0",     // x-release-please-patch
+	patch: "1",     // x-release-please-patch
 }
 
 func (v ver) Int() int {

@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.1](https://github.com/MunifTanjim/go-ptt/compare/v0.6.0...v0.6.1) (2025-05-03)
+
+
+### Bug Fixes
+
+* avoid slice bounds out of range error ([26704b5](https://github.com/MunifTanjim/go-ptt/commit/26704b515f3a73e241ea1c21bbcb629d9aff73e2))
+* improve match group bounds - date, year, group ([1cc911d](https://github.com/MunifTanjim/go-ptt/commit/1cc911d59bd4d3c4ad984d62c9daf8373b98fbb4))
+
 ## [0.6.0](https://github.com/MunifTanjim/go-ptt/compare/v0.5.0...v0.6.0) (2025-04-30)
 
 

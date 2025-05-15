@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/MunifTanjim/go-ptt/compare/v0.6.1...v0.7.0) (2025-05-15)
+
+
+### Features
+
+* update codec normalizer ([751da26](https://github.com/MunifTanjim/go-ptt/commit/751da2659a393055c65604fb4a999885e9fa97ed))
+
 ## [0.6.1](https://github.com/MunifTanjim/go-ptt/compare/v0.6.0...v0.6.1) (2025-05-03)
 
 

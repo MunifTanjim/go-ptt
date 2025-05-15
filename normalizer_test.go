@@ -22,6 +22,10 @@ func TestNormalizer(t *testing.T) {
 		{"codec h265", Result{Codec: "hevc"}, Result{Codec: "HEVC"}},
 		{"codec h265", Result{Codec: "h265"}, Result{Codec: "HEVC"}},
 		{"codec x265", Result{Codec: "x265"}, Result{Codec: "HEVC"}},
+		{"codec mpeg2", Result{Codec: "mpeg2"}, Result{Codec: "MPEG-2"}},
+		{"codec divx", Result{Codec: "divx"}, Result{Codec: "DivX"}},
+		{"codec dvix", Result{Codec: "dvix"}, Result{Codec: "DivX"}},
+		{"codec xvid", Result{Codec: "xvid"}, Result{Codec: "Xvid"}},
 
 		{"resolution 2160p", Result{Resolution: "2160p"}, Result{Resolution: "4k"}},
 		{"resolution 1440p", Result{Resolution: "1440p"}, Result{Resolution: "2k"}},

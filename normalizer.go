@@ -35,6 +35,12 @@ func normalize_codec(codec string) string {
 		return "AVC"
 	case "hevc", "h265", "x265":
 		return "HEVC"
+	case "mpeg2":
+		return "MPEG-2"
+	case "divx", "dvix":
+		return "DivX"
+	case "xvid":
+		return "Xvid"
 	default:
 		return codec
 	}

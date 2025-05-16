@@ -144,7 +144,7 @@ func has_value_set(field string) bool {
 	return ok
 }
 
-func Parse(title string) (r *Result) {
+func parse(title string, handlers []handler) (r *Result) {
 	r = &Result{}
 
 	defer func() {
@@ -393,4 +393,26 @@ func Parse(title string) (r *Result) {
 	r.Title = clean_title(title[:max(min(endOfTitle, len(title)), 0)])
 
 	return r
+}
+
+func Parse(title string) *Result {
+	return parse(title, handlers)
+}
+
+func GetPartialParser(fieldNames []string) func(title string) *Result {
+	selectedFieldMap := map[string]struct{}{}
+	for _, fieldName := range fieldNames {
+		selectedFieldMap[fieldName] = struct{}{}
+	}
+
+	selectedHandlers := []handler{}
+	for _, h := range handlers {
+		if _, ok := selectedFieldMap[h.Field]; ok {
+			selectedHandlers = append(selectedHandlers, h)
+		}
+	}
+
+	return func(title string) *Result {
+		return parse(title, selectedHandlers)
+	}
 }

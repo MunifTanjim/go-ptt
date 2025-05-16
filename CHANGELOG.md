@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/MunifTanjim/go-ptt/compare/v0.7.0...v0.8.0) (2025-05-16)
+
+
+### Features
+
+* add GetPartialParser ([b198bfa](https://github.com/MunifTanjim/go-ptt/commit/b198bfa6ae2040a6d08626b84c6e72c3dcfc5ea2))
+
 ## [0.7.0](https://github.com/MunifTanjim/go-ptt/compare/v0.6.1...v0.7.0) (2025-05-15)
 
 

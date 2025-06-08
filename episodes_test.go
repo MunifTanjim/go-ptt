@@ -293,4 +293,9 @@ func TestEpisodes(t *testing.T) {
 		{"", "[Deadfish] Hakkenden_Touhou Hakken Ibun S2 [720][AAC]", nil},
 		{"", "[Anime Time] Naruto - 116 - 360 Degrees of Vision The Byakugan's Blind Spot.mkv", []int{116}},
 	})
+
+	// GO
+	testAssertSeasonsAndEpisodes([]tcSeasonsAndEpisodes{
+		{"", "One Punch Man (2019) - S02 - E01 à E12 - [WEB-DL][1080p][Multiple Subtitle][x264][Intégrale Saison 02]", []int{2}, intRange(1, 12)},
+	})
 }

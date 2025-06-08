@@ -50,7 +50,6 @@ func TestTitle(t *testing.T) {
 		ttitle string
 		title  string
 	}{
-
 		{"www.1TamilMV.world - Ayalaan (2024) Tamil PreDVD - 1080p - x264 - HQ Clean Aud - 2.5GB.mkv", "Ayalaan"},
 		{"www.Torrenting.com   -    Anatomy Of A Fall (2023)", "Anatomy Of A Fall"},
 		{"[www.arabp2p.net]_-_تركي مترجم ومدبلج Last.Call.for.Istanbul.2023.1080p.NF.WEB-DL.DDP5.1.H.264.MKV.torrent", "Last Call for Istanbul"},

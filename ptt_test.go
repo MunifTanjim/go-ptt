@@ -225,7 +225,7 @@ func TestPTT(t *testing.T) {
 			Title:     "Heidi",
 			Episodes:  []int{3},
 			Quality:   "DVDRip",
-			Languages: []string{"es-mx"},
+			Languages: []string{"es-419"},
 		}},
 		{"Sprint.2024.S01.COMPLETE.1080p.WEB.h264-EDITH[TGx]", Result{
 			Title:      "Sprint",
@@ -499,7 +499,7 @@ func TestPTT(t *testing.T) {
 			Title:     "Heidi",
 			Episodes:  []int{3},
 			Quality:   "DVDRip",
-			Languages: []string{"es-mx"},
+			Languages: []string{"es-419"},
 		}},
 		{"Anatomia De Grey - Temporada 19 [HDTV][Castellano][www.AtomoHD.nu].avi", Result{
 			Title:     "Anatomia De Grey",

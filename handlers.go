@@ -2378,28 +2378,28 @@ var handlers = []handler{
 		KeepMatching: true,
 	},
 	// parser.add_handler("languages", regex.compile(r"\bFR(?:a|e|anc[eê]s|VF[FQIB2]?)\b", regex.IGNORECASE), uniq_concat(value("fr")), {"skipFromTitle": True, "skipIfAlreadyFound": False})
-	// parser.add_handler("languages", regex.compile(r"\b(TRUE|SUB).?FRENCH\b|\bFRENCH\b|\bFre?\b"), uniq_concat(value("fr")), {"remove": True, "skipIfAlreadyFound": False})
+	{
+		Field:         "languages",
+		Pattern:       regexp.MustCompile(`(?i)\bFR(?:a|e|anc[eê]s|VF[FQIB2]?)?\b`),
+		Transform:     to_value_set("fr"),
+		KeepMatching:  true,
+		SkipFromTitle: true,
+	},
+	// ~ parser.add_handler("languages", regex.compile(r"\b(TRUE|SUB).?FRENCH\b|\bFRENCH\b|\bFre?\b"), uniq_concat(value("fr")), {"remove": True, "skipIfAlreadyFound": False})
+	{
+		Field:        "languages",
+		Pattern:      regexp.MustCompile(`\b(?:TRUE|SUB).?FRENCH\b|\bFRENCH\b`),
+		Transform:    to_value_set("fr"),
+		KeepMatching: true,
+	},
 	// parser.add_handler("languages", regex.compile(r"\b\[?(VF[FQRIB2]?\]?\b|(VOST)?FR2?)\b"), uniq_concat(value("fr")), {"remove": True, "skipIfAlreadyFound": False})
+	{
+		Field:        "languages",
+		Pattern:      regexp.MustCompile(`\b\[?(?:VF[FQRIB2]?\]?\b|(?:VOST)?FR2?)\b`),
+		Transform:    to_value_set("fr"),
+		KeepMatching: true,
+	},
 	// parser.add_handler("languages", regex.compile(r"\b(VOST(?:FR?|A)?)\b", regex.IGNORECASE), uniq_concat(value("fr")), {"skipIfAlreadyFound": False})
-	{
-		Field:        "languages",
-		Pattern:      regexp.MustCompile(`(?i)\bFR(?:ench|a|e|anc[eê]s|VF[FQIB2]?)?\b`),
-		Transform:    to_value_set("fr"),
-		KeepMatching: true,
-		SkipIfFirst:  true,
-	},
-	{
-		Field:        "languages",
-		Pattern:      regexp.MustCompile(`(?i)\b(?:TRUE|SUB).?FRENCH\b`),
-		Transform:    to_value_set("fr"),
-		KeepMatching: true,
-	},
-	{
-		Field:        "languages",
-		Pattern:      regexp.MustCompile(`(?i)\b\[?(?:VF[FQRIB2]?\]?\b|(?:VOST)?FR2?)\b`),
-		Transform:    to_value_set("fr"),
-		KeepMatching: true,
-	},
 	{
 		Field:        "languages",
 		Pattern:      regexp.MustCompile(`(?i)\bVOST(?:FR?|A)?\b`),

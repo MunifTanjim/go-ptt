@@ -1571,6 +1571,19 @@ func TestPTT(t *testing.T) {
 			Title:     "Popeye",
 			Year:      "1960-1961",
 		}},
+		{"[bonkai77].RahXephon.Episode.08.Bitterly.Cold.Holy.Night.[BD.1080p.Dual.Audio.x265.HEVC.10bit].mkv", Result{
+			BitDepth:   "10bit",
+			Codec:      "hevc",
+			Container:  "mkv",
+			Dubbed:     true,
+			Episodes:   []int{8},
+			Extension:  "mkv",
+			Group:      "bonkai77",
+			Languages:  []string{"dual audio"},
+			Quality:    "BDRip",
+			Resolution: "1080p",
+			Title:      "RahXephon",
+		}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)

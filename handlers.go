@@ -1081,7 +1081,13 @@ var handlers = []handler{
 		Remove:    true,
 	},
 
-	// parser.addHandler("bitDepth", /(?:8|10|12)[- ]?bit/i, lowercase, { remove: true });
+	// parser.add_handler("bit_depth", regex.compile(r"(?:8|10|12)[-\.]?(?=bit\b)", regex.IGNORECASE), value("$1bit"), {"remove": True})
+	{
+		Field:     "bitDepth",
+		Pattern:   regexp.MustCompile(`(?i)(?:8|10|12)[-.]?bit\b`),
+		Transform: to_lowercase(),
+		Remove:    true,
+	},
 	// parser.addHandler("bitDepth", /\bhevc\s?10\b/i, value("10bit"));
 	// parser.addHandler("bitDepth", /\bhdr10\b/i, value("10bit"));
 	// parser.addHandler("bitDepth", /\bhi10\b/i, value("10bit"));
@@ -1090,13 +1096,6 @@ var handlers = []handler{
 	//         result.bitDepth = result.bitDepth.replace(/[ -]/, "");
 	//     }
 	// });
-	{
-		Field:       "bitDepth",
-		Pattern:     regexp.MustCompile(`(?i)(?:8|10|12)[- ]?bit`),
-		Transform:   to_lowercase(),
-		Remove:      true,
-		SkipIfFirst: true,
-	},
 	{
 		Field:     "bitDepth",
 		Pattern:   regexp.MustCompile(`(?i)\bhevc\s?10\b`),

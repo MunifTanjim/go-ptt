@@ -157,6 +157,7 @@ func parse(title string, handlers []handler) (r *Result) {
 		}
 	}()
 
+	title = whitespaces_regex.ReplaceAllString(title, " ")
 	title = underscores_regex.ReplaceAllString(title, " ")
 	result := map[string]*parseMeta{}
 	endOfTitle := len(title)
@@ -186,7 +187,7 @@ func parse(title string, handlers []handler) (r *Result) {
 				for f, fm := range result {
 					if f != field {
 						hasOther = true
-						if idxs[0] > fm.mIndex {
+						if idxs[0] >= fm.mIndex {
 							hasBefore = true
 							break
 						}

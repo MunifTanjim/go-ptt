@@ -39,4 +39,17 @@ func TestVolumes(t *testing.T) {
 			assert.Equal(t, tc.volumes, result.Volumes)
 		})
 	}
+
+	// GO
+	for _, tc := range []struct {
+		ttitle  string
+		volumes []int
+	}{
+		{"[uP] One Piece - Vol.088 (WEBRip 1080p x264 AC3 Multi)", []int{88}},
+	} {
+		t.Run(tc.ttitle, func(t *testing.T) {
+			result := Parse(tc.ttitle)
+			assert.Equal(t, tc.volumes, result.Volumes)
+		})
+	}
 }

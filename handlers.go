@@ -1514,8 +1514,14 @@ var handlers = []handler{
 		Transform: to_lowercase(),
 	},
 
-	// parser.addHandler("volumes", /\bvol(?:s|umes?)?[. -]*(?:\d{1,2}[., +/\\&-]+)+\d{1,2}\b/i, range, { remove: true });
-	// parser.addHandler("volumes", ({ title, result, matched }) => {
+	// ~ parser.addHandler("volumes", /\bvol(?:s|umes?)?[. -]*(?:\d{1,2}[., +/\\&-]+)+\d{1,2}\b/i, range, { remove: true });
+	{
+		Field:     "volumes",
+		Pattern:   regexp.MustCompile(`(?i)\bvol(?:s|umes?)?[. -]*(?:\d{1,3}[., +/\\&-]+)+\d{1,3}\b`),
+		Transform: to_int_range(),
+		Remove:    true,
+	},
+	// ~ parser.addHandler("volumes", ({ title, result, matched }) => {
 	//     const startIndex = matched.year && matched.year.matchIndex || 0;
 	//     const match = title.slice(startIndex).match(/\bvol(?:ume)?[. -]*(\d{1,2})/i);
 	//
@@ -1527,15 +1533,9 @@ var handlers = []handler{
 	//     return null;
 	// });
 	{
-		Field:     "volumes",
-		Pattern:   regexp.MustCompile(`(?i)\bvol(?:s|umes?)?[. -]*(?:\d{1,2}[., +/\\&-]+)+\d{1,2}\b`),
-		Transform: to_int_range(),
-		Remove:    true,
-	},
-	{
 		Field: "volumes",
 		Process: func() hProcessor {
-			re := regexp.MustCompile(`(?i)\bvol(?:ume)?[. -]*(\d{1,2})`)
+			re := regexp.MustCompile(`(?i)\bvol(?:ume)?[. -]*(\d{1,3})`)
 			return func(title string, m *parseMeta, result map[string]*parseMeta) *parseMeta {
 				startIndex := 0
 				if yr, ok := result["year"]; ok {

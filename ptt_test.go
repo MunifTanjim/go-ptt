@@ -1584,6 +1584,11 @@ func TestPTT(t *testing.T) {
 			Resolution: "1080p",
 			Title:      "RahXephon",
 		}},
+		{"Detective Conan season 1 to season 22 + season 23(incomplete)", Result{
+			Group:   "incomplete",
+			Seasons: intRange(1, 22),
+			Title:   "Detective Conan",
+		}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)

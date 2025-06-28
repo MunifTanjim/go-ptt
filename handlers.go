@@ -249,6 +249,16 @@ func to_value_set_with_transform(to_v func(v string) any) hTransformer {
 	}
 }
 
+func to_value_set_multi_with_transform(to_v func(v string) []any) hTransformer {
+	return func(title string, m *parseMeta, _ map[string]*parseMeta) {
+		if val, ok := m.value.(*value_set[any]); ok {
+			for _, v := range to_v(m.mValue) {
+				m.value = val.append(v)
+			}
+		}
+	}
+}
+
 func to_int_array() hTransformer {
 	return func(title string, m *parseMeta, _ map[string]*parseMeta) {
 		if v, ok := m.value.(string); ok {
@@ -686,6 +696,29 @@ var handlers = []handler{
 			}
 			return m
 		},
+	},
+
+	{
+		Field:   "releaseTypes",
+		Pattern: regexp.MustCompile(`(?i)\b((?:OAD|OAV|ODA|ONA|OVA)\b(?:[+&]\b(?:OAD|OAV|ODA|ONA|OVA)\b)?)`),
+		Transform: to_value_set_multi_with_transform(func(v string) []any {
+			values := []any{}
+			for _, v := range non_alphas_regex.Split(v, -1) {
+				values = append(values, strings.ToUpper(v))
+			}
+			return values
+		}),
+		Remove:     true,
+		MatchGroup: 1,
+	},
+	{
+		Field:   "releaseTypes",
+		Pattern: regexp.MustCompile(`(?i)\b(OAD|OAV|ODA|ONA|OVA)(?:[ .-]*\d{1,3})?(?:v\d)?`),
+		Transform: to_value_set_with_transform(func(v string) any {
+			return strings.ToUpper(v)
+		}),
+		Remove:     true,
+		MatchGroup: 1,
 	},
 
 	// parser.add_handler("upscaled", regex.compile(r"\b(?:AI.?)?(Upscal(ed?|ing)|Enhanced?)\b", regex.IGNORECASE), boolean)

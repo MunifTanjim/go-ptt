@@ -46,6 +46,18 @@ func normalize_codec(codec string) string {
 	}
 }
 
+func normalize_release_types(rtypes []string) []string {
+	for i := range rtypes {
+		switch rtypes[i] {
+		case "OAV":
+			rtypes[i] = "OVA"
+		case "ODA":
+			rtypes[i] = "OAD"
+		}
+	}
+	return rtypes
+}
+
 func normalize_resolution(resolution string) string {
 	resolution = strings.ToLower(resolution)
 	switch resolution {
@@ -65,6 +77,7 @@ func (r *Result) Normalize() *Result {
 	if !r.is_normalized {
 		r.Audio = normalize_audio(r.Audio)
 		r.Codec = normalize_codec(r.Codec)
+		r.ReleaseTypes = normalize_release_types(r.ReleaseTypes)
 		r.Resolution = normalize_resolution(r.Resolution)
 		r.is_normalized = true
 	}

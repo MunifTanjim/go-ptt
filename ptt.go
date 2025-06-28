@@ -20,6 +20,7 @@ var (
 	before_title_regex = regexp.MustCompile(`^\[([^[\]]+)]`)
 	non_digit_regex    = regexp.MustCompile(`\D`)
 	non_digits_regex   = regexp.MustCompile(`\D+`)
+	non_alphas_regex   = regexp.MustCompile(`\W+`)
 	underscores_regex  = regexp.MustCompile(`_+`)
 	whitespaces_regex  = regexp.MustCompile(`\s+`)
 
@@ -73,45 +74,46 @@ func clean_title(rawTitle string) string {
 }
 
 type Result struct {
-	Audio       []string
-	BitDepth    string
-	Channels    []string
-	Codec       string
-	Commentary  bool
-	Complete    bool
-	Container   string
-	Convert     bool
-	Date        string
-	Documentary bool
-	Dubbed      bool
-	Edition     string
-	EpisodeCode string
-	Episodes    []int
-	Extended    bool
-	Extension   string
-	Group       string
-	HDR         []string
-	Hardcoded   bool
-	Languages   []string
-	Network     string
-	Proper      bool
-	Quality     string
-	Region      string
-	Remastered  bool
-	Repack      bool
-	Resolution  string
-	Retail      bool
-	Seasons     []int
-	Site        string
-	Size        string
-	Subbed      bool
-	ThreeD      string
-	Title       string
-	Uncensored  bool
-	Unrated     bool
-	Upscaled    bool
-	Volumes     []int
-	Year        string
+	Audio        []string
+	BitDepth     string
+	Channels     []string
+	Codec        string
+	Commentary   bool
+	Complete     bool
+	Container    string
+	Convert      bool
+	Date         string
+	Documentary  bool
+	Dubbed       bool
+	Edition      string
+	EpisodeCode  string
+	Episodes     []int
+	Extended     bool
+	Extension    string
+	Group        string
+	HDR          []string
+	Hardcoded    bool
+	Languages    []string
+	Network      string
+	Proper       bool
+	Quality      string
+	ReleaseTypes []string
+	Region       string
+	Remastered   bool
+	Repack       bool
+	Resolution   string
+	Retail       bool
+	Seasons      []int
+	Site         string
+	Size         string
+	Subbed       bool
+	ThreeD       string
+	Title        string
+	Uncensored   bool
+	Unrated      bool
+	Upscaled     bool
+	Volumes      []int
+	Year         string
 
 	err           error
 	is_normalized bool
@@ -133,10 +135,11 @@ type parseMeta struct {
 }
 
 var value_set_field_map = map[string]struct{}{
-	"audio":     {},
-	"channels":  {},
-	"hdr":       {},
-	"languages": {},
+	"audio":        {},
+	"channels":     {},
+	"hdr":          {},
+	"languages":    {},
+	"releaseTypes": {},
 }
 
 func has_value_set(field string) bool {
@@ -374,6 +377,13 @@ func parse(title string, handlers []handler) (r *Result) {
 			r.Site = v.(string)
 		case "quality":
 			r.Quality = v.(string)
+		case "releaseTypes":
+			vs := v.(*value_set[any])
+			values := make([]string, len(vs.values))
+			for i, v := range vs.values {
+				values[i] = v.(string)
+			}
+			r.ReleaseTypes = values
 		case "subbed":
 			r.Subbed = v.(bool)
 		case "threeD":

@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.9.0](https://github.com/MunifTanjim/go-ptt/compare/v0.8.0...v0.9.0) (2025-06-30)
+
+
+### Features
+
+* add releaseTypes ([c8becb3](https://github.com/MunifTanjim/go-ptt/commit/c8becb356dbe6a7eff9072ae2da380af1ff8135c))
+* improve parsing - bitDepth ([a64500e](https://github.com/MunifTanjim/go-ptt/commit/a64500ecf74d9078af3fe2f89856074a9556c5e4))
+* improve parsing - episodes ([ec1725a](https://github.com/MunifTanjim/go-ptt/commit/ec1725a97d7903376edab6c675adcd0389e6374b))
+* improve parsing - languages french ([3aa49b2](https://github.com/MunifTanjim/go-ptt/commit/3aa49b2777ed62f1630a6799245bfaaf54550195))
+* improve parsing - seasons ([d5656e5](https://github.com/MunifTanjim/go-ptt/commit/d5656e580eafc248782266b971ef8a7bedb0dba3))
+* improve parsing - volumes ([7501ebd](https://github.com/MunifTanjim/go-ptt/commit/7501ebd3a1eebfbb6f2aa426201ac6a4ee98a298))
+* update langauge code for latino ([3f669c6](https://github.com/MunifTanjim/go-ptt/commit/3f669c66a0e6b24bd26c435b964b6d2a40e8cdd5))
+
 ## [0.8.0](https://github.com/MunifTanjim/go-ptt/compare/v0.7.0...v0.8.0) (2025-05-16)
 
 

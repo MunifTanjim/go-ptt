@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/MunifTanjim/go-ptt/compare/v0.9.0...v0.9.1) (2025-07-05)
+
+
+### Bug Fixes
+
+* make multiple season detection stricter ([f0f3433](https://github.com/MunifTanjim/go-ptt/commit/f0f3433fb033071d7e24b9504146419f8b1fe9da))
+
 ## [0.9.0](https://github.com/MunifTanjim/go-ptt/compare/v0.8.0...v0.9.0) (2025-06-30)
 
 

@@ -1696,6 +1696,14 @@ func TestPTT(t *testing.T) {
 			Seasons:      []int{2},
 			Title:        "One Punch Man",
 		}},
+		{"[Anipakku] Shingeki no Kyojin - Season 3 46.mkv", Result{
+			Container: "mkv",
+			Episodes:  []int{46},
+			Extension: "mkv",
+			Group:     "Anipakku",
+			Seasons:   []int{3},
+			Title:     "Shingeki no Kyojin",
+		}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)

@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    branches: [test]
+
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Build and Release Artifact
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          args: release --snapshot
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

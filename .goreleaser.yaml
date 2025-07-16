@@ -7,8 +7,7 @@ project_name: ptt
 
 before:
   hooks:
-    - go mod tidy
-    - go generate ./...
+    - go mod download
 
 builds:
   - main: ./cmd/ptt

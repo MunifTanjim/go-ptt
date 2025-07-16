@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
+
+version: 2
+
+project_name: ptt
+
+before:
+  hooks:
+    - go mod download
+
+builds:
+  - main: ./cmd/ptt
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - id: ptt-server
+    formats: [tar.gz]
+
+changelog:
+  disable: true
+
+release:
+  mode: keep-existing

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.0](https://github.com/MunifTanjim/go-ptt/compare/v0.9.1...v0.10.0) (2025-07-16)
+
+
+### Features
+
+* **cmd:** add cli with parse and server commands ([6740727](https://github.com/MunifTanjim/go-ptt/commit/6740727a2a519ab1f80a0365b76099054b4db3eb))
+
 ## [0.9.1](https://github.com/MunifTanjim/go-ptt/compare/v0.9.0...v0.9.1) (2025-07-05)
 
 

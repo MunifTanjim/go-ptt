@@ -74,49 +74,49 @@ func clean_title(rawTitle string) string {
 }
 
 type Result struct {
-	Audio        []string
-	BitDepth     string
-	Channels     []string
-	Codec        string
-	Commentary   bool
-	Complete     bool
-	Container    string
-	Convert      bool
-	Date         string
-	Documentary  bool
-	Dubbed       bool
-	Edition      string
-	EpisodeCode  string
-	Episodes     []int
-	Extended     bool
-	Extension    string
-	Group        string
-	HDR          []string
-	Hardcoded    bool
-	Languages    []string
-	Network      string
-	Proper       bool
-	Quality      string
-	ReleaseTypes []string
-	Region       string
-	Remastered   bool
-	Repack       bool
-	Resolution   string
-	Retail       bool
-	Seasons      []int
-	Site         string
-	Size         string
-	Subbed       bool
-	ThreeD       string
-	Title        string
-	Uncensored   bool
-	Unrated      bool
-	Upscaled     bool
-	Volumes      []int
-	Year         string
+	Audio        []string `json:"audio"`
+	BitDepth     string   `json:"bit_depth"`
+	Channels     []string `json:"channels"`
+	Codec        string   `json:"codec"`
+	Commentary   bool     `json:"commentary"`
+	Complete     bool     `json:"complete"`
+	Container    string   `json:"container"`
+	Convert      bool     `json:"convert"`
+	Date         string   `json:"date"`
+	Documentary  bool     `json:"documentary"`
+	Dubbed       bool     `json:"dubbed"`
+	Edition      string   `json:"edition"`
+	EpisodeCode  string   `json:"episode_code"`
+	Episodes     []int    `json:"episodes"`
+	Extended     bool     `json:"extended"`
+	Extension    string   `json:"extension"`
+	Group        string   `json:"group"`
+	HDR          []string `json:"hdr"`
+	Hardcoded    bool     `json:"hardcoded"`
+	Languages    []string `json:"languages"`
+	Network      string   `json:"network"`
+	Proper       bool     `json:"proper"`
+	Quality      string   `json:"quality"`
+	Region       string   `json:"region"`
+	ReleaseTypes []string `json:"release_types"`
+	Remastered   bool     `json:"remastered"`
+	Repack       bool     `json:"repack"`
+	Resolution   string   `json:"resolution"`
+	Retail       bool     `json:"retail"`
+	Seasons      []int    `json:"seasons"`
+	Site         string   `json:"site"`
+	Size         string   `json:"size"`
+	Subbed       bool     `json:"subbed"`
+	ThreeD       string   `json:"3d"`
+	Title        string   `json:"title"`
+	Uncensored   bool     `json:"uncensored"`
+	Unrated      bool     `json:"unrated"`
+	Upscaled     bool     `json:"upscaled"`
+	Volumes      []int    `json:"volumes"`
+	Year         string   `json:"year"`
 
-	err           error
-	is_normalized bool
+	err           error `json:"err"`
+	is_normalized bool  `json:"-"`
 }
 
 func (r *Result) Error() error {

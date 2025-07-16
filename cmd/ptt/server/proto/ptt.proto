@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package example;
+
+option go_package = "github.com/MunifTanjim/go-ptt/cmd/ptt/server/proto";
+
+service PTTService {
+  rpc Parse (ParseRequest) returns (ParseResponse) {}
+}
+
+message ParseRequest {
+  repeated string torrent_titles = 1;
+  bool normalize = 2;
+}
+
+message ParseResponse {
+  message Result {
+    repeated string audio = 1;
+    string bit_depth = 2;
+    repeated string channels = 3;
+    string codec = 4;
+    bool commentary = 5;
+    bool complete = 6;
+    string container = 7;
+    bool convert = 8;
+    string date = 9;
+    bool documentary = 10;
+    bool dubbed = 11;
+    string edition = 12;
+    string episode_code = 13;
+    repeated int32 episodes = 14;
+    bool extended = 15;
+    string extension = 16;
+    string group = 17;
+    repeated string hdr = 18;
+    bool hardcoded = 19;
+    repeated string languages = 20;
+    string network = 21;
+    bool proper = 22;
+    string quality = 23;
+    repeated string release_types = 24;
+    string region = 25;
+    bool remastered = 26;
+    bool repack = 27;
+    string resolution = 28;
+    bool retail = 29;
+    repeated int32 seasons = 30;
+    string site = 31;
+    string size = 32;
+    bool subbed = 33;
+    string three_d = 34;
+    string title = 35;
+    bool uncensored = 36;
+    bool unrated = 37;
+    bool upscaled = 38;
+    repeated int32 volumes = 39;
+    string year = 40;
+
+    string err = 41;
+  }
+
+  repeated Result results = 1;
+}

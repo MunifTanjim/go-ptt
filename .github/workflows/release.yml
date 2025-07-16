@@ -19,3 +19,23 @@ jobs:
       - name: Release
         id: release
         uses: googleapis/release-please-action@v4
+
+      - name: Checkout
+        if: ${{ steps.release.outputs['release_created'] }}
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        if: ${{ steps.release.outputs['release_created'] }}
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Upload Release Artifact
+        if: ${{ steps.release.outputs['release_created'] }}
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          version: latest
+          args: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GORELEASER_CURRENT_TAG: ${{ steps.release.outputs.tag_name }}

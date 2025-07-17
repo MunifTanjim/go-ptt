@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0](https://github.com/MunifTanjim/go-ptt/compare/js-v0.1.1...js-v0.2.0) (2025-07-17)
+
+
+### Features
+
+* **js:** support windows ([1d1b5ba](https://github.com/MunifTanjim/go-ptt/commit/1d1b5bad465190c54ae7ccdb641ea8c61128c56d))
+
+
+### Bug Fixes
+
+* **js:** do not wait forever for server start ([8bad1f0](https://github.com/MunifTanjim/go-ptt/commit/8bad1f0d4747e8fd1547cf1bb7e468036e33b9ab))
+
 ## [0.1.1](https://github.com/MunifTanjim/go-ptt/compare/js-v0.1.0...js-v0.1.1) (2025-07-17)
 
 

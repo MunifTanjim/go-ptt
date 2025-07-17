@@ -25,19 +25,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-tags: true
-
       - name: Install Protoc
         if: ${{ steps.release.outputs['release_created'] }}
         uses: arduino/setup-protoc@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Setup Go
         if: ${{ steps.release.outputs['release_created'] }}
         uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
-
       - name: Build and Release Artifact
         if: ${{ steps.release.outputs['release_created'] }}
         uses: goreleaser/goreleaser-action@v6
@@ -45,3 +42,40 @@ jobs:
           args: release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: JS - Checkout
+        if: ${{ steps.release.outputs['packages/js--release_created'] }}
+        uses: actions/checkout@v4
+      - name: Install Protoc
+        if: ${{ steps.release.outputs['packages/js--release_created'] }}
+        uses: arduino/setup-protoc@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: JS - Setup pnpm
+        if: ${{ steps.release.outputs['packages/js--release_created'] }}
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+          package_json_file: packages/js/package.json
+      - name: JS - Setup Node.js
+        if: ${{ steps.release.outputs['packages/js--release_created'] }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: pnpm
+          cache-dependency-path: packages/js
+          registry-url: https://registry.npmjs.org
+      - name: JS - Install Dependencies
+        if: ${{ steps.release.outputs['packages/js--release_created'] }}
+        working-directory: packages/js
+        run: pnpm install
+      - name: JS - Build
+        if: ${{ steps.release.outputs['packages/js--release_created'] }}
+        working-directory: packages/js
+        run: pnpm run build
+      - name: JS - Publish
+        if: ${{ steps.release.outputs['packages/js--release_created'] }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        working-directory: packages/js
+        run: pnpm publish

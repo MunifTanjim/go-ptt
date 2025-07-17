@@ -41,10 +41,14 @@ export class PTTServer {
       { detached: true, stdio: "inherit" },
     );
 
+    let timeLeft = 5000;
     let socketCreated = existsSync(this.socket.pathname);
     while (!socketCreated) {
-      console.log(socketCreated);
-      await setTimeout(100);
+      await setTimeout(200);
+      timeLeft -= 200;
+      if (timeLeft <= 0) {
+        throw new Error(`failed start server`);
+      }
       socketCreated = existsSync(this.socket.pathname);
     }
 

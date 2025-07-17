@@ -3,7 +3,7 @@
 import { resolve as resolvePath } from "node:path";
 import { spawn } from "child_process";
 
-const BIN_PATH = resolvePath(__dirname, "../bin/ptt");
+const BIN_PATH = `${resolvePath(__dirname, "../bin/ptt")}${process.platform === "win32" ? ".exe" : ""}`;
 
 const child = spawn(BIN_PATH, process.argv.slice(2), {
   stdio: "inherit",

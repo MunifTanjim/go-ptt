@@ -10,7 +10,7 @@ const { pipeline } = require("node:stream/promises");
 const { extract } = require("tar");
 const { promisify } = require("node:util");
 
-const BINARY_NAME = "ptt";
+const PACKAGE_NAME = "ptt";
 const VERSION = "0.10.0";
 const GITHUB_REPO = "MunifTanjim/go-ptt";
 
@@ -18,7 +18,7 @@ function getPlatformInfo() {
   const platform = process.platform;
   const arch = process.arch;
 
-  /** @type {"darwin"|"linux"} */
+  /** @type {"darwin"|"linux"|"windows"} */
   let platformName;
   /** @type {"amd64"|"arm64"} */
   let archName;
@@ -29,6 +29,9 @@ function getPlatformInfo() {
       break;
     case "linux":
       platformName = "linux";
+      break;
+    case "win32":
+      platformName = "windows";
       break;
     default:
       throw new Error(`Unsupported platform: ${platform}`);
@@ -71,7 +74,8 @@ async function install() {
     console.log("[ptt] Installing...");
 
     const { platform, arch } = getPlatformInfo();
-    const archiveName = `${BINARY_NAME}_${VERSION}_${platform}_${arch}.tar.gz`;
+    const BINARY_NAME = `${PACKAGE_NAME}${platform === "windows" ? ".exe" : ""}`;
+    const archiveName = `${PACKAGE_NAME}_${VERSION}_${platform}_${arch}.tar.gz`;
     const downloadUrl = `https://github.com/${GITHUB_REPO}/releases/download/v${VERSION}/${archiveName}`;
 
     console.log(`[ptt] Downloading ${archiveName} for ${platform}/${arch}...`);

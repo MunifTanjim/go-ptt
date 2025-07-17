@@ -1,65 +1,98 @@
 import { ServiceError, credentials } from "@grpc/grpc-js";
 import { ChildProcess, spawn } from "node:child_process";
-import { existsSync } from "node:fs";
 import { rm } from "node:fs/promises";
 import { resolve as resolvePath } from "node:path";
 import { setTimeout } from "node:timers/promises";
 import {
   ParseResponse,
   ParseResponse_Result,
+  PingRequest,
+  PingResponse,
   ServiceClient,
 } from "../proto/ptt";
 
 export type ParseResult = ParseResponse_Result;
 
 type PTTConfig = {
-  socket: string;
+  network: "tcp" | "unix";
+  address: string;
 };
 
-const BIN_PATH = resolvePath(__dirname, "../bin/ptt");
+const BIN_PATH = `${resolvePath(__dirname, "../bin/ptt")}${process.platform === "win32" ? ".exe" : ""}`;
 
 export class PTTServer {
-  socket: URL;
+  network: PTTConfig["network"];
+  address: PTTConfig["address"];
 
   #client!: ServiceClient;
   #process!: ChildProcess;
 
   constructor(conf: PTTConfig) {
-    this.socket = URL.parse(
-      conf.socket.startsWith("unix://")
-        ? conf.socket
-        : `unix://${resolvePath(conf.socket)}`,
-    )!;
+    this.network = conf.network;
+    this.address = conf.address;
+    switch (this.network) {
+      case "tcp":
+        if (this.address.startsWith(":")) {
+          this.address = `localhost${this.address}`;
+        }
+        break;
+      case "unix":
+        if (!this.address.startsWith("/") && !this.address.startsWith("./")) {
+          this.address = resolvePath(`./${this.address}`);
+        }
+        break;
+    }
+  }
+
+  async ping({ message }: PingRequest): Promise<PingResponse> {
+    return new Promise<PingResponse>((resolve, reject) => {
+      this.#client.ping(
+        { message },
+        (err: ServiceError | null, response: PingResponse) => {
+          return err ? reject(err) : resolve(response);
+        },
+      );
+    });
   }
 
   async start() {
-    await rm(this.socket.pathname, { force: true });
+    if (this.network === "unix") {
+      await rm(this.address, { force: true });
+    }
 
     this.#process = spawn(
       BIN_PATH,
-      ["server", "--socket", this.socket.pathname],
+      ["server", "--network", this.network, "--address", this.address],
       { detached: true, stdio: "inherit" },
     );
 
     let timeLeft = 5000;
-    let socketCreated = existsSync(this.socket.pathname);
-    while (!socketCreated) {
-      await setTimeout(200);
-      timeLeft -= 200;
-      if (timeLeft <= 0) {
-        throw new Error(`failed start server`);
+    let isReady = false;
+    while (!isReady) {
+      try {
+        if (!this.#client) {
+          this.#client = new ServiceClient(
+            this.network === "tcp"
+              ? `${this.address}`
+              : `${this.network}://${this.address}`,
+            credentials.createInsecure(),
+          );
+        }
+
+        await this.ping({ message: "" });
+        isReady = true;
+      } catch (err) {
+        await setTimeout(200);
+        timeLeft -= 200;
+        if (timeLeft <= 0) {
+          throw new Error(`failed start server`, { cause: err });
+        }
       }
-      socketCreated = existsSync(this.socket.pathname);
     }
 
-    process.on("exit", () => {
+    process.on("SIGINT", () => {
       this.stop();
     });
-
-    this.#client = new ServiceClient(
-      this.socket.toString(),
-      credentials.createInsecure(),
-    );
   }
 
   async stop() {

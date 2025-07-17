@@ -74,6 +74,14 @@ export interface ParseResponse_Result {
   err: string;
 }
 
+export interface PingRequest {
+  message: string;
+}
+
+export interface PingResponse {
+  message: string;
+}
+
 function createBaseParseRequest(): ParseRequest {
   return { torrent_titles: [], normalize: false };
 }
@@ -996,6 +1004,122 @@ export const ParseResponse_Result: MessageFns<ParseResponse_Result> = {
   },
 };
 
+function createBasePingRequest(): PingRequest {
+  return { message: "" };
+}
+
+export const PingRequest: MessageFns<PingRequest> = {
+  encode(message: PingRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.message !== "") {
+      writer.uint32(10).string(message.message);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): PingRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBasePingRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.message = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): PingRequest {
+    return { message: isSet(object.message) ? globalThis.String(object.message) : "" };
+  },
+
+  toJSON(message: PingRequest): unknown {
+    const obj: any = {};
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<PingRequest>, I>>(base?: I): PingRequest {
+    return PingRequest.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<PingRequest>, I>>(object: I): PingRequest {
+    const message = createBasePingRequest();
+    message.message = object.message ?? "";
+    return message;
+  },
+};
+
+function createBasePingResponse(): PingResponse {
+  return { message: "" };
+}
+
+export const PingResponse: MessageFns<PingResponse> = {
+  encode(message: PingResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.message !== "") {
+      writer.uint32(10).string(message.message);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): PingResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBasePingResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.message = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): PingResponse {
+    return { message: isSet(object.message) ? globalThis.String(object.message) : "" };
+  },
+
+  toJSON(message: PingResponse): unknown {
+    const obj: any = {};
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<PingResponse>, I>>(base?: I): PingResponse {
+    return PingResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<PingResponse>, I>>(object: I): PingResponse {
+    const message = createBasePingResponse();
+    message.message = object.message ?? "";
+    return message;
+  },
+};
+
 export type ServiceService = typeof ServiceService;
 export const ServiceService = {
   parse: {
@@ -1007,10 +1131,20 @@ export const ServiceService = {
     responseSerialize: (value: ParseResponse): Buffer => Buffer.from(ParseResponse.encode(value).finish()),
     responseDeserialize: (value: Buffer): ParseResponse => ParseResponse.decode(value),
   },
+  ping: {
+    path: "/ptt.Service/Ping",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: PingRequest): Buffer => Buffer.from(PingRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer): PingRequest => PingRequest.decode(value),
+    responseSerialize: (value: PingResponse): Buffer => Buffer.from(PingResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer): PingResponse => PingResponse.decode(value),
+  },
 } as const;
 
 export interface ServiceServer extends UntypedServiceImplementation {
   parse: handleUnaryCall<ParseRequest, ParseResponse>;
+  ping: handleUnaryCall<PingRequest, PingResponse>;
 }
 
 export interface ServiceClient extends Client {
@@ -1028,6 +1162,18 @@ export interface ServiceClient extends Client {
     metadata: Metadata,
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: ParseResponse) => void,
+  ): ClientUnaryCall;
+  ping(request: PingRequest, callback: (error: ServiceError | null, response: PingResponse) => void): ClientUnaryCall;
+  ping(
+    request: PingRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: PingResponse) => void,
+  ): ClientUnaryCall;
+  ping(
+    request: PingRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: PingResponse) => void,
   ): ClientUnaryCall;
 }
 

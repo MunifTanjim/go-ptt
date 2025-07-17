@@ -89,8 +89,15 @@ func (s *server) Parse(ctx context.Context, req *proto.ParseRequest) (*proto.Par
 	}, nil
 }
 
+func (s *server) Ping(ctx context.Context, req *proto.PingRequest) (*proto.PingResponse, error) {
+	return &proto.PingResponse{
+		Message: req.Message,
+	}, nil
+}
+
 type PTTServer struct {
-	socket     string
+	network    string
+	address    string
 	listener   net.Listener
 	grpcServer *grpc.Server
 	onSignal   func(s os.Signal)
@@ -98,13 +105,21 @@ type PTTServer struct {
 }
 
 type PTTServerConfig struct {
-	SocketPath string
-	OnSignal   func(s os.Signal)
+	Network  string
+	Address  string
+	OnSignal func(s os.Signal)
 }
 
 func NewPTTServer(conf *PTTServerConfig) *PTTServer {
+	switch conf.Network {
+	case "unix", "tcp":
+	default:
+		log.Fatalf("unsupported network: %s", conf.Network)
+	}
+
 	pttServer := PTTServer{
-		socket:     conf.SocketPath,
+		network:    conf.Network,
+		address:    conf.Address,
 		grpcServer: grpc.NewServer(),
 		onSignal:   conf.OnSignal,
 		signalChan: make(chan os.Signal, 1),
@@ -116,18 +131,22 @@ func NewPTTServer(conf *PTTServerConfig) *PTTServer {
 }
 
 func (s *PTTServer) Listen() error {
-	if err := os.RemoveAll(s.socket); err != nil {
-		return fmt.Errorf("failed to remove socket: %v", err)
+	if s.network == "unix" {
+		if err := os.RemoveAll(s.address); err != nil {
+			return fmt.Errorf("failed to remove unix socket: %v", err)
+		}
 	}
 
-	listener, err := net.Listen("unix", s.socket)
+	listener, err := net.Listen(s.network, s.address)
 	if err != nil {
-		return fmt.Errorf("failed to listen on unix socket: %v", err)
+		return fmt.Errorf("failed to listen: %v", err)
 	}
 	s.listener = listener
 
-	if err := os.Chmod(s.socket, 0666); err != nil {
-		return fmt.Errorf("failed to set socket permissions: %v", err)
+	if s.network == "unix" {
+		if err := os.Chmod(s.address, 0666); err != nil {
+			return fmt.Errorf("failed to set unix socket permissions: %v", err)
+		}
 	}
 
 	return nil
@@ -145,7 +164,9 @@ func (s *PTTServer) Serve() error {
 		sig := <-s.signalChan
 		s.onSignal(sig)
 		s.grpcServer.GracefulStop()
-		os.Remove(s.socket)
+		if s.network == "unix" {
+			os.Remove(s.address)
+		}
 	}()
 
 	return s.grpcServer.Serve(s.listener)
@@ -153,7 +174,8 @@ func (s *PTTServer) Serve() error {
 
 func Start(conf *PTTServerConfig) error {
 	s := NewPTTServer(&PTTServerConfig{
-		SocketPath: conf.SocketPath,
+		Network: conf.Network,
+		Address: conf.Address,
 		OnSignal: func(s os.Signal) {
 			log.Printf("received signal: %s\n", s.String())
 		},
@@ -165,7 +187,7 @@ func Start(conf *PTTServerConfig) error {
 	}
 	defer s.Close()
 
-	log.Printf("grpc server listening on unix socket: %s", conf.SocketPath)
+	log.Printf("grpc server listening on: %s://%s", conf.Network, conf.Address)
 
 	return s.Serve()
 }

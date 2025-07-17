@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v5.29.3
-// source: proto/ptt.proto
+// source: cmd/ptt/server/proto/ptt.proto
 
 package proto
 
@@ -31,7 +31,7 @@ type ParseRequest struct {
 
 func (x *ParseRequest) Reset() {
 	*x = ParseRequest{}
-	mi := &file_proto_ptt_proto_msgTypes[0]
+	mi := &file_cmd_ptt_server_proto_ptt_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -43,7 +43,7 @@ func (x *ParseRequest) String() string {
 func (*ParseRequest) ProtoMessage() {}
 
 func (x *ParseRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_ptt_proto_msgTypes[0]
+	mi := &file_cmd_ptt_server_proto_ptt_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -56,7 +56,7 @@ func (x *ParseRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ParseRequest.ProtoReflect.Descriptor instead.
 func (*ParseRequest) Descriptor() ([]byte, []int) {
-	return file_proto_ptt_proto_rawDescGZIP(), []int{0}
+	return file_cmd_ptt_server_proto_ptt_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *ParseRequest) GetTorrentTitles() []string {
@@ -82,7 +82,7 @@ type ParseResponse struct {
 
 func (x *ParseResponse) Reset() {
 	*x = ParseResponse{}
-	mi := &file_proto_ptt_proto_msgTypes[1]
+	mi := &file_cmd_ptt_server_proto_ptt_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -94,7 +94,7 @@ func (x *ParseResponse) String() string {
 func (*ParseResponse) ProtoMessage() {}
 
 func (x *ParseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_ptt_proto_msgTypes[1]
+	mi := &file_cmd_ptt_server_proto_ptt_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -107,7 +107,7 @@ func (x *ParseResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ParseResponse.ProtoReflect.Descriptor instead.
 func (*ParseResponse) Descriptor() ([]byte, []int) {
-	return file_proto_ptt_proto_rawDescGZIP(), []int{1}
+	return file_cmd_ptt_server_proto_ptt_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ParseResponse) GetResults() []*ParseResponse_Result {
@@ -115,6 +115,94 @@ func (x *ParseResponse) GetResults() []*ParseResponse_Result {
 		return x.Results
 	}
 	return nil
+}
+
+type PingRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PingRequest) Reset() {
+	*x = PingRequest{}
+	mi := &file_cmd_ptt_server_proto_ptt_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PingRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PingRequest) ProtoMessage() {}
+
+func (x *PingRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_cmd_ptt_server_proto_ptt_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PingRequest.ProtoReflect.Descriptor instead.
+func (*PingRequest) Descriptor() ([]byte, []int) {
+	return file_cmd_ptt_server_proto_ptt_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *PingRequest) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+type PingResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PingResponse) Reset() {
+	*x = PingResponse{}
+	mi := &file_cmd_ptt_server_proto_ptt_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PingResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PingResponse) ProtoMessage() {}
+
+func (x *PingResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_cmd_ptt_server_proto_ptt_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PingResponse.ProtoReflect.Descriptor instead.
+func (*PingResponse) Descriptor() ([]byte, []int) {
+	return file_cmd_ptt_server_proto_ptt_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *PingResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
 }
 
 type ParseResponse_Result struct {
@@ -166,7 +254,7 @@ type ParseResponse_Result struct {
 
 func (x *ParseResponse_Result) Reset() {
 	*x = ParseResponse_Result{}
-	mi := &file_proto_ptt_proto_msgTypes[2]
+	mi := &file_cmd_ptt_server_proto_ptt_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -178,7 +266,7 @@ func (x *ParseResponse_Result) String() string {
 func (*ParseResponse_Result) ProtoMessage() {}
 
 func (x *ParseResponse_Result) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_ptt_proto_msgTypes[2]
+	mi := &file_cmd_ptt_server_proto_ptt_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -191,7 +279,7 @@ func (x *ParseResponse_Result) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ParseResponse_Result.ProtoReflect.Descriptor instead.
 func (*ParseResponse_Result) Descriptor() ([]byte, []int) {
-	return file_proto_ptt_proto_rawDescGZIP(), []int{1, 0}
+	return file_cmd_ptt_server_proto_ptt_proto_rawDescGZIP(), []int{1, 0}
 }
 
 func (x *ParseResponse_Result) GetAudio() []string {
@@ -481,11 +569,11 @@ func (x *ParseResponse_Result) GetErr() string {
 	return ""
 }
 
-var File_proto_ptt_proto protoreflect.FileDescriptor
+var File_cmd_ptt_server_proto_ptt_proto protoreflect.FileDescriptor
 
-const file_proto_ptt_proto_rawDesc = "" +
+const file_cmd_ptt_server_proto_ptt_proto_rawDesc = "" +
 	"\n" +
-	"\x0fproto/ptt.proto\x12\x03ptt\"S\n" +
+	"\x1ecmd/ptt/server/proto/ptt.proto\x12\x03ptt\"S\n" +
 	"\fParseRequest\x12%\n" +
 	"\x0etorrent_titles\x18\x01 \x03(\tR\rtorrentTitles\x12\x1c\n" +
 	"\tnormalize\x18\x02 \x01(\bR\tnormalize\"\x85\t\n" +
@@ -541,59 +629,68 @@ const file_proto_ptt_proto_rawDesc = "" +
 	"\bupscaled\x18& \x01(\bR\bupscaled\x12\x18\n" +
 	"\avolumes\x18' \x03(\x05R\avolumes\x12\x12\n" +
 	"\x04year\x18( \x01(\tR\x04year\x12\x10\n" +
-	"\x03err\x18) \x01(\tR\x03err2;\n" +
+	"\x03err\x18) \x01(\tR\x03err\"'\n" +
+	"\vPingRequest\x12\x18\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage\"(\n" +
+	"\fPingResponse\x12\x18\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage2j\n" +
 	"\aService\x120\n" +
-	"\x05Parse\x12\x11.ptt.ParseRequest\x1a\x12.ptt.ParseResponse\"\x00B4Z2github.com/MunifTanjim/go-ptt/cmd/ptt/server/protob\x06proto3"
+	"\x05Parse\x12\x11.ptt.ParseRequest\x1a\x12.ptt.ParseResponse\"\x00\x12-\n" +
+	"\x04Ping\x12\x10.ptt.PingRequest\x1a\x11.ptt.PingResponse\"\x00B4Z2github.com/MunifTanjim/go-ptt/cmd/ptt/server/protob\x06proto3"
 
 var (
-	file_proto_ptt_proto_rawDescOnce sync.Once
-	file_proto_ptt_proto_rawDescData []byte
+	file_cmd_ptt_server_proto_ptt_proto_rawDescOnce sync.Once
+	file_cmd_ptt_server_proto_ptt_proto_rawDescData []byte
 )
 
-func file_proto_ptt_proto_rawDescGZIP() []byte {
-	file_proto_ptt_proto_rawDescOnce.Do(func() {
-		file_proto_ptt_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_ptt_proto_rawDesc), len(file_proto_ptt_proto_rawDesc)))
+func file_cmd_ptt_server_proto_ptt_proto_rawDescGZIP() []byte {
+	file_cmd_ptt_server_proto_ptt_proto_rawDescOnce.Do(func() {
+		file_cmd_ptt_server_proto_ptt_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_cmd_ptt_server_proto_ptt_proto_rawDesc), len(file_cmd_ptt_server_proto_ptt_proto_rawDesc)))
 	})
-	return file_proto_ptt_proto_rawDescData
+	return file_cmd_ptt_server_proto_ptt_proto_rawDescData
 }
 
-var file_proto_ptt_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_proto_ptt_proto_goTypes = []any{
+var file_cmd_ptt_server_proto_ptt_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_cmd_ptt_server_proto_ptt_proto_goTypes = []any{
 	(*ParseRequest)(nil),         // 0: ptt.ParseRequest
 	(*ParseResponse)(nil),        // 1: ptt.ParseResponse
-	(*ParseResponse_Result)(nil), // 2: ptt.ParseResponse.Result
+	(*PingRequest)(nil),          // 2: ptt.PingRequest
+	(*PingResponse)(nil),         // 3: ptt.PingResponse
+	(*ParseResponse_Result)(nil), // 4: ptt.ParseResponse.Result
 }
-var file_proto_ptt_proto_depIdxs = []int32{
-	2, // 0: ptt.ParseResponse.results:type_name -> ptt.ParseResponse.Result
+var file_cmd_ptt_server_proto_ptt_proto_depIdxs = []int32{
+	4, // 0: ptt.ParseResponse.results:type_name -> ptt.ParseResponse.Result
 	0, // 1: ptt.Service.Parse:input_type -> ptt.ParseRequest
-	1, // 2: ptt.Service.Parse:output_type -> ptt.ParseResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
+	2, // 2: ptt.Service.Ping:input_type -> ptt.PingRequest
+	1, // 3: ptt.Service.Parse:output_type -> ptt.ParseResponse
+	3, // 4: ptt.Service.Ping:output_type -> ptt.PingResponse
+	3, // [3:5] is the sub-list for method output_type
+	1, // [1:3] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
 	1, // [1:1] is the sub-list for extension extendee
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_proto_ptt_proto_init() }
-func file_proto_ptt_proto_init() {
-	if File_proto_ptt_proto != nil {
+func init() { file_cmd_ptt_server_proto_ptt_proto_init() }
+func file_cmd_ptt_server_proto_ptt_proto_init() {
+	if File_cmd_ptt_server_proto_ptt_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_ptt_proto_rawDesc), len(file_proto_ptt_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_cmd_ptt_server_proto_ptt_proto_rawDesc), len(file_cmd_ptt_server_proto_ptt_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_ptt_proto_goTypes,
-		DependencyIndexes: file_proto_ptt_proto_depIdxs,
-		MessageInfos:      file_proto_ptt_proto_msgTypes,
+		GoTypes:           file_cmd_ptt_server_proto_ptt_proto_goTypes,
+		DependencyIndexes: file_cmd_ptt_server_proto_ptt_proto_depIdxs,
+		MessageInfos:      file_cmd_ptt_server_proto_ptt_proto_msgTypes,
 	}.Build()
-	File_proto_ptt_proto = out.File
-	file_proto_ptt_proto_goTypes = nil
-	file_proto_ptt_proto_depIdxs = nil
+	File_cmd_ptt_server_proto_ptt_proto = out.File
+	file_cmd_ptt_server_proto_ptt_proto_goTypes = nil
+	file_cmd_ptt_server_proto_ptt_proto_depIdxs = nil
 }

@@ -64,19 +64,38 @@ func main() {
 				Name: "server",
 				Flags: []cli.Flag{
 					&cli.StringFlag{
-						Name:  "socket",
-						Usage: "unix socket path",
-						Value: "./ptt.sock",
+						Name:  "network",
+						Usage: "network protocol",
+						Value: "unix",
+						Validator: func(network string) error {
+							switch network {
+							case "unix", "tcp":
+								return nil
+							default:
+								return fmt.Errorf("unsupported network: %s", network)
+							}
+						},
+					},
+					&cli.StringFlag{
+						Name:  "address",
+						Usage: "network address",
+						Value: "ptt.sock",
 					},
 				},
-				Action: func(ctx context.Context, cmd *cli.Command) error {
-					socketPath, err := filepath.Abs(cmd.String("socket"))
-					if err != nil {
-						return err
+				Action: func(ctx context.Context, cmd *cli.Command) (err error) {
+					network := cmd.String("network")
+					address := cmd.String("address")
+					switch network {
+					case "unix":
+						address, err = filepath.Abs(address)
+						if err != nil {
+							return err
+						}
 					}
 
 					if err := server.Start(&server.PTTServerConfig{
-						SocketPath: socketPath,
+						Network: network,
+						Address: address,
 					}); err != nil {
 						log.Fatalf("server failed to start: %v", err)
 					}

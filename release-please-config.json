@@ -19,7 +19,6 @@
     "packages/js": {
       "component": "js",
       "release-type": "node",
-      "release-as": "0.1.0",
       "pull-request-title-pattern": "chore(js): release ${version}"
     }
   }

@@ -10,7 +10,8 @@
     "url": "https://muniftanjim.dev"
   },
   "files": [
-    "dist"
+    "dist",
+    "install.js"
   ],
   "bin": {
     "ptt": "./dist/bin.js"

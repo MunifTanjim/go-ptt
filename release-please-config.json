@@ -1,11 +1,26 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/refs/heads/main/schemas/config.json",
-  "release-type": "go",
+  "release-type": "simple",
   "bump-minor-pre-major": true,
   "separate-pull-requests": true,
-  "extra-files": ["version.go"],
   "pull-request-title-pattern": "chore: release ${version}",
   "packages": {
-    ".": {}
+    ".": {
+      "release-type": "go",
+      "exclude-paths": [
+        ".gitignore",
+        ".release-please-manifest.json",
+        "release-please-config.json",
+        "packages"
+      ],
+      "extra-files": ["version.go"],
+      "pull-request-title-pattern": "chore: release ${version}"
+    },
+    "packages/js": {
+      "component": "js",
+      "release-type": "node",
+      "release-as": "0.1.0",
+      "pull-request-title-pattern": "chore(js): release ${version}"
+    }
   }
 }

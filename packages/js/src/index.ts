@@ -4,6 +4,7 @@ import { rm } from "node:fs/promises";
 import { resolve as resolvePath } from "node:path";
 import { setTimeout } from "node:timers/promises";
 import {
+  ParseRequest,
   ParseResponse,
   ParseResponse_Result,
   PingRequest,
@@ -102,14 +103,13 @@ export class PTTServer {
 
   async parse({
     torrent_titles,
-  }: {
-    torrent_titles: string[];
-  }): Promise<ParseResult[]> {
+    normalize,
+  }: ParseRequest): Promise<ParseResult[]> {
     return new Promise<ParseResult[]>((resolve, reject) => {
       this.#client.parse(
         {
-          torrent_titles: torrent_titles,
-          normalize: true,
+          torrent_titles,
+          normalize,
         },
         (err: ServiceError | null, response: ParseResponse) => {
           return err ? reject(err) : resolve(response.results);

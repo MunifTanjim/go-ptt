@@ -4,6 +4,10 @@
   "version": "0.2.0",
   "description": "Go - Parse Torrent Title",
   "keywords": [],
+  "homepage": "https://github.com/MunifTanjim/go-ptt/tree/main/packages/js#readme",
+  "bugs": {
+    "url": "https://github.com/MunifTanjim/go-ptt/issues"
+  },
   "license": "MIT",
   "author": {
     "name": "Munif Tanjim",
@@ -28,6 +32,11 @@
     "./bin": {
       "require": "./dist/bin.js"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MunifTanjim/go-ptt",
+    "directory": "packages/js"
   },
   "scripts": {
     "pregenerate:proto": "cp ../../cmd/ptt/server/proto/ptt.proto ./proto/",

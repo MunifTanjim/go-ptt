@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/MunifTanjim/go-ptt/compare/js-v0.2.0...js-v0.2.1) (2025-07-18)
+
+
+### Bug Fixes
+
+* **js:** accept normalize param for parse ([ab04f8e](https://github.com/MunifTanjim/go-ptt/commit/ab04f8ebf5e25fcd8e1ce622141b8710c43e046b))
+
 ## [0.2.0](https://github.com/MunifTanjim/go-ptt/compare/js-v0.1.1...js-v0.2.0) (2025-07-17)
 
 

@@ -15,7 +15,14 @@ import {
 export type ParseResult = ParseResponse_Result;
 
 type PTTConfig = {
+  /**
+   * For Windows, `unix` domain socket is not supported.
+   */
   network: "tcp" | "unix";
+  /**
+   * For `unix` network, should be path for domain socket.
+   * For `tcp` network, should be `host:port` or `:port`.
+   */
   address: string;
 };
 

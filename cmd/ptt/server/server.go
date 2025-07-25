@@ -9,10 +9,12 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"slices"
 	"syscall"
 
 	"github.com/MunifTanjim/go-ptt"
 	"github.com/MunifTanjim/go-ptt/cmd/ptt/server/proto"
+	"github.com/alitto/pond/v2"
 	"google.golang.org/grpc"
 )
 
@@ -28,62 +30,79 @@ type server struct {
 	proto.UnimplementedServiceServer
 }
 
+var pool = pond.NewPool(20)
+
 func (s *server) Parse(ctx context.Context, req *proto.ParseRequest) (*proto.ParseResponse, error) {
-	results := []*proto.ParseResponse_Result{}
-	for _, torrent_title := range req.TorrentTitles {
-		r := ptt.Parse(torrent_title)
-		if req.Normalize {
-			r = r.Normalize()
-		}
-		if err := r.Error(); err != nil {
-			results = append(results, &proto.ParseResponse_Result{
-				Err: err.Error(),
-			})
-			continue
-		}
-		results = append(results, &proto.ParseResponse_Result{
-			Audio:        r.Audio,
-			BitDepth:     r.BitDepth,
-			Channels:     r.Channels,
-			Codec:        r.Codec,
-			Commentary:   r.Commentary,
-			Complete:     r.Complete,
-			Container:    r.Container,
-			Convert:      r.Convert,
-			Date:         r.Date,
-			Documentary:  r.Documentary,
-			Dubbed:       r.Dubbed,
-			Edition:      r.Edition,
-			EpisodeCode:  r.EpisodeCode,
-			Episodes:     Int32SliceFromInt(r.Episodes),
-			Extended:     r.Extended,
-			Extension:    r.Extension,
-			Group:        r.Group,
-			Hdr:          r.HDR,
-			Hardcoded:    r.Hardcoded,
-			Languages:    r.Languages,
-			Network:      r.Network,
-			Proper:       r.Proper,
-			Quality:      r.Quality,
-			ReleaseTypes: r.ReleaseTypes,
-			Region:       r.Region,
-			Remastered:   r.Remastered,
-			Repack:       r.Repack,
-			Resolution:   r.Resolution,
-			Retail:       r.Retail,
-			Seasons:      Int32SliceFromInt(r.Seasons),
-			Site:         r.Site,
-			Size:         r.Size,
-			Subbed:       r.Subbed,
-			ThreeD:       r.ThreeD,
-			Title:        r.Title,
-			Uncensored:   r.Uncensored,
-			Unrated:      r.Unrated,
-			Upscaled:     r.Upscaled,
-			Volumes:      Int32SliceFromInt(r.Volumes),
-			Year:         r.Year,
+	count := len(req.TorrentTitles)
+	results := make([]*proto.ParseResponse_Result, count)
+
+	chunk_size := min(count, 500)
+	if chunk_size == count && count > 200 {
+		chunk_size = 100
+	}
+	chunk_idx := -1
+	g := pool.NewGroup()
+	for torrent_titles := range slices.Chunk(req.TorrentTitles, chunk_size) {
+		chunk_idx++
+		cidx := chunk_idx
+		g.Submit(func() {
+			for idx, torrent_title := range torrent_titles {
+				r := ptt.Parse(torrent_title)
+				if req.Normalize {
+					r = r.Normalize()
+				}
+				if err := r.Error(); err != nil {
+					results[cidx*chunk_size+idx] = &proto.ParseResponse_Result{
+						Err: err.Error(),
+					}
+					continue
+				}
+				results[cidx*chunk_size+idx] = &proto.ParseResponse_Result{
+					Audio:        r.Audio,
+					BitDepth:     r.BitDepth,
+					Channels:     r.Channels,
+					Codec:        r.Codec,
+					Commentary:   r.Commentary,
+					Complete:     r.Complete,
+					Container:    r.Container,
+					Convert:      r.Convert,
+					Date:         r.Date,
+					Documentary:  r.Documentary,
+					Dubbed:       r.Dubbed,
+					Edition:      r.Edition,
+					EpisodeCode:  r.EpisodeCode,
+					Episodes:     Int32SliceFromInt(r.Episodes),
+					Extended:     r.Extended,
+					Extension:    r.Extension,
+					Group:        r.Group,
+					Hdr:          r.HDR,
+					Hardcoded:    r.Hardcoded,
+					Languages:    r.Languages,
+					Network:      r.Network,
+					Proper:       r.Proper,
+					Quality:      r.Quality,
+					ReleaseTypes: r.ReleaseTypes,
+					Region:       r.Region,
+					Remastered:   r.Remastered,
+					Repack:       r.Repack,
+					Resolution:   r.Resolution,
+					Retail:       r.Retail,
+					Seasons:      Int32SliceFromInt(r.Seasons),
+					Site:         r.Site,
+					Size:         r.Size,
+					Subbed:       r.Subbed,
+					ThreeD:       r.ThreeD,
+					Title:        r.Title,
+					Uncensored:   r.Uncensored,
+					Unrated:      r.Unrated,
+					Upscaled:     r.Upscaled,
+					Volumes:      Int32SliceFromInt(r.Volumes),
+					Year:         r.Year,
+				}
+			}
 		})
 	}
+	g.Wait()
 	return &proto.ParseResponse{
 		Results: results,
 	}, nil

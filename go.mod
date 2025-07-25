@@ -3,6 +3,7 @@ module github.com/MunifTanjim/go-ptt
 go 1.24.1
 
 require (
+	github.com/alitto/pond/v2 v2.5.0
 	github.com/stretchr/testify v1.10.0
 	google.golang.org/protobuf v1.36.6
 )

@@ -110,8 +110,11 @@ export class PTTServer {
 
   async parse({
     torrent_titles,
-    normalize,
-  }: ParseRequest): Promise<ParseResult[]> {
+    normalize = false,
+  }: {
+    torrent_titles: ParseRequest["torrent_titles"];
+    normalize?: ParseRequest["normalize"];
+  }): Promise<ParseResult[]> {
     return new Promise<ParseResult[]>((resolve, reject) => {
       this.#client.parse(
         {

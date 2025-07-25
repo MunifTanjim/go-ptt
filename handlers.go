@@ -335,7 +335,7 @@ var handlers = []handler{
 	// parser.addHandler("episodeCode", /\[(?=[A-Z]+\d|\d+[A-Z])([A-Z0-9]{8})]/, uppercase, { remove: true });
 	{
 		Field:      "episodeCode",
-		Pattern:    regexp.MustCompile(`([[(]([a-z0-9]{8}|[A-Z0-9]{8})[\])])(?:\.[a-zA-Z0-9]{1,5}$|$)`),
+		Pattern:    regexp.MustCompile(`([\[(]([a-z0-9]{8}|[A-Z0-9]{8})[\])])(?:\.[a-zA-Z0-9]{1,5}$|$)`),
 		Transform:  to_uppercase(),
 		Remove:     true,
 		MatchGroup: 1,
@@ -367,7 +367,7 @@ var handlers = []handler{
 	// parser.addHandler("resolution", /(?:BD|HD|M)(720|1080|2160)/, value("$1p"), { remove: true });
 	{
 		Field:     "resolution",
-		Pattern:   regexp.MustCompile(`(?i)\b[([]?4k[)\]]?\b`),
+		Pattern:   regexp.MustCompile(`(?i)\b[(\[]?4k[)\]]?\b`),
 		Transform: to_value("4k"),
 		Remove:    true,
 	},
@@ -380,25 +380,25 @@ var handlers = []handler{
 	},
 	{
 		Field:     "resolution",
-		Pattern:   regexp.MustCompile(`(?i)[([]?3840x\d{4}[)\]]?`),
+		Pattern:   regexp.MustCompile(`(?i)[(\[]?3840x\d{4}[)\]]?`),
 		Transform: to_value("4k"),
 		Remove:    true,
 	},
 	{
 		Field:     "resolution",
-		Pattern:   regexp.MustCompile(`(?i)[([]?1920x\d{3,4}[)\]]?`),
+		Pattern:   regexp.MustCompile(`(?i)[(\[]?1920x\d{3,4}[)\]]?`),
 		Transform: to_value("1080p"),
 		Remove:    true,
 	},
 	{
 		Field:     "resolution",
-		Pattern:   regexp.MustCompile(`(?i)[([]?1280x\d{3}[)\]]?`),
+		Pattern:   regexp.MustCompile(`(?i)[(\[]?1280x\d{3}[)\]]?`),
 		Transform: to_value("720p"),
 		Remove:    true,
 	},
 	{
 		Field:     "resolution",
-		Pattern:   regexp.MustCompile(`(?i)[([]?\d{3,4}x(\d{3,4})[)\]]?`),
+		Pattern:   regexp.MustCompile(`(?i)[(\[]?\d{3,4}x(\d{3,4})[)\]]?`),
 		Transform: to_with_suffix("p"),
 		Remove:    true,
 	},
@@ -439,7 +439,7 @@ var handlers = []handler{
 	// parser.addHandler("date", /(?<=\W|^)([([]?20[012][0-9](?:0[1-9]|1[012])(?:0[1-9]|[12][0-9]|3[01])[)\]]?)(?=\W|$)/, date("YYYYMMDD"), { remove: true });
 	{
 		Field:         "date",
-		Pattern:       regexp.MustCompile(`(?:\W|^)([([]?((?:19[6-9]|20[012])[0-9]([. \-/\\])(?:0[1-9]|1[012])([. \-/\\])(?:0[1-9]|[12][0-9]|3[01]))[)\]]?)(?:\W|$)`),
+		Pattern:       regexp.MustCompile(`(?:\W|^)([(\[]?((?:19[6-9]|20[012])[0-9]([. \-/\\])(?:0[1-9]|1[012])([. \-/\\])(?:0[1-9]|[12][0-9]|3[01]))[)\]]?)(?:\W|$)`),
 		ValidateMatch: validate_matched_groups_are_same(3, 4),
 		Transform:     to_date("2006 01 02"),
 		Remove:        true,
@@ -448,28 +448,28 @@ var handlers = []handler{
 	},
 	{
 		Field:         "date",
-		Pattern:       regexp.MustCompile(`(?:\W|^)[([]?((?:0[1-9]|[12][0-9]|3[01])([. \-/\\])(?:0[1-9]|1[012])([. \-/\\])(?:19[6-9]|20[012])[0-9])[)\]]?(?:\W|$)`),
+		Pattern:       regexp.MustCompile(`(?:\W|^)[(\[]?((?:0[1-9]|[12][0-9]|3[01])([. \-/\\])(?:0[1-9]|1[012])([. \-/\\])(?:19[6-9]|20[012])[0-9])[)\]]?(?:\W|$)`),
 		ValidateMatch: validate_matched_groups_are_same(2, 3),
 		Transform:     to_date("02 01 2006"),
 		Remove:        true,
 	},
 	{
 		Field:         "date",
-		Pattern:       regexp.MustCompile(`(?:\W)[([]?((?:0[1-9]|1[012])([. \-/\\])(?:0[1-9]|[12][0-9]|3[01])([. \-/\\])(?:19[6-9]|20[012])[0-9])[)\]]?(?:\W|$)`),
+		Pattern:       regexp.MustCompile(`(?:\W)[(\[]?((?:0[1-9]|1[012])([. \-/\\])(?:0[1-9]|[12][0-9]|3[01])([. \-/\\])(?:19[6-9]|20[012])[0-9])[)\]]?(?:\W|$)`),
 		ValidateMatch: validate_matched_groups_are_same(2, 3),
 		Transform:     to_date("01 02 2006"),
 		Remove:        true,
 	},
 	{
 		Field:         "date",
-		Pattern:       regexp.MustCompile(`(?:\W)[([]?((?:0[1-9]|1[012])([. \-/\\])(?:0[1-9]|[12][0-9]|3[01])([. \-/\\])(?:[0][1-9]|[0126789][0-9]))[)\]]?(?:\W|$)`),
+		Pattern:       regexp.MustCompile(`(?:\W)[(\[]?((?:0[1-9]|1[012])([. \-/\\])(?:0[1-9]|[12][0-9]|3[01])([. \-/\\])(?:[0][1-9]|[0126789][0-9]))[)\]]?(?:\W|$)`),
 		ValidateMatch: validate_matched_groups_are_same(2, 3),
 		Transform:     to_date("01 02 06"),
 		Remove:        true,
 	},
 	{
 		Field:         "date",
-		Pattern:       regexp.MustCompile(`(?:\W)[([]?((?:0[1-9]|[12][0-9]|3[01])([. \-/\\])(?:0[1-9]|1[012])([. \-/\\])(?:[0][1-9]|[0126789][0-9]))[)\]]?(?:\W|$)`),
+		Pattern:       regexp.MustCompile(`(?:\W)[(\[]?((?:0[1-9]|[12][0-9]|3[01])([. \-/\\])(?:0[1-9]|1[012])([. \-/\\])(?:[0][1-9]|[0126789][0-9]))[)\]]?(?:\W|$)`),
 		ValidateMatch: validate_matched_groups_are_same(2, 3),
 		Transform:     to_date("02 01 06"),
 		MatchGroup:    1,
@@ -477,7 +477,7 @@ var handlers = []handler{
 	},
 	{
 		Field:         "date",
-		Pattern:       regexp.MustCompile(`(?i)(?:\W|^)[([]?((?:0?[1-9]|[12][0-9]|3[01])[. ]?(?:st|nd|rd|th)?([. \-/\\])(?:feb(?:ruary)?|jan(?:uary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)([. \-/\\])(?:19[7-9]|20[012])[0-9])[)\]]?(?:\W|$)`),
+		Pattern:       regexp.MustCompile(`(?i)(?:\W|^)[(\[]?((?:0?[1-9]|[12][0-9]|3[01])[. ]?(?:st|nd|rd|th)?([. \-/\\])(?:feb(?:ruary)?|jan(?:uary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)([. \-/\\])(?:19[7-9]|20[012])[0-9])[)\]]?(?:\W|$)`),
 		ValidateMatch: validate_matched_groups_are_same(2, 3),
 		Transform: func() hTransformer {
 			cd := to_clean_date()
@@ -493,7 +493,7 @@ var handlers = []handler{
 	},
 	{
 		Field:         "date",
-		Pattern:       regexp.MustCompile(`(?i)(?:\W|^)[([]?((?:0?[1-9]|[12][0-9]|3[01])[. ]?(?:st|nd|rd|th)?([. \-/\\])(?:feb(?:ruary)?|jan(?:uary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)([. \-/\\])(?:0[1-9]|[0126789][0-9]))[)\]]?(?:\W|$)`),
+		Pattern:       regexp.MustCompile(`(?i)(?:\W|^)[(\[]?((?:0?[1-9]|[12][0-9]|3[01])[. ]?(?:st|nd|rd|th)?([. \-/\\])(?:feb(?:ruary)?|jan(?:uary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)([. \-/\\])(?:0[1-9]|[0126789][0-9]))[)\]]?(?:\W|$)`),
 		ValidateMatch: validate_matched_groups_are_same(2, 3),
 		Transform: func() hTransformer {
 			cd := to_clean_date()
@@ -509,7 +509,7 @@ var handlers = []handler{
 	},
 	{
 		Field:     "date",
-		Pattern:   regexp.MustCompile(`(?:\W|^)[([]?(20[012][0-9](?:0[1-9]|1[012])(?:0[1-9]|[12][0-9]|3[01]))[)\]]?(?:\W|$)`),
+		Pattern:   regexp.MustCompile(`(?:\W|^)[(\[]?(20[012][0-9](?:0[1-9]|1[012])(?:0[1-9]|[12][0-9]|3[01]))[)\]]?(?:\W|$)`),
 		Transform: to_date("20060102"),
 		Remove:    true,
 	},
@@ -518,7 +518,7 @@ var handlers = []handler{
 	// parser.addHandler("year", /[([*][ .]?((?:19\d|20[012])\d[ .]?-[ .]?\d{2})(?:\s?[*)\]])?/, yearRange, { remove: true });
 	{
 		Field:   "year",
-		Pattern: regexp.MustCompile(`[ .]?([([*]?((?:19\d|20[012])\d[ .]?-[ .]?(?:19\d|20[012])\d)[*)\]]?)[ .]?`),
+		Pattern: regexp.MustCompile(`[ .]?([(\[*]?((?:19\d|20[012])\d[ .]?-[ .]?(?:19\d|20[012])\d)[*)\]]?)[ .]?`),
 		Transform: func() hTransformer {
 			ty := to_year()
 			return func(title string, m *parseMeta, result map[string]*parseMeta) {
@@ -536,7 +536,7 @@ var handlers = []handler{
 	},
 	{
 		Field:   "year",
-		Pattern: regexp.MustCompile(`[([*][ .]?((?:19\d|20[012])\d[ .]?-[ .]?\d{2})(?:\s?[*)\]])?`),
+		Pattern: regexp.MustCompile(`[(\[*][ .]?((?:19\d|20[012])\d[ .]?-[ .]?\d{2})(?:\s?[*)\]])?`),
 		Transform: func() hTransformer {
 			ty := to_year()
 			return func(title string, m *parseMeta, result map[string]*parseMeta) {
@@ -553,7 +553,7 @@ var handlers = []handler{
 	// ~ parser.add_handler("year", regex.compile(r"\b(20[0-9]{2}|2100)(?!\D*\d{4}\b)"), integer, {"remove": True})
 	{
 		Field:   "year",
-		Pattern: regexp.MustCompile(`[([*]?\b(20[0-9]{2}|2100)[*\])]?`),
+		Pattern: regexp.MustCompile(`[(\[*]?\b(20[0-9]{2}|2100)[*\])]?`),
 		ValidateMatch: func() hMatchValidator {
 			re := regexp.MustCompile(`(?:\D*\d{4}\b)`)
 			return func(input string, match []int) bool {
@@ -567,7 +567,7 @@ var handlers = []handler{
 	// parser.addHandler("year", /^[([]?((?:19\d|20[012])\d)(?!\d|kbps)[)\]]?/i, integer, { remove: true });
 	{
 		Field:   "year",
-		Pattern: regexp.MustCompile(`(?:[([*]|.)((?:\d|Cap[. ]?)?(?:19\d|20[012])\d(?:\d|kbps)?)[*)\]]?`),
+		Pattern: regexp.MustCompile(`(?:[(\[*]|.)((?:\d|Cap[. ]?)?(?:19\d|20[012])\d(?:\d|kbps)?)[*)\]]?`),
 		ValidateMatch: func(input string, match []int) bool {
 			if match[0] < 2 {
 				return false
@@ -580,7 +580,7 @@ var handlers = []handler{
 	},
 	{
 		Field:   "year",
-		Pattern: regexp.MustCompile(`^[([]?((?:19\d|20[012])\d)(?:\d|kbps)?[)\]]?`),
+		Pattern: regexp.MustCompile(`^[(\[]?((?:19\d|20[012])\d)(?:\d|kbps)?[)\]]?`),
 		ValidateMatch: func(input string, match []int) bool {
 			mValue := input[match[0]:match[1]]
 			if len(mValue) == 4 {
@@ -680,7 +680,7 @@ var handlers = []handler{
 	},
 	{
 		Field:        "edition",
-		Pattern:      regexp.MustCompile(`(?i)\bRemaster(?:ed)?\b|\b[[(]?REKONSTRUKCJA[\])]?\b`),
+		Pattern:      regexp.MustCompile(`(?i)\bRemaster(?:ed)?\b|\b[\[(]?REKONSTRUKCJA[\])]?\b`),
 		Transform:    to_value("Remastered"),
 		KeepMatching: true,
 		Remove:       true,
@@ -954,7 +954,7 @@ var handlers = []handler{
 	},
 	{
 		Field:     "quality",
-		Pattern:   regexp.MustCompile(`(?i)\bBD[ .-]*Rip\b|\bBDR\b|\bBD-RM\b|[[(]BD[\]) .,-]`),
+		Pattern:   regexp.MustCompile(`(?i)\bBD[ .-]*Rip\b|\bBDR\b|\bBD-RM\b|[\[(]BD[\]) .,-]`),
 		Transform: to_value("BDRip"),
 		Remove:    true,
 	},
@@ -1533,8 +1533,8 @@ var handlers = []handler{
 	// parser.addHandler("group", /- ?(?!\d+$|S\d+|\d+x|ep?\d+|[^[]+]$)([^\-. []+[^\-. [)\]\d][^\-. [)\]]*)(?:\[[\w.-]+])?(?=\.\w{2,4}$|$)/i, { remove: true });
 	{
 		Field:         "group",
-		Pattern:       regexp.MustCompile(`(?i)(- ?([^\-. []+[^\-. [)\]\d][^\-. [)\]]*))(?:\[[\w.-]+])?(?:\.\w{2,4}$|$)`),
-		ValidateMatch: validate_not_match(regexp.MustCompile(`(?i)- ?(?:\d+$|S\d+|\d+x|ep?\d+|[^[]+]$)`)),
+		Pattern:       regexp.MustCompile(`(?i)(- ?([^\-. \[]+[^\-. \[)\]\d][^\-. \[)\]]*))(?:\[[\w.-]+])?(?:\.\w{2,4}$|$)`),
+		ValidateMatch: validate_not_match(regexp.MustCompile(`(?i)- ?(?:\d+$|S\d+|\d+x|ep?\d+|[^\[]+]$)`)),
 		MatchGroup:    1,
 		ValueGroup:    2,
 		// Remove:        true,
@@ -1543,7 +1543,7 @@ var handlers = []handler{
 	// parser.addHandler("container", /\.?[[(]?\b(MKV|AVI|MP4|WMV|MPG|MPEG)\b[\])]?/i, lowercase);
 	{
 		Field:     "container",
-		Pattern:   regexp.MustCompile(`(?i)\.?[[(]?\b(MKV|AVI|MP4|WMV|MPG|MPEG)\b[\])]?`),
+		Pattern:   regexp.MustCompile(`(?i)\.?[\[(]?\b(MKV|AVI|MP4|WMV|MPG|MPEG)\b[\])]?`),
 		Transform: to_lowercase(),
 	},
 
@@ -1727,13 +1727,13 @@ var handlers = []handler{
 	},
 	{
 		Field:     "seasons",
-		Pattern:   regexp.MustCompile(`(?i)(?:complete\W|seasons?\W|\W|^)[([]?(s\d{2,}-\d{2,}\b)[)\]]?`),
+		Pattern:   regexp.MustCompile(`(?i)(?:complete\W|seasons?\W|\W|^)[(\[]?(s\d{2,}-\d{2,}\b)[)\]]?`),
 		Transform: to_int_range(),
 		Remove:    true,
 	},
 	{
 		Field:     "seasons",
-		Pattern:   regexp.MustCompile(`(?i)(?:complete\W|seasons?\W|\W|^)[([]?(s[1-9]-[2-9]\b)[)\]]?`),
+		Pattern:   regexp.MustCompile(`(?i)(?:complete\W|seasons?\W|\W|^)[(\[]?(s[1-9]-[2-9]\b)[)\]]?`),
 		Transform: to_int_range(),
 		Remove:    true,
 	},
@@ -1750,19 +1750,19 @@ var handlers = []handler{
 	// parser.addHandler("seasons", /(?:(?:\bthe\W)?\bcomplete\W)?\bseasons?\b[. -]?(\d{1,2}[. -]?(?:to|thru|and|\+|:)[. -]?\d{1,2})\b/i, range, { remove: true });
 	{
 		Field:     "seasons",
-		Pattern:   regexp.MustCompile(`(?i)(?:(?:\bthe\W)?\bcomplete\W)?(?:seasons?|[Сс]езони?|sezon|temporadas?|stagioni)[. ]?[-:]?[. ]?[([]?((?:\d{1,2} ?(?:[,/\\&]+ ?)+)+\d{1,2}\b)[)\]]?`),
+		Pattern:   regexp.MustCompile(`(?i)(?:(?:\bthe\W)?\bcomplete\W)?(?:seasons?|[Сс]езони?|sezon|temporadas?|stagioni)[. ]?[-:]?[. ]?[(\[]?((?:\d{1,2} ?(?:[,/\\&]+ ?)+)+\d{1,2}\b)[)\]]?`),
 		Transform: to_int_range(),
 		// Remove:    true,
 	},
 	{
 		Field:     "seasons",
-		Pattern:   regexp.MustCompile(`(?i)(?:(?:\bthe\W)?\bcomplete\W)?(?:seasons|[Сс]езони?|sezon|temporadas?|stagioni)[. ]?[-:]?[. ]?[([]?((?:\d{1,2}[. -]+)+0?[1-9]\d?\b)[)\]]?`),
+		Pattern:   regexp.MustCompile(`(?i)(?:(?:\bthe\W)?\bcomplete\W)?(?:seasons|[Сс]езони?|sezon|temporadas?|stagioni)[. ]?[-:]?[. ]?[(\[]?((?:\d{1,2}[. -]+)+0?[1-9]\d?\b)[)\]]?`),
 		Transform: to_int_range(),
 		Remove:    true,
 	},
 	{
 		Field:         "seasons",
-		Pattern:       regexp.MustCompile(`(?i)(?:(?:\bthe\W)?\bcomplete\W)?season[. ]?[([]?((?:\d{1,2}[. -]+)+[1-9]\d?\b)[)\]]?(?:.*\.\w{2,4}$)?`),
+		Pattern:       regexp.MustCompile(`(?i)(?:(?:\bthe\W)?\bcomplete\W)?season[. ]?[(\[]?((?:\d{1,2}[. -]+)+[1-9]\d?\b)[)\]]?(?:.*\.\w{2,4}$)?`),
 		ValidateMatch: validate_not_match(regexp.MustCompile(`(?i)(?:.*\.\w{2,4}$)`)),
 		Transform:     to_int_range(),
 		Remove:        true,
@@ -1854,7 +1854,7 @@ var handlers = []handler{
 	},
 	{
 		Field:     "seasons",
-		Pattern:   regexp.MustCompile(`[[(](\d{1,2})\.\d{1,3}[)\]]`),
+		Pattern:   regexp.MustCompile(`[\[(](\d{1,2})\.\d{1,3}[)\]]`),
 		Transform: to_int_array(),
 	},
 	{
@@ -1914,7 +1914,7 @@ var handlers = []handler{
 	// ~ parser.addHandler("episodes", /(?:[\W\d]|^)e[ .]?[([]?(\d{1,3}(?:[ .-]*(?:[&+]|e){1,2}[ .]?\d{1,3})+)(?:\W|$)/i, range);
 	{
 		Field:     "episodes",
-		Pattern:   regexp.MustCompile(`(?i)(?:[\W\d]|^)e[ .]?[([]?(\d{1,3}(?:[à .-]*(?:[&+]|e){1,2}[ .]?\d{1,3})+)(?:\W|$)`),
+		Pattern:   regexp.MustCompile(`(?i)(?:[\W\d]|^)e[ .]?[(\[]?(\d{1,3}(?:[à .-]*(?:[&+]|e){1,2}[ .]?\d{1,3})+)(?:\W|$)`),
 		Transform: to_int_range(),
 	},
 	// parser.addHandler("episodes", /(?:[\W\d]|^)ep[ .]?[([]?(\d{1,3}(?:[ .-]*(?:[&+]|ep){1,2}[ .]?\d{1,3})+)(?:\W|$)/i, range);
@@ -1924,27 +1924,27 @@ var handlers = []handler{
 	// parser.addHandler("episodes", /(?:[\W\d]|^)(?:e|eps?|episodes?|[Сс]ерии:?|\d+[xх])[ .]*[([]?(\d{1,3}(?:-\d{1,3})+)(?:\W|$)/i, range);
 	{
 		Field:     "episodes",
-		Pattern:   regexp.MustCompile(`(?i)(?:[\W\d]|^)ep[ .]?[([]?(\d{1,3}(?:[ .-]*(?:[&+]|ep){1,2}[ .]?\d{1,3})+)(?:\W|$)`),
+		Pattern:   regexp.MustCompile(`(?i)(?:[\W\d]|^)ep[ .]?[(\[]?(\d{1,3}(?:[ .-]*(?:[&+]|ep){1,2}[ .]?\d{1,3})+)(?:\W|$)`),
 		Transform: to_int_range(),
 	},
 	{
 		Field:     "episodes",
-		Pattern:   regexp.MustCompile(`(?i)(?:[\W\d]|^)\d+[xх][ .]?[([]?(\d{1,3}(?:[ .]?[xх][ .]?\d{1,3})+)(?:\W|$)`),
+		Pattern:   regexp.MustCompile(`(?i)(?:[\W\d]|^)\d+[xх][ .]?[(\[]?(\d{1,3}(?:[ .]?[xх][ .]?\d{1,3})+)(?:\W|$)`),
 		Transform: to_int_range(),
 	},
 	{
 		Field:     "episodes",
-		Pattern:   regexp.MustCompile(`(?i)(?:[\W\d]|^)(?:episodes?|[Сс]ерии:?)[ .]?[([]?(\d{1,3}(?:[ .+]*[&+][ .]?\d{1,3})+)(?:\W|$)`),
+		Pattern:   regexp.MustCompile(`(?i)(?:[\W\d]|^)(?:episodes?|[Сс]ерии:?)[ .]?[(\[]?(\d{1,3}(?:[ .+]*[&+][ .]?\d{1,3})+)(?:\W|$)`),
 		Transform: to_int_range(),
 	},
 	{
 		Field:     "episodes",
-		Pattern:   regexp.MustCompile(`(?i)[([]?(?:\D|^)(\d{1,3}[ .]?ao[ .]?\d{1,3})[)\]]?(?:\W|$)`),
+		Pattern:   regexp.MustCompile(`(?i)[(\[]?(?:\D|^)(\d{1,3}[ .]?ao[ .]?\d{1,3})[)\]]?(?:\W|$)`),
 		Transform: to_int_range(),
 	},
 	{
 		Field:     "episodes",
-		Pattern:   regexp.MustCompile(`(?i)(?:[\W\d]|^)(?:e|eps?|episodes?|[Сс]ерии:?|\d+[xх])[ .]*[([]?(\d{1,3}(?:-\d{1,3})+)(?:\W|$)`),
+		Pattern:   regexp.MustCompile(`(?i)(?:[\W\d]|^)(?:e|eps?|episodes?|[Сс]ерии:?|\d+[xх])[ .]*[(\[]?(\d{1,3}(?:-\d{1,3})+)(?:\W|$)`),
 		Transform: to_int_range(),
 	},
 	// GO
@@ -2017,14 +2017,14 @@ var handlers = []handler{
 	// parser.addHandler("episodes", /(?<!(?:seasons?|[Сс]езони?)\W*)(?:[ .([-]|^)(\d{1,3}(?:[ .]?[,&+~][ .]?\d{1,3})+)(?:[ .)\]-]|$)/i, range);
 	{
 		Field:         "episodes",
-		Pattern:       regexp.MustCompile(`(?i)(?:(?:seasons?|[Сс]езони?)\W*)?(?:[ .([-]|^)(\d{1,3}(?:[ .]?[,&+~][ .]?\d{1,3})+)(?:[ .)\]-]|$)`),
+		Pattern:       regexp.MustCompile(`(?i)(?:(?:seasons?|[Сс]езони?)\W*)?(?:[ .(\[-]|^)(\d{1,3}(?:[ .]?[,&+~][ .]?\d{1,3})+)(?:[ .)\]-]|$)`),
 		ValidateMatch: validate_not_match(regexp.MustCompile(`(?i)(?:(?:seasons?|[Сс]езони?)\W*)`)),
 		Transform:     to_int_range(),
 	},
 	// ~ parser.addHandler("episodes", /(?<!(?:seasons?|[Сс]езони?)\W*)(?!20-20)(?:[ .([-]|^)(\d{1,3}(?:-\d{1,3})+)(?:[ .)(\]]|-\D|$)/i, range);
 	{
 		Field:         "episodes",
-		Pattern:       regexp.MustCompile(`(?i)(?:(?:seasons?|[Сс]езони?)\W*)?(?:20-20)?(?:[ .([-]|^)(\d{1,4}(?:-\d{1,4})+)(?:[ .)(\]]|[+-]\D|$)`),
+		Pattern:       regexp.MustCompile(`(?i)(?:(?:seasons?|[Сс]езони?)\W*)?(?:20-20)?(?:[ .(\[-]|^)(\d{1,4}(?:-\d{1,4})+)(?:[ .)(\]]|[+-]\D|$)`),
 		ValidateMatch: validate_not_match(regexp.MustCompile(`(?i)(?:(?:seasons?|[Сс]езони?)\W*|^)(?:20-20)`)),
 		Transform:     to_int_range(),
 	},
@@ -2068,7 +2068,7 @@ var handlers = []handler{
 	},
 	{
 		Field:     "episodes",
-		Pattern:   regexp.MustCompile(`(?i)[[(]\d{1,2}\.(\d{1,3})[)\]]`),
+		Pattern:   regexp.MustCompile(`(?i)[\[(]\d{1,2}\.(\d{1,3})[)\]]`),
 		Transform: to_int_array(),
 	},
 	{
@@ -2180,10 +2180,10 @@ var handlers = []handler{
 	{
 		Field: "episodes",
 		Process: func() hProcessor {
-			btRe := regexp.MustCompile(`(?i)(?:movie\W*|film\W*|^)?(?:[ .]+-[ .]+|[([][ .]*)(\d{1,4})(?:a|b|v\d|\.\d)?(?:\W|$)(?:movie|film|\d+)?`)
-			btReNegBefore := regexp.MustCompile(`(?i)(?:movie\W*|film\W*)(?:[ .]+-[ .]+|[([][ .]*)(\d{1,4})`)
+			btRe := regexp.MustCompile(`(?i)(?:movie\W*|film\W*|^)?(?:[ .]+-[ .]+|[(\[][ .]*)(\d{1,4})(?:a|b|v\d|\.\d)?(?:\W|$)(?:movie|film|\d+)?`)
+			btReNegBefore := regexp.MustCompile(`(?i)(?:movie\W*|film\W*)(?:[ .]+-[ .]+|[(\[][ .]*)(\d{1,4})`)
 			btReNegAfter := regexp.MustCompile(`(?i)(?:movie|film)|(\d{1,4})(?:a|b|v\d|\.\d)(?:\W)(?:\d+)`)
-			mtRe := regexp.MustCompile(`(?i)^(?:[([-][ .]?)?(\d{1,4})(?:a|b|v\d)?(?:\Wmovie|\Wfilm|-\d)?(?:\W|$)`)
+			mtRe := regexp.MustCompile(`(?i)^(?:[(\[-][ .]?)?(\d{1,4})(?:a|b|v\d)?(?:\Wmovie|\Wfilm|-\d)?(?:\W|$)`)
 			mtReNegAfter := regexp.MustCompile(`(?i)(\d{1,4})(?:a|b|v\d)?(?:\Wmovie|\Wfilm|-\d)`)
 			commonResolutionNeg := regexp.MustCompile(`\[(?:480|720|1080)\]`)
 			commonFPSNeg := regexp.MustCompile(`(?i)\d+(?:fps|帧率?)`)
@@ -3358,7 +3358,7 @@ var handlers = []handler{
 	// ~ parser.add_handler("site", regex.compile(r"\bwww.\w*.\w+\b", regex.IGNORECASE), value("$1"), {"remove": True})
 	{
 		Field:         "site",
-		Pattern:       regexp.MustCompile(`(?i)\[([^[\].]+\.[^\].]+)\](?:\.\w{2,4}$|\s)`),
+		Pattern:       regexp.MustCompile(`(?i)\[([^\[\].]+\.[^\].]+)\](?:\.\w{2,4}$|\s)`),
 		Transform:     to_trimmed(),
 		Remove:        true,
 		SkipFromTitle: true,
@@ -3367,7 +3367,7 @@ var handlers = []handler{
 	},
 	{
 		Field:         "site",
-		Pattern:       regexp.MustCompile(`(?i)[[{(](www.\w*.\w+)[)}\]]`),
+		Pattern:       regexp.MustCompile(`(?i)[\[{(](www.\w*.\w+)[)}\]]`),
 		Remove:        true,
 		SkipFromTitle: true,
 	},
@@ -3535,7 +3535,7 @@ var handlers = []handler{
 	// });
 	{
 		Field:   "group",
-		Pattern: regexp.MustCompile(`^\[([^[\]]+)]`),
+		Pattern: regexp.MustCompile(`^\[([^\[\]]+)]`),
 	},
 	{
 		Field:   "group",

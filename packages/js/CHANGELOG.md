@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/MunifTanjim/go-ptt/compare/js-v0.2.1...js-v0.3.0) (2025-07-25)
+
+
+### Features
+
+* **js:** bump binary version ([13d0c0a](https://github.com/MunifTanjim/go-ptt/commit/13d0c0a4b359496ee46f211c8437254336dc8cbc))
+* **js:** make normalize param optional for parse ([c08d403](https://github.com/MunifTanjim/go-ptt/commit/c08d4037f4f8ff2e1137335a16c0eeab15fa48c0))
+
 ## [0.2.1](https://github.com/MunifTanjim/go-ptt/compare/js-v0.2.0...js-v0.2.1) (2025-07-18)
 
 

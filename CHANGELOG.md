@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.1](https://github.com/MunifTanjim/go-ptt/compare/v0.11.0...v0.11.1) (2025-07-25)
+
+
+### Performance Improvements
+
+* **cmd:** enable parallel processing in server ([de116d1](https://github.com/MunifTanjim/go-ptt/commit/de116d13f6ed1af1642c4c0b3a57510b863c865b))
+
 ## [0.11.0](https://github.com/MunifTanjim/go-ptt/compare/v0.10.0...v0.11.0) (2025-07-17)
 
 

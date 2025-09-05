@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.2](https://github.com/MunifTanjim/go-ptt/compare/v0.11.1...v0.11.2) (2025-09-05)
+
+
+### Bug Fixes
+
+* **cmd:** set min chunk size for parse ([f410f4c](https://github.com/MunifTanjim/go-ptt/commit/f410f4cca6d7de321081cc066415830cdabec290))
+
 ## [0.11.1](https://github.com/MunifTanjim/go-ptt/compare/v0.11.0...v0.11.1) (2025-07-25)
 
 

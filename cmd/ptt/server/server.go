@@ -40,6 +40,7 @@ func (s *server) Parse(ctx context.Context, req *proto.ParseRequest) (*proto.Par
 	if chunk_size == count && count > 200 {
 		chunk_size = 100
 	}
+	chunk_size = max(chunk_size, 50)
 	chunk_idx := -1
 	g := pool.NewGroup()
 	for torrent_titles := range slices.Chunk(req.TorrentTitles, chunk_size) {

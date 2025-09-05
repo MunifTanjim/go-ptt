@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/MunifTanjim/go-ptt/compare/js-v0.3.0...js-v0.4.0) (2025-09-05)
+
+
+### Features
+
+* **js:** bump binary version ([67df649](https://github.com/MunifTanjim/go-ptt/commit/67df649c95a36b4c8354bb424effe3d551f8d0dc))
+
 ## [0.3.0](https://github.com/MunifTanjim/go-ptt/compare/js-v0.2.1...js-v0.3.0) (2025-07-25)
 
 

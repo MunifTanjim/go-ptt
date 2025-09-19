@@ -11,6 +11,7 @@ import {
   PingResponse,
   ServiceClient,
 } from "../proto/ptt";
+import { BIN_PATH } from "./const";
 
 export type ParseResult = ParseResponse_Result;
 
@@ -25,8 +26,6 @@ type PTTConfig = {
    */
   address: string;
 };
-
-const BIN_PATH = `${resolvePath(__dirname, "../bin/ptt")}${process.platform === "win32" ? ".exe" : ""}`;
 
 export class PTTServer {
   network: PTTConfig["network"];

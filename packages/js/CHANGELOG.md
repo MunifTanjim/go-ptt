@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/MunifTanjim/go-ptt/compare/js-v0.4.0...js-v0.4.1) (2025-09-19)
+
+
+### Bug Fixes
+
+* **js:** fix esm compatibility ([b892ba5](https://github.com/MunifTanjim/go-ptt/commit/b892ba5a32c7962a86a85f366bd6b28e65afcebc))
+
 ## [0.4.0](https://github.com/MunifTanjim/go-ptt/compare/js-v0.3.0...js-v0.4.0) (2025-09-05)
 
 

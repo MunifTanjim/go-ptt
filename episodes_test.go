@@ -292,6 +292,7 @@ func TestEpisodes(t *testing.T) {
 		{"", "Vikkatakavi 01E06.mkv", []int{6}},
 		{"", "[Deadfish] Hakkenden_Touhou Hakken Ibun S2 [720][AAC]", nil},
 		{"", "[Anime Time] Naruto - 116 - 360 Degrees of Vision The Byakugan's Blind Spot.mkv", []int{116}},
+		{"", "[Erai-raws] Boku no Hero Academia S2 - 00~25 [1080p][Multiple Subtitle]", intRange(0, 25)},
 	})
 
 	// GO

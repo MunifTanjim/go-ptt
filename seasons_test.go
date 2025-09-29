@@ -337,6 +337,9 @@ func TestSeasons(t *testing.T) {
 		{"Разрушители легенд. MythBusters. Сезон 15. Эпизод 09. Скрытая угроза (2015).avi", []int{15}},
 		{"Сезон 5/Серия 11.mkv", []int{5}},
 		{"Vikkatakavi 01E06.mkv", []int{1}},
+		{"Swamp People 2010 Seasons 1 to 15 Complete 720p WEB x264 [i_c]", []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}},
+		{"Swamp People - Season 1 to 6 Plus Specials - 720P - HDTV - X265-HEVC - O69", []int{1, 2, 3, 4, 5, 6}},
+		{"One.Piece.S004E111.Dash.For.a.Miracle!.Alabasta.Animal.Land!.1080p.NF.WEB-DL.DDP2.0.x264-KQRM.mkv", []int{4}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)

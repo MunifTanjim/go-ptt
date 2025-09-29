@@ -1429,6 +1429,15 @@ func TestPTT(t *testing.T) {
 			Resolution:  "1080p",
 			Title:       "fairy tail",
 		}},
+		// {"[Kaerizaki-Fansub] One Piece 1098 VOSTFR FHD (1920x1080).mp4", Result{
+		// 	Container:  "mp4",
+		// 	Episodes:   []int{1098},
+		// 	Extension:  "mp4",
+		// 	Group:      "Kaerizaki-Fansub",
+		// 	Languages:  []string{"fr"},
+		// 	Resolution: "1080p",
+		// 	Title:      "One Piece",
+		// }},
 		{"One Punch Man (2019) - S02 - E01 à E12 - [WEB-DL][1080p][Multiple Subtitle][x264][Intégrale Saison 02]", Result{
 			Codec:      "x264",
 			Complete:   true,
@@ -1440,6 +1449,17 @@ func TestPTT(t *testing.T) {
 			Subbed:     true,
 			Title:      "One Punch Man",
 			Year:       "2019",
+		}},
+		{"FRASIER 1993-2004 [S01-11] [1080P WEB-DL H265 EAC3-FT] [ENG-LEKTOR PL] [ALUSIA]", Result{
+			Audio:      []string{"EAC3"},
+			Codec:      "h265",
+			Complete:   true,
+			Languages:  []string{"en", "pl"},
+			Quality:    "WEB-DL",
+			Resolution: "1080p",
+			Seasons:    intRange(1, 11),
+			Title:      "FRASIER",
+			Year:       "1993-2004",
 		}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {

@@ -291,6 +291,7 @@ func TestLanguages(t *testing.T) {
 		{"Kingdom.of.the.Planet.of.the.Apes.2024.HDRIP.1080P.[xDark [SaveHD] Latin + English + Hindi.mp4", []string{"en", "es-419", "hi"}},
 		{"The Karate Kid Part III 1989 1080p DUAL TİVİBU WEB-DL x264 AAC - HdT", []string{"dual audio", "tr"}},
 		{"The French Connection 1971 Remastered BluRay 1080p REMUX AVC DTS-HD MA 5 1-LEGi0N", nil},
+		{"The.Gorge.2025.PLSUB.1080p.ATVP.WEB-DL.DDP5.1.Atmos.H.264-APEX.mkv", []string{"pl"}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)

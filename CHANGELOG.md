@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.0](https://github.com/MunifTanjim/go-ptt/compare/v0.11.2...v0.12.0) (2025-09-29)
+
+
+### Features
+
+* improve parsing - languages french ([3f68b30](https://github.com/MunifTanjim/go-ptt/commit/3f68b300ea20059aed94f712c868066c608f4313))
+
 ## [0.11.2](https://github.com/MunifTanjim/go-ptt/compare/v0.11.1...v0.11.2) (2025-09-05)
 
 

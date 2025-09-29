@@ -11,14 +11,19 @@ jobs:
     name: release
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
     steps:
+      - name: Generate GitHub Token
+        uses: actions/create-github-app-token@v2
+        id: gh-token
+        with:
+          app-id: ${{ secrets.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+
       - name: Release
         id: release
         uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ steps.gh-token.outputs.token }}
 
       - name: Checkout
         if: ${{ steps.release.outputs['release_created'] }}
@@ -29,7 +34,7 @@ jobs:
         if: ${{ steps.release.outputs['release_created'] }}
         uses: arduino/setup-protoc@v3
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ steps.gh-token.outputs.token }}
       - name: Setup Go
         if: ${{ steps.release.outputs['release_created'] }}
         uses: actions/setup-go@v5
@@ -41,7 +46,7 @@ jobs:
         with:
           args: release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.gh-token.outputs.token }}
 
       - name: JS - Checkout
         if: ${{ steps.release.outputs['packages/js--release_created'] }}

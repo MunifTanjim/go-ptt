@@ -1429,6 +1429,18 @@ func TestPTT(t *testing.T) {
 			Resolution:  "1080p",
 			Title:       "fairy tail",
 		}},
+		{"One Punch Man (2019) - S02 - E01 à E12 - [WEB-DL][1080p][Multiple Subtitle][x264][Intégrale Saison 02]", Result{
+			Codec:      "x264",
+			Complete:   true,
+			Episodes:   intRange(1, 12),
+			Languages:  []string{"fr", "multi subs"},
+			Quality:    "WEB-DL",
+			Resolution: "1080p",
+			Seasons:    []int{2},
+			Subbed:     true,
+			Title:      "One Punch Man",
+			Year:       "2019",
+		}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)

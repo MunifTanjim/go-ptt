@@ -291,7 +291,7 @@ var handlers = []handler{
 	},
 	{
 		Field:   "title",
-		Pattern: regexp.MustCompile(`(?i)\b(?:INTEGRALE?|INTÉGRALE?|INTERNAL|HFR)\b`),
+		Pattern: regexp.MustCompile(`(?i)\b(?:INTERNAL|HFR)\b`),
 		Remove:  true,
 	},
 
@@ -1603,6 +1603,20 @@ var handlers = []handler{
 		Transform:    to_value_set("es"),
 		KeepMatching: true,
 	},
+	// parser.add_handler("languages", regex.compile(r"\b(?:INT[EÉ]GRALE?)\b", regex.IGNORECASE), uniq_concat(value("fr")), {"remove": False, "skipIfAlreadyFound": False})
+	{
+		Field:        "languages",
+		Pattern:      regexp.MustCompile(`(?i)\b(?:INT[EÉ]GRALE?)\b`),
+		Transform:    to_value_set("fr"),
+		KeepMatching: true,
+	},
+	// parser.add_handler("languages", regex.compile(r"\b(?:Saison)\b", regex.IGNORECASE), uniq_concat(value("fr")), {"remove": False, "skipIfAlreadyFound": False})
+	{
+		Field:        "languages",
+		Pattern:      regexp.MustCompile(`(?i)\b(?:Saison)\b`),
+		Transform:    to_value_set("fr"),
+		KeepMatching: true,
+	},
 
 	// parser.add_handler("complete", regex.compile(r"\b(?:INTEGRALE?|INTÉGRALE?)\b", regex.IGNORECASE), none, {"remove": True, "skipIfAlreadyFound": False})
 	{
@@ -2816,7 +2830,7 @@ var handlers = []handler{
 		SkipIfFirst:  true,
 	},
 	// + parser.addHandler("languages", /\b(?:PLDUB|Dubbing.PL|Lektor.PL|Film.Polski)\b/i, uniqConcat(value("polish")), { skipIfAlreadyFound: false, remove: true });
-	// + parser.add_handler("languages", regex.compile(r"\b(PLDUB|DUBPL|DubbingPL|LekPL|LektorPL)\b", regex.IGNORECASE), uniq_concat(value("pl")), {"remove": True})
+	// + parser.add_handler("languages", regex.compile(r"\b(PLDUB|PLSUB|DUBPL|DubbingPL|LekPL|LektorPL)\b", regex.IGNORECASE), uniq_concat(value("pl")), {"remove": True})
 	{
 		Field:        "languages",
 		Pattern:      regexp.MustCompile(`(?i)\b(?:PLDUB|Dub(?:bing.?)?PL|Lek(?:tor.?)?PL|Film.Polski)\b`),

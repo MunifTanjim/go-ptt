@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/MunifTanjim/go-ptt/compare/js-v0.5.0...js-v0.6.0) (2025-10-25)
+
+
+### Features
+
+* **js:** upgrade dependencies ([50cffe4](https://github.com/MunifTanjim/go-ptt/commit/50cffe4c9b6e54b96bd946873030eb581ab7f105))
+
 ## [0.5.0](https://github.com/MunifTanjim/go-ptt/compare/js-v0.4.1...js-v0.5.0) (2025-09-29)
 
 

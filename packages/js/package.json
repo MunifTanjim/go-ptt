@@ -46,17 +46,17 @@
     "postinstall": "node install.js"
   },
   "dependencies": {
-    "@bufbuild/protobuf": "^2.6.0",
-    "@grpc/grpc-js": "^1.13.4",
+    "@bufbuild/protobuf": "^2.10.0",
+    "@grpc/grpc-js": "^1.14.0",
     "node-fetch": "^3.3.2",
-    "tar": "^7.4.3"
+    "tar": "^7.5.1"
   },
   "devDependencies": {
     "@tsconfig/node20": "^20.1.6",
-    "@tsconfig/strictest": "^2.0.5",
-    "pkgroll": "^2.14.3",
-    "ts-proto": "^2.7.5",
-    "tsx": "^4.20.3",
-    "typescript": "^5.8.3"
+    "@tsconfig/strictest": "^2.0.6",
+    "pkgroll": "^2.20.1",
+    "ts-proto": "^2.8.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
   }
 }

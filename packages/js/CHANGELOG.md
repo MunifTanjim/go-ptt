@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/MunifTanjim/go-ptt/compare/js-v0.6.0...js-v0.6.1) (2025-10-29)
+
+
+### Bug Fixes
+
+* **js:** downgrade @grpc/grpc-js ([c465eda](https://github.com/MunifTanjim/go-ptt/commit/c465edacb213f6ff2ec3ff88a354f2a3f1b99c37))
+
 ## [0.6.0](https://github.com/MunifTanjim/go-ptt/compare/js-v0.5.0...js-v0.6.0) (2025-10-25)
 
 

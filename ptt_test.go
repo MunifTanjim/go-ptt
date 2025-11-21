@@ -1736,6 +1736,13 @@ func TestPTT(t *testing.T) {
 			Seasons:   []int{3},
 			Title:     "Shingeki no Kyojin",
 		}},
+		{"Что случилось, тигровая лилия[torrents.ru].avi", Result{
+			Container: "avi",
+			Extension: "avi",
+			Languages: []string{"ru"},
+			Site:      "torrents.ru",
+			Title:     "Что случилось, тигровая лилия",
+		}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)

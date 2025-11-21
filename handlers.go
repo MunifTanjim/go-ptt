@@ -3451,13 +3451,13 @@ var handlers = []handler{
 	// ~ parser.add_handler("site", regex.compile(r"\[([^\]]+\.[^\]]+)\](?=\.\w{2,4}$|\s)", regex.IGNORECASE), value("$1"), {"remove": True})
 	// ~ parser.add_handler("site", regex.compile(r"\bwww.\w*.\w+\b", regex.IGNORECASE), value("$1"), {"remove": True})
 	{
-		Field:         "site",
-		Pattern:       regexp.MustCompile(`(?i)\[([^\[\].]+\.[^\].]+)\](?:\.\w{2,4}$|\s)`),
-		Transform:     to_trimmed(),
-		Remove:        true,
-		SkipFromTitle: true,
+		Field:     "site",
+		Pattern:   regexp.MustCompile(`(?i)(\[([^\[\].]+\.[^\].]+)\])(?:\.\w{2,4}$|\s)`),
+		Transform: to_trimmed(),
+		Remove:    true,
 
 		MatchGroup: 1,
+		ValueGroup: 2,
 	},
 	{
 		Field:         "site",

@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.13.0](https://github.com/MunifTanjim/go-ptt/compare/v0.12.0...v0.13.0) (2025-11-21)
+
+
+### Features
+
+* improve parsing - languages ([cbe9186](https://github.com/MunifTanjim/go-ptt/commit/cbe91865595124f10916f6f9e4295d54b82ad9c2))
+
+
+### Bug Fixes
+
+* adjust groups for site ([3cf23b2](https://github.com/MunifTanjim/go-ptt/commit/3cf23b21cadb625a6f076b57c3e839ac7adc4e5a))
+
 ## [0.12.0](https://github.com/MunifTanjim/go-ptt/compare/v0.11.2...v0.12.0) (2025-09-29)
 
 

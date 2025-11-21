@@ -102,14 +102,14 @@ func TestLanguages(t *testing.T) {
 		{"Subs/Brazilian.por.srt", []string{"pt"}},
 		{"Brazilian Portuguese.por.srt", []string{"pt"}},
 		{"[S0.E07] Gambit królowej - Gra koncowa.Portuguese Brazil.srt", []string{"pt"}},
-		{"The Hit List (2011) DVD NTSC WS (eng-fre-pt-spa) [Sk]", []string{"en", "fr", "es"}}, // TODO: does not include pt
+		{"The Hit List (2011) DVD NTSC WS (eng-fre-pt-spa) [Sk]", []string{"en", "fr", "es", "pt"}},
 		{"[POPAS] Neon Genesis Evangelion: The End of Evangelion [jp_PT-pt", []string{"ja", "pt"}},
 		{"Zola Maseko - Drum (2004) PT subs", []string{"pt"}},
-		{"Idrissa Ouedraogo - Yaaba (1989) EN ES FR PT", []string{"en", "fr", "es"}}, // TODO: does not include pt
+		{"Idrissa Ouedraogo - Yaaba (1989) EN ES FR PT", []string{"en", "fr", "es", "pt"}},
 		{"Metallica.Through.The.Never.2013 O Filme(leg.pt-pt)", []string{"pt"}},
-		{"Dinossauro (2000) --[ Ing / Pt / Esp ]", []string{"en", "es"}}, // TODO: does not include pt
+		{"Dinossauro (2000) --[ Ing / Pt / Esp ]", []string{"en", "es", "pt"}},
 		{"Mulan 1 (1998) Versao Portuguesa", []string{"pt"}},
-		{"The Guard 2011.DK.EN.ES.HR.NL.PT.RO.Subtitles", []string{"en", "es", "ro", "hr", "nl", "da"}},
+		{"The Guard 2011.DK.EN.ES.HR.NL.PT.RO.Subtitles", []string{"en", "es", "pt", "ro", "hr", "nl", "da"}},
 		{"Titan.A.E.2000 720p  HDTV DTS Eng Fra Hun Rom Rus multisub", []string{"multi subs", "en", "fr", "ru", "hu", "ro"}},
 		{"Frieren - Beyond Journey's End - S01E01 - TBA WEBDL-1080p.Latin American es.ass", []string{"es-419"}},
 		{"Frieren - Beyond Journey's End - S01E01 - TBA WEBDL-1080p.Brazilian pt.ass", []string{"pt"}},
@@ -127,7 +127,7 @@ func TestLanguages(t *testing.T) {
 		{"Aranyelet.S01.HUNGARIAN.1080p.WEBRip.DDP5.1.x264-SbR[rartv]", []string{"hu"}},
 		{"Ponyo[2008]DvDrip-H264 Quad Audio[Eng Jap Fre Spa]AC3 5.1[DXO]", []string{"en", "ja", "fr", "es"}},
 		{"The Mechanic [1972] Eng,Deu,Fra,Esp,Rus + multisub DVDrip", []string{"multi subs", "en", "fr", "es", "de", "ru"}},
-		{"Mommie Dearest [1981 PAL DVD][En.De.Fr.It.Es Multisubs[18]", []string{"multi subs", "en", "fr", "es", "de"}}, // TODO: does not include it
+		{"Mommie Dearest [1981 PAL DVD][En.De.Fr.It.Es Multisubs[18]", []string{"multi subs", "en", "fr", "es", "it", "de"}},
 		{"Pasienio sargyba S01E03 (2016 WEBRip LT)", []string{"lt"}},
 		{"24_Lithuanian.srt", []string{"lt"}},
 		{"25_Latvian.srt", []string{"lv"}},
@@ -175,7 +175,7 @@ func TestLanguages(t *testing.T) {
 		{"A Freira (2018) Dublado HD-TS 720p", []string{"pt"}},
 		{"Escobar El Patron Del Mal Capitulo 91 SD (2012-10-10) [SiRaDuDe]", []string{"pt"}},
 		{"Bleach - 215 ao 220 - [DB-BR]", []string{"pt"}},
-		{"Joker.2019.MULTi.Bluray.1080p.Atmos.7.1.En.Fr.Sp.Pt-DDR[EtHD]", []string{"multi audio", "en", "fr"}}, // TODO: does not include sp,pt
+		{"Joker.2019.MULTi.Bluray.1080p.Atmos.7.1.En.Fr.Sp.Pt-DDR[EtHD]", []string{"multi audio", "en", "fr", "es", "pt"}},
 		{"Dilbert complete series + en subs", []string{"en"}},
 		{"The Next Karate Kid (1994) NTSC WS -Eng/Fre/Spa/Por- [ctang]", []string{"en", "fr", "es", "pt"}},
 		// {"arsenico por compasion 1944 Capra spanish castellano", []string{"spanish"}}, // TODO: should not detect

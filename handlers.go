@@ -28,6 +28,17 @@ type handler struct {
 	ValueGroup int // capture group to use as value
 }
 
+func validate_or(validators ...hMatchValidator) hMatchValidator {
+	return func(input string, idxs []int) bool {
+		for _, validator := range validators {
+			if validator(input, idxs) {
+				return true
+			}
+		}
+		return false
+	}
+}
+
 func validate_and(validators ...hMatchValidator) hMatchValidator {
 	return func(input string, idxs []int) bool {
 		for _, validator := range validators {
@@ -47,6 +58,31 @@ func validate_not_at_start() hMatchValidator {
 func validate_not_at_end() hMatchValidator {
 	return func(input string, match []int) bool {
 		return match[1] != len(input)
+	}
+}
+
+func validate_lookbehind(pattern, flags string, polarity bool) hMatchValidator {
+	re := regexp.MustCompile("(?" + flags + ")" + pattern + "$")
+	return func(input string, match []int) bool {
+		rv := input[:match[0]]
+		println("input", input, "match", input[match[0]:match[1]])
+		println("rv", rv)
+		println(re.String())
+		if polarity {
+			return re.MatchString(rv)
+		}
+		return !re.MatchString(rv)
+	}
+}
+
+func validate_lookahead(pattern, flags string, polarity bool) hMatchValidator {
+	re := regexp.MustCompile("(?" + flags + ")^" + pattern)
+	return func(input string, match []int) bool {
+		rv := input[match[1]:]
+		if polarity {
+			return re.MatchString(rv)
+		}
+		return !re.MatchString(rv)
 	}
 }
 
@@ -2440,17 +2476,18 @@ var handlers = []handler{
 	// parser.add_handler("languages", regex.compile(r"\bFR(?:a|e|anc[eê]s|VF[FQIB2]?)\b", regex.IGNORECASE), uniq_concat(value("fr")), {"skipFromTitle": True, "skipIfAlreadyFound": False})
 	{
 		Field:         "languages",
-		Pattern:       regexp.MustCompile(`(?i)\bFR(?:a|e|anc[eê]s|VF[FQIB2]?)?\b`),
+		Pattern:       regexp.MustCompile(`(?i)\bFR(?:a|e|anc[eê]s|VF[FQIB2]?)\b`),
 		Transform:     to_value_set("fr"),
 		KeepMatching:  true,
 		SkipFromTitle: true,
 	},
-	// ~ parser.add_handler("languages", regex.compile(r"\b(TRUE|SUB).?FRENCH\b|\bFRENCH\b|\bFre?\b"), uniq_concat(value("fr")), {"remove": True, "skipIfAlreadyFound": False})
+	// parser.add_handler("languages", regex.compile(r"\b(TRUE|SUB).?FRENCH\b|\bFRENCH\b|\bFre?\b"), uniq_concat(value("fr")), {"remove": True, "skipIfAlreadyFound": False})
 	{
 		Field:        "languages",
-		Pattern:      regexp.MustCompile(`\b(?:TRUE|SUB).?FRENCH\b|\bFRENCH\b`),
+		Pattern:      regexp.MustCompile(`\b(?:TRUE|SUB).?FRENCH\b|\bFRENCH\b|\bFre?\b`),
 		Transform:    to_value_set("fr"),
 		KeepMatching: true,
+		Remove:       true,
 	},
 	// parser.add_handler("languages", regex.compile(r"\b\[?(VF[FQRIB2]?\]?\b|(VOST)?FR2?)\b"), uniq_concat(value("fr")), {"remove": True, "skipIfAlreadyFound": False})
 	{
@@ -2458,6 +2495,7 @@ var handlers = []handler{
 		Pattern:      regexp.MustCompile(`\b\[?(?:VF[FQRIB2]?\]?\b|(?:VOST)?FR2?)\b`),
 		Transform:    to_value_set("fr"),
 		KeepMatching: true,
+		Remove:       true,
 	},
 	// parser.add_handler("languages", regex.compile(r"\b(VOST(?:FR?|A)?)\b", regex.IGNORECASE), uniq_concat(value("fr")), {"skipIfAlreadyFound": False})
 	{
@@ -2489,20 +2527,14 @@ var handlers = []handler{
 		Transform:    to_value_set("es-419"),
 		KeepMatching: true,
 	},
-	// parser.addHandler("languages", /\b(?:audio.)?(?:ESP|spa|(en[ .]+)?espa[nñ]ola?|castellano)\b/i, uniqConcat(value("spanish")), { skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\bes(?=[ .,/-]+(?:[A-Z]{2}[ .,/-]+){2,})\b/i, uniqConcat(value("spanish")), { skipFromTitle: true, skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\b(?<=[ .,/-]+(?:[A-Z]{2}[ .,/-]+){2,})es\b/i, uniqConcat(value("spanish")), { skipFromTitle: true, skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\b(?<=[ .,/-]+[A-Z]{2}[ .,/-]+)es(?=[ .,/-]+[A-Z]{2}[ .,/-]+)\b/i, uniqConcat(value("spanish")), { skipFromTitle: true, skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\bes(?=\.(?:ass|ssa|srt|sub|idx)$)/i, uniqConcat(value("spanish")), { skipFromTitle: true, skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\bspanish\W+subs?\b/i, uniqConcat(value("spanish")), { skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\b(spanish|espanhol)\b/i, uniqConcat(value("spanish")), { skipIfFirst: true, skipIfAlreadyFound: false });
+	// parser.add_handler("languages", regex.compile(r"\b(?:audio.)?(?:ESP?|spa|(en[ .]+)?espa[nñ]ola?|castellano)\b", regex.IGNORECASE), uniq_concat(value("es")), {"skipIfAlreadyFound": False})
 	{
 		Field:        "languages",
-		Pattern:      regexp.MustCompile(`(?i)\b(?:audio.)?(?:ESP|spa|(?:en[ .]+)?espa[nñ]ola?|castellano)\b`),
+		Pattern:      regexp.MustCompile(`(?i)\b(?:audio.)?(?:ESP?|spa|(?:en[ .]+)?espa[nñ]ola?|castellano)\b`),
 		Transform:    to_value_set("es"),
 		KeepMatching: true,
-		Remove:       true,
 	},
+	// parser.addHandler("languages", /\bes(?=[ .,/-]+(?:[A-Z]{2}[ .,/-]+){2,})\b/i, uniqConcat(value("spanish")), { skipFromTitle: true, skipIfAlreadyFound: false });
 	// {
 	// 	Field:       "languages",
 	// 	Pattern:     regexp.MustCompile(`(?i)\bes(?=[ .,/-]+(?:[A-Z]{2}[ .,/-]+){2,})\b`),
@@ -2510,33 +2542,44 @@ var handlers = []handler{
 	// 	KeepParsing: true,
 	//  SkipFromTitle: true,
 	// },
+	// parser.addHandler("languages", /\b(?<=[ .,/-]+(?:[A-Z]{2}[ .,/-]+){2,})es\b/i, uniqConcat(value("spanish")), { skipFromTitle: true, skipIfAlreadyFound: false });
+	// {
+	// 	Field:         "languages",
+	// 	Pattern:       regexp.MustCompile(`(?i)\bes\b`),
+	// 	ValidateMatch: validate_lookbehind(`(?:[ .,/-]+(?:[A-Z]{2}[ .,/-]+){2,})`, "i", true),
+	// 	Transform:     to_value_set("es"),
+	// 	KeepMatching:  true,
+	// 	SkipFromTitle: true,
+	// },
+	// parser.addHandler("languages", /\b(?<=[ .,/-]+[A-Z]{2}[ .,/-]+)es(?=[ .,/-]+[A-Z]{2}[ .,/-]+)\b/i, uniqConcat(value("spanish")), { skipFromTitle: true, skipIfAlreadyFound: false });
+	// {
+	// 	Field:   "languages",
+	// 	Pattern: regexp.MustCompile(`(?i)\bes\b`),
+	// 	ValidateMatch: validate_and(
+	// 		validate_lookbehind(`(?:[ .,/-]+[A-Z]{2}[ .,/-]+)`, "i", true),
+	// 		validate_lookahead(`(?:[ .,/-]+[A-Z]{2}[ .,/-]+)`, "i", true),
+	// 	),
+	// 	Transform:     to_value_set("es"),
+	// 	KeepMatching:  true,
+	// 	SkipFromTitle: true,
+	// },
+	// parser.addHandler("languages", /\bes(?=\.(?:ass|ssa|srt|sub|idx)$)/i, uniqConcat(value("spanish")), { skipFromTitle: true, skipIfAlreadyFound: false });
 	{
 		Field:         "languages",
-		Pattern:       regexp.MustCompile(`(?i)\b(?:[ .,/-]+(?:[A-Z]{2}[ .,/-]+){2,})es\b`),
+		Pattern:       regexp.MustCompile(`(?i)\bes`),
+		ValidateMatch: validate_lookahead(`(?:\.(?:ass|ssa|srt|sub|idx)$)`, "i", true),
 		Transform:     to_value_set("es"),
 		KeepMatching:  true,
 		SkipFromTitle: true,
 	},
-	{
-		Field:         "languages",
-		Pattern:       regexp.MustCompile(`(?i)\b(?:[ .,/-]*[A-Z]{2}[ .,/-]+)es(?:[ .,/-]+[A-Z]{2}[ .,/-]+)\b`),
-		Transform:     to_value_set("es"),
-		KeepMatching:  true,
-		SkipFromTitle: true,
-	},
-	{
-		Field:         "languages",
-		Pattern:       regexp.MustCompile(`(?i)\bes(?:\.(?:ass|ssa|srt|sub|idx)$)`),
-		Transform:     to_value_set("es"),
-		KeepMatching:  true,
-		SkipFromTitle: true,
-	},
+	// parser.addHandler("languages", /\bspanish\W+subs?\b/i, uniqConcat(value("spanish")), { skipIfAlreadyFound: false });
 	{
 		Field:        "languages",
 		Pattern:      regexp.MustCompile(`(?i)\bspanish\W+subs?\b`),
 		Transform:    to_value_set("es"),
 		KeepMatching: true,
 	},
+	// parser.addHandler("languages", /\b(spanish|espanhol)\b/i, uniqConcat(value("spanish")), { skipIfFirst: true, skipIfAlreadyFound: false });
 	{
 		Field:        "languages",
 		Pattern:      regexp.MustCompile(`(?i)\b(spanish|espanhol)\b`),
@@ -2544,14 +2587,15 @@ var handlers = []handler{
 		KeepMatching: true,
 		SkipIfFirst:  true,
 	},
+	// parser.add_handler("languages", regex.compile(r"\b[\.\s\[]?Sp[\.\s\]]?\b", regex.IGNORECASE), uniq_concat(value("es")), {"remove": True, "skipIfAlreadyFound": False})
+	{
+		Field:        "languages",
+		Pattern:      regexp.MustCompile(`(?i)\b[\.\s\[]?Sp[\.\s\]]?\b`),
+		Transform:    to_value_set("es"),
+		KeepMatching: true,
+		Remove:       true,
+	},
 	// parser.addHandler("languages", /\b(?:p[rt]|en|port)[. (\\/-]*BR\b/i, uniqConcat(value("portuguese")), { skipIfAlreadyFound: false, remove: true });
-	// parser.addHandler("languages", /\bbr(?:a|azil|azilian)\W+(?:pt|por)\b/i, uniqConcat(value("portuguese")), { skipIfAlreadyFound: false, remove: true });
-	// parser.addHandler("languages", /\b(?:leg(?:endado|endas?)?|dub(?:lado)?|portugu[eèê]se?)[. -]*BR\b/i, uniqConcat(value("portuguese")), { skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\bleg(?:endado|endas?)\b/i, uniqConcat(value("portuguese")), { skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\bportugu[eèê]s[ea]?\b/i, uniqConcat(value("portuguese")), { skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\bPT[. -]*(?:PT|ENG?|sub(?:s|titles?))\b/i, uniqConcat(value("portuguese")), { skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\bpt(?=\.(?:ass|ssa|srt|sub|idx)$)/i, uniqConcat(value("portuguese")), { skipFromTitle: true, skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\bpor\b/i, uniqConcat(value("portuguese")), { skipFromTitle: true, skipIfAlreadyFound: false });
 	{
 		Field:        "languages",
 		Pattern:      regexp.MustCompile(`(?i)\b(?:p[rt]|en|port)[. (\\/-]*BR\b`),
@@ -2559,6 +2603,7 @@ var handlers = []handler{
 		KeepMatching: true,
 		Remove:       true,
 	},
+	// parser.addHandler("languages", /\bbr(?:a|azil|azilian)\W+(?:pt|por)\b/i, uniqConcat(value("portuguese")), { skipIfAlreadyFound: false, remove: true });
 	{
 		Field:        "languages",
 		Pattern:      regexp.MustCompile(`(?i)\bbr(?:a|azil|azilian)\W+(?:pt|por)\b`),
@@ -2566,37 +2611,52 @@ var handlers = []handler{
 		KeepMatching: true,
 		Remove:       true,
 	},
+	// parser.addHandler("languages", /\b(?:leg(?:endado|endas?)?|dub(?:lado)?|portugu[eèê]se?)[. -]*BR\b/i, uniqConcat(value("portuguese")), { skipIfAlreadyFound: false });
 	{
 		Field:        "languages",
 		Pattern:      regexp.MustCompile(`(?i)\b(?:leg(?:endado|endas?)?|dub(?:lado)?|portugu[eèê]se?)[. -]*BR\b`),
 		Transform:    to_value_set("pt"),
 		KeepMatching: true,
 	},
+	// parser.addHandler("languages", /\bleg(?:endado|endas?)\b/i, uniqConcat(value("portuguese")), { skipIfAlreadyFound: false });
 	{
 		Field:        "languages",
 		Pattern:      regexp.MustCompile(`(?i)\bleg(?:endado|endas?)\b`),
 		Transform:    to_value_set("pt"),
 		KeepMatching: true,
 	},
+	// parser.addHandler("languages", /\bportugu[eèê]s[ea]?\b/i, uniqConcat(value("portuguese")), { skipIfAlreadyFound: false });
 	{
 		Field:        "languages",
 		Pattern:      regexp.MustCompile(`(?i)\bportugu[eèê]s[ea]?\b`),
 		Transform:    to_value_set("pt"),
 		KeepMatching: true,
 	},
+	// parser.addHandler("languages", /\bPT[. -]*(?:PT|ENG?|sub(?:s|titles?))\b/i, uniqConcat(value("portuguese")), { skipIfAlreadyFound: false });
 	{
 		Field:        "languages",
 		Pattern:      regexp.MustCompile(`(?i)\bPT[. -]*(?:PT|ENG?|sub(?:s|titles?))\b`),
 		Transform:    to_value_set("pt"),
 		KeepMatching: true,
 	},
+	// parser.addHandler("languages", /\bpt(?=\.(?:ass|ssa|srt|sub|idx)$)/i, uniqConcat(value("portuguese")), { skipFromTitle: true, skipIfAlreadyFound: false });
 	{
 		Field:         "languages",
-		Pattern:       regexp.MustCompile(`(?i)\bpt(?:\.(?:ass|ssa|srt|sub|idx)$)`),
+		Pattern:       regexp.MustCompile(`(?i)\bpt`),
+		ValidateMatch: validate_lookahead(`(?:\.(?:ass|ssa|srt|sub|idx)$)`, "i", true),
 		Transform:     to_value_set("pt"),
 		KeepMatching:  true,
 		SkipFromTitle: true,
 	},
+	// parser.add_handler("languages", regex.compile(r"\bPT\b", regex.IGNORECASE), uniq_concat(value("pt")), {"remove": True, "skipIfAlreadyFound": False})
+	{
+		Field:        "languages",
+		Pattern:      regexp.MustCompile(`(?i)\bPT\b`),
+		Transform:    to_value_set("pt"),
+		KeepMatching: true,
+		Remove:       true,
+	},
+	// parser.addHandler("languages", /\bpor\b/i, uniqConcat(value("portuguese")), { skipFromTitle: true, skipIfAlreadyFound: false });
 	{
 		Field:         "languages",
 		Pattern:       regexp.MustCompile(`(?i)\bpor\b`),
@@ -2605,30 +2665,37 @@ var handlers = []handler{
 		SkipFromTitle: true,
 	},
 	// parser.addHandler("languages", /\bITA\b/i, uniqConcat(value("italian")), { skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\b(?<!w{3}\.\w+\.)IT(?=[ .,/-]+(?:[a-zA-Z]{2}[ .,/-]+){2,})\b/, uniqConcat(value("italian")), { skipFromTitle: true, skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\bit(?=\.(?:ass|ssa|srt|sub|idx)$)/i, uniqConcat(value("italian")), { skipFromTitle: true, skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\bitaliano?\b/i, uniqConcat(value("italian")), { skipIfFirst: true, skipIfAlreadyFound: false });
 	{
 		Field:        "languages",
 		Pattern:      regexp.MustCompile(`(?i)\bITA\b`),
 		Transform:    to_value_set("it"),
 		KeepMatching: true,
 	},
+	// ~ parser.addHandler("languages", /\b(?<!w{3}\.\w+\.)IT(?=[ .,/-]+(?:[a-zA-Z]{2}[ .,/-]+){2,})\b/, uniqConcat(value("italian")), { skipFromTitle: true, skipIfAlreadyFound: false });
 	{
-		Field:         "languages",
-		Pattern:       regexp.MustCompile(`\b(?:w{3}\.\w+\.)?IT(?:[ .,/-]+(?:[a-zA-Z]{2}[ .,/-]+){2,})\b`),
-		ValidateMatch: validate_not_match(regexp.MustCompile(`(?:w{3}\.\w+\.)IT`)),
+		Field:   "languages",
+		Pattern: regexp.MustCompile(`(?i)\bIT\b`),
+		ValidateMatch: validate_and(
+			validate_lookbehind(`(?:w{3}\.\w+\.)`, "i", false),
+			validate_or(
+				validate_lookahead(`(?:[ .,/-]+(?:[A-Z]{2}[ .,/-]+){2,})`, "i", true),
+				validate_lookbehind(`(?:(?:[ .,/-]*[A-Z]{2}){2,}[ .,/-]+)`, "i", true),
+			),
+		),
 		Transform:     to_value_set("it"),
 		KeepMatching:  true,
 		SkipFromTitle: true,
 	},
+	// parser.addHandler("languages", /\bit(?=\.(?:ass|ssa|srt|sub|idx)$)/i, uniqConcat(value("italian")), { skipFromTitle: true, skipIfAlreadyFound: false });
 	{
 		Field:         "languages",
-		Pattern:       regexp.MustCompile(`(?i)\bit(?:\.(?:ass|ssa|srt|sub|idx)$)`),
+		Pattern:       regexp.MustCompile(`(?i)\bit`),
+		ValidateMatch: validate_lookahead(`(?:\.(?:ass|ssa|srt|sub|idx)$)`, "i", true),
 		Transform:     to_value_set("it"),
 		KeepMatching:  true,
 		SkipFromTitle: true,
 	},
+	// parser.addHandler("languages", /\bitaliano?\b/i, uniqConcat(value("italian")), { skipIfFirst: true, skipIfAlreadyFound: false });
 	{
 		Field:        "languages",
 		Pattern:      regexp.MustCompile(`(?i)\bitaliano?\b`),
@@ -2645,11 +2712,6 @@ var handlers = []handler{
 		SkipIfFirst:  true,
 	},
 	// parser.addHandler("languages", /\b(?:GER|DEU)\b/i, uniqConcat(value("german")), { skipFromTitle: true, skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\bde(?=[ .,/-]+(?:[A-Z]{2}[ .,/-]+){2,})\b/i, uniqConcat(value("german")), { skipFromTitle: true, skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\b(?<=[ .,/-]+(?:[A-Z]{2}[ .,/-]+){2,})de\b/i, uniqConcat(value("german")), { skipFromTitle: true, skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\b(?<=[ .,/-]+[A-Z]{2}[ .,/-]+)de(?=[ .,/-]+[A-Z]{2}[ .,/-]+)\b/i, uniqConcat(value("german")), { skipFromTitle: true, skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\bde(?=\.(?:ass|ssa|srt|sub|idx)$)/i, uniqConcat(value("german")), { skipFromTitle: true, skipIfAlreadyFound: false });
-	// parser.addHandler("languages", /\b(german|alem[aã]o)\b/i, uniqConcat(value("german")), { skipIfFirst: true, skipIfAlreadyFound: false });
 	{
 		Field:         "languages",
 		Pattern:       regexp.MustCompile(`(?i)\b(?:GER|DEU)\b`),
@@ -2657,34 +2719,46 @@ var handlers = []handler{
 		KeepMatching:  true,
 		SkipFromTitle: true,
 	},
+	// parser.addHandler("languages", /\bde(?=[ .,/-]+(?:[A-Z]{2}[ .,/-]+){2,})\b/i, uniqConcat(value("german")), { skipFromTitle: true, skipIfAlreadyFound: false });
 	{
 		Field:         "languages",
-		Pattern:       regexp.MustCompile(`(?i)\bde(?:[ .,/-]+(?:[A-Z]{2}[ .,/-]+){2,})\b`),
+		Pattern:       regexp.MustCompile(`(?i)\bde\b`),
+		ValidateMatch: validate_lookahead(`(?:[ .,/-]+(?:[A-Z]{2}[ .,/-]+){2,})`, "i", true),
 		Transform:     to_value_set("de"),
 		KeepMatching:  true,
 		SkipFromTitle: true,
 	},
+	// parser.addHandler("languages", /\b(?<=[ .,/-]+(?:[A-Z]{2}[ .,/-]+){2,})de\b/i, uniqConcat(value("german")), { skipFromTitle: true, skipIfAlreadyFound: false });
 	{
 		Field:         "languages",
-		Pattern:       regexp.MustCompile(`(?i)\b(?:[ .,/-]+(?:[A-Z]{2}[ .,/-]+){2,})de\b`),
+		Pattern:       regexp.MustCompile(`(?i)\bde\b`),
+		ValidateMatch: validate_lookbehind(`(?:[ .,/-]+(?:[A-Z]{2}[ .,/-]+){2,})`, "i", true),
 		Transform:     to_value_set("de"),
 		KeepMatching:  true,
 		SkipFromTitle: true,
 	},
-	// {
-	// 	Field:       "languages",
-	// 	Pattern:     regexp.MustCompile(`(?i)\b(?<=[ .,/-]+[A-Z]{2}[ .,/-]+)de(?=[ .,/-]+[A-Z]{2}[ .,/-]+)\b`),
-	// 	Transform:   to_multiple_value("german"),
-	// 	KeepParsing: true,
-	//  SkipFromTitle: true,
-	// },
+	// parser.addHandler("languages", /\b(?<=[ .,/-]+[A-Z]{2}[ .,/-]+)de(?=[ .,/-]+[A-Z]{2}[ .,/-]+)\b/i, uniqConcat(value("german")), { skipFromTitle: true, skipIfAlreadyFound: false });
 	{
-		Field:         "languages",
-		Pattern:       regexp.MustCompile(`(?i)\bde(?:\.(?:ass|ssa|srt|sub|idx)$)`),
+		Field:   "languages",
+		Pattern: regexp.MustCompile(`(?i)\bde\b`),
+		ValidateMatch: validate_and(
+			validate_lookbehind(`(?:[ .,/-]+[A-Z]{2}[ .,/-]+)`, "i", true),
+			validate_lookahead(`(?:[ .,/-]+[A-Z]{2}[ .,/-]+)`, "i", true),
+		),
 		Transform:     to_value_set("de"),
 		KeepMatching:  true,
 		SkipFromTitle: true,
 	},
+	// parser.addHandler("languages", /\bde(?=\.(?:ass|ssa|srt|sub|idx)$)/i, uniqConcat(value("german")), { skipFromTitle: true, skipIfAlreadyFound: false });
+	{
+		Field:         "languages",
+		Pattern:       regexp.MustCompile(`(?i)\bde`),
+		ValidateMatch: validate_lookahead(`(?:\.(?:ass|ssa|srt|sub|idx)$)`, "i", true),
+		Transform:     to_value_set("de"),
+		KeepMatching:  true,
+		SkipFromTitle: true,
+	},
+	// parser.addHandler("languages", /\b(german|alem[aã]o)\b/i, uniqConcat(value("german")), { skipIfFirst: true, skipIfAlreadyFound: false });
 	{
 		Field:        "languages",
 		Pattern:      regexp.MustCompile(`(?i)\b(german|alem[aã]o)\b`),
@@ -3313,8 +3387,6 @@ var handlers = []handler{
 	// parser.add_handler("dubbed", regex.compile(r"\b(fan\s?dub)\b", regex.IGNORECASE), boolean, {"remove": True, "skipFromTitle": True})
 	// parser.add_handler("dubbed", regex.compile(r"\b(Fan.*)?(?:DUBBED|dublado|dubbing|DUBS?)\b", regex.IGNORECASE), boolean, {"remove": True})
 	// parser.add_handler("dubbed", regex.compile(r"\b(?!.*\bsub(s|bed)?\b)([ _\-\[(\.])?(dual|multi)([ _\-\[(\.])?(audio)\b", regex.IGNORECASE), boolean, {"remove": True})
-	// x parser.add_handler("dubbed", regex.compile(r"\b(JAP?(anese)?|ZH)\+ENG?(lish)?|ENG?(lish)?\+(JAP?(anese)?|ZH)\b", regex.IGNORECASE), boolean, {"remove": True})
-	// x parser.add_handler("dubbed", regex.compile(r"\bMULTi\b", regex.IGNORECASE), boolean, {"remove": True})
 	{
 		Field:         "dubbed",
 		Pattern:       regexp.MustCompile(`(?i)\b(?:fan\s?dub)\b`),
@@ -3334,6 +3406,14 @@ var handlers = []handler{
 		ValidateMatch: validate_not_match(regexp.MustCompile(`(?i)\b(?:.*\bsub(s|bed)?\b)`)),
 		Transform:     to_boolean(),
 		Remove:        true,
+	},
+	// x parser.add_handler("dubbed", regex.compile(r"\b(JAP?(anese)?|ZH)\+ENG?(lish)?|ENG?(lish)?\+(JAP?(anese)?|ZH)\b", regex.IGNORECASE), boolean, {"remove": True})
+	// parser.add_handler("dubbed", regex.compile(r"\bMULTi\b", regex.IGNORECASE), boolean, {"remove": True})
+	{
+		Field:     "dubbed",
+		Pattern:   regexp.MustCompile(`(?i)\bMULTi\b`),
+		Transform: to_boolean(),
+		Remove:    true,
 	},
 	// parser.addHandler("dubbed", /\b(?:DUBBED|dublado|dubbing|DUBS?)\b/i, boolean);
 	// parser.addHandler("dubbed", ({ result }) => {

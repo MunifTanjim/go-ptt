@@ -11,7 +11,7 @@ const { extract } = require("tar");
 const { promisify } = require("node:util");
 
 const PACKAGE_NAME = "ptt";
-const VERSION = "0.13.0";
+const VERSION = "0.13.1";
 const GITHUB_REPO = "MunifTanjim/go-ptt";
 
 function getPlatformInfo() {

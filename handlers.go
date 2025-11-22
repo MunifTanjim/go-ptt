@@ -65,9 +65,6 @@ func validate_lookbehind(pattern, flags string, polarity bool) hMatchValidator {
 	re := regexp.MustCompile("(?" + flags + ")" + pattern + "$")
 	return func(input string, match []int) bool {
 		rv := input[:match[0]]
-		println("input", input, "match", input[match[0]:match[1]])
-		println("rv", rv)
-		println(re.String())
 		if polarity {
 			return re.MatchString(rv)
 		}

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/MunifTanjim/go-ptt/compare/js-v0.7.0...js-v0.7.1) (2025-11-22)
+
+
+### Bug Fixes
+
+* **js:** bump binary version ([2030133](https://github.com/MunifTanjim/go-ptt/commit/2030133343053719b56a2f32ef0427f46fc14129))
+
 ## [0.7.0](https://github.com/MunifTanjim/go-ptt/compare/js-v0.6.1...js-v0.7.0) (2025-11-21)
 
 

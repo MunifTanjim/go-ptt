@@ -1790,6 +1790,15 @@ func TestPTT(t *testing.T) {
 			Title:      "Interstellar",
 			Year:       "2014",
 		}},
+		{"The Fairly OddParents Fairly Odder S01 720p PMTP WEBRip DDP5 1 x264 TEPES rartv ORARBG", Result{
+			Audio:      []string{"DDP"},
+			Channels:   []string{"5.1"},
+			Codec:      "x264",
+			Quality:    "WEBRip",
+			Resolution: "720p",
+			Seasons:    []int{1},
+			Title:      "The Fairly OddParents Fairly Odder",
+		}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)

@@ -1537,10 +1537,10 @@ var handlers = []handler{
 	// 	KeepMatching: true,
 	// },
 	// parser.add_handler("audio", regex.compile(r"DD2?[\+p]|DD Plus|Dolby Digital Plus|DDP5[ \.\_]1|E-?AC-?3(?:-S\d+)?", regex.IGNORECASE), uniq_concat(value("Dolby Digital Plus")), {"remove": True, "skipIfAlreadyFound": False})
-	// parser.add_handler("audio", regex.compile(r"\b(DD|Dolby.?Digital|DolbyD|AC-?3(x2)?(?:-S\d+)?)\b", regex.IGNORECASE), uniq_concat(value("Dolby Digital")), {"remove": True, "skipIfAlreadyFound": False})
+	// ~ parser.add_handler("audio", regex.compile(r"\b(DD|Dolby.?Digital|DolbyD|AC-?3(x2)?(?:-S\d+)?)\b", regex.IGNORECASE), uniq_concat(value("Dolby Digital")), {"remove": True, "skipIfAlreadyFound": False})
 	{
 		Field:        "audio",
-		Pattern:      regexp.MustCompile(`(?i)DD2?[+p]|DD Plus|Dolby Digital Plus|DDP5[ ._]1`),
+		Pattern:      regexp.MustCompile(`(?i)\bDD2?[+p]|DD Plus|Dolby Digital Plus|DDP5[ ._]1`),
 		Transform:    to_value_set("DDP"),
 		KeepMatching: true,
 		Remove:       true,

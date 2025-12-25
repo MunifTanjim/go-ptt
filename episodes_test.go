@@ -154,9 +154,9 @@ func TestEpisodes(t *testing.T) {
 		{"season with a dot and episode prefix v2", "All of Us Are Dead . 2022 . S01 EP #1.2.mkv", []int{2}},
 		{"episode with number in a title", "Mob Psycho 100 - 09 [1080p].mkv", []int{9}},
 		{"episode with number and a hyphen after it in a title", "3-Nen D-Gumi Glass no Kamen - 13 [480p]", []int{13}},
-		{"episode with of separator", "BBC Indian Ocean with Simon Reeve 5of6 Sri Lanka to Bangladesh.avi", []int{5}},
-		{"episode with of separator v1", "Witches Of Salem - 2Of4 - Road To Hell - Gr.mkv", []int{2}},
-		{"episode with of separator v2", "Das Boot Miniseries Original Uncut-Reevel Cd2 Of 3.avi", []int{2}},
+		{"episode with of separator", "BBC Indian Ocean with Simon Reeve 5of6 Sri Lanka to Bangladesh.avi", []int{1, 2, 3, 4, 5}},
+		{"episode with of separator v1", "Witches Of Salem - 2Of4 - Road To Hell - Gr.mkv", []int{1, 2}},
+		{"episode with of separator v2", "Das Boot Miniseries Original Uncut-Reevel Cd2 Of 3.avi", []int{1, 2}},
 		{"multiple episodes with multiple E sign and no separator", "Stargate Universe S01E01E02E03.mp4", []int{1, 2, 3}},
 		{"multiple episodes with multiple E sign and hyphen separator", "Stargate Universe S01E01-E02-E03.mp4", []int{1, 2, 3}},
 		{"multiple episodes with eps prefix and hyphen separator", "MARATHON EPISODES/Orphan Black S3 Eps.05-08.mp4", []int{5, 6, 7, 8}},
@@ -171,7 +171,7 @@ func TestEpisodes(t *testing.T) {
 		{"multiple episodes with russian episode marker and hyphen separator", "Мистер Робот / Mr. Robot / Сезон: 2 / Серии: 1-5 (12) [2016, США, WEBRip 1080p] MVO", []int{1, 2, 3, 4, 5}},
 		{"episode with russian episode marker and single episode", "Викинги / Vikings / Сезон: 5 / Серии: 1 [2017, WEB-DL 1080p] MVO", []int{1}},
 		{"episode with russian episode marker and single episode and with total episodes value", "Викинги / Vikings / Сезон: 5 / Серии: 1 из 20 [2017, WEB-DL 1080p] MVO", []int{1}},
-		{"episode with russian arabic total episodes value separator", "Prehistoric park.3iz6.Supercroc.DVDRip.Xvid.avi", []int{3}},
+		{"episode with russian arabic total episodes value separator", "Prehistoric park.3iz6.Supercroc.DVDRip.Xvid.avi", []int{1, 2, 3}},
 		{"episode with shortened russian episode name", "Меч (05 сер.) - webrip1080p.mkv", []int{5}},
 		{"episode with full russian episode name", "Серия 11.mkv", []int{11}},
 		{"episode with full different russian episode name", "Разрушители легенд. MythBusters. Сезон 15. Эпизод 09. Скрытая угроза (2015).avi", []int{9}},
@@ -293,6 +293,11 @@ func TestEpisodes(t *testing.T) {
 		{"", "[Deadfish] Hakkenden_Touhou Hakken Ibun S2 [720][AAC]", nil},
 		{"", "[Anime Time] Naruto - 116 - 360 Degrees of Vision The Byakugan's Blind Spot.mkv", []int{116}},
 		{"", "[Erai-raws] Boku no Hero Academia S2 - 00~25 [1080p][Multiple Subtitle]", intRange(0, 25)},
+	})
+
+	testAssertEpisodes([]tcEpisodes{
+		{"", "Викинги / Vikings / Сезон: 5 / Серия: 1 [2017, WEB-DL 1080p] MVO", []int{1}},
+		{"", "Викинги / Vikings / Сезон: 5 / Серии: 5 из 20 [2017, WEB-DL 1080p] MVO", []int{1, 2, 3, 4, 5}},
 	})
 
 	// GO

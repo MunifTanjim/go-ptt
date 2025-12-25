@@ -1799,6 +1799,15 @@ func TestPTT(t *testing.T) {
 			Seasons:    []int{1},
 			Title:      "The Fairly OddParents Fairly Odder",
 		}},
+		{"Formula1.S2025E86.Italy.Grand.Prix.1080i.HDTV.MPA2.0.H.264-playTV", Result{
+			Codec:      "h264",
+			Episodes:   []int{86},
+			Group:      "playTV",
+			Quality:    "HDTV",
+			Resolution: "1080p",
+			Seasons:    []int{2025},
+			Title:      "Formula1",
+		}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)

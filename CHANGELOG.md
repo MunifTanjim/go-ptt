@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.14.0](https://github.com/MunifTanjim/go-ptt/compare/v0.13.1...v0.14.0) (2025-12-25)
+
+
+### Features
+
+* improve parsing - complete, site, title ([de6a1a0](https://github.com/MunifTanjim/go-ptt/commit/de6a1a05aabb303fa605e487348fb7593e1de7ef))
+* improve parsing - group ([f590433](https://github.com/MunifTanjim/go-ptt/commit/f5904335297ef1d5d5109c538d7818050eb716fe))
+* improve parsing - seasons, episodes ([5600caf](https://github.com/MunifTanjim/go-ptt/commit/5600caf00a8261e5674e963c246e542b5383d361))
+* improve parsing - year, seasons ([efa0b97](https://github.com/MunifTanjim/go-ptt/commit/efa0b978f957b4ad01a969d75489b7d51bf092d4))
+
+
+### Bug Fixes
+
+* eliminiate false positive - audio ([8ba6921](https://github.com/MunifTanjim/go-ptt/commit/8ba6921f66ce09b8bb2d44fd9aad5438dd18cb9c))
+
 ## [0.13.1](https://github.com/MunifTanjim/go-ptt/compare/v0.13.0...v0.13.1) (2025-11-22)
 
 

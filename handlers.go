@@ -301,7 +301,6 @@ func to_int_array() hTransformer {
 			}
 		}
 		m.value = []int{}
-		return
 	}
 }
 
@@ -309,6 +308,38 @@ func remove_from_value(re *regexp.Regexp) hProcessor {
 	return func(title string, m *parseMeta, _ map[string]*parseMeta) *parseMeta {
 		if v, ok := m.value.(string); ok && v != "" {
 			m.value = re.ReplaceAllString(v, "")
+		}
+		return m
+	}
+}
+
+func regex_match_until_valid(re *regexp.Regexp, validator hMatchValidator) hProcessor {
+	return func(title string, m *parseMeta, _ map[string]*parseMeta) *parseMeta {
+		offset := 0
+		for offset < len(title) {
+			idxs := re.FindStringSubmatchIndex(title[offset:])
+			if idxs == nil {
+				return m
+			}
+			for i := range idxs {
+				if idxs[i] >= 0 {
+					idxs[i] += offset
+				}
+			}
+			if validator(title, idxs) {
+				m.mIndex = idxs[0]
+				m.mValue = title[idxs[0]:idxs[1]]
+				if len(idxs) >= 4 && idxs[2] >= 0 && idxs[3] >= 0 {
+					m.value = title[idxs[2]:idxs[3]]
+				} else {
+					m.value = m.mValue
+				}
+				return m
+			}
+			offset = idxs[1]
+			if offset == idxs[0] {
+				offset++
+			}
 		}
 		return m
 	}
@@ -1563,14 +1594,17 @@ var handlers = []handler{
 		KeepMatching: true,
 	},
 
-	// parser.addHandler("group", /- ?(?!\d+$|S\d+|\d+x|ep?\d+|[^[]+]$)([^\-. []+[^\-. [)\]\d][^\-. [)\]]*)(?:\[[\w.-]+])?(?=\.\w{2,4}$|$)/i, { remove: true });
+	// ~ parser.addHandler("group", /- ?(?!\d+$|S\d+|\d+x|ep?\d+|[^[]+]$)([^\-. []+[^\-. [)\]\Ed][^\-. [)\]]*)(?:\[[\w.-]+])?(?=\.\w{2,4}$|$)/i, { remove: true });
 	{
-		Field:         "group",
-		Pattern:       regexp.MustCompile(`(?i)(- ?([^\-. \[]+[^\-. \[)\]\d][^\-. \[)\]]*))(?:\[[\w.-]+])?(?:\.\w{2,4}$|$)`),
-		ValidateMatch: validate_not_match(regexp.MustCompile(`(?i)- ?(?:\d+$|S\d+|\d+x|ep?\d+|[^\[]+]$)`)),
-		MatchGroup:    1,
-		ValueGroup:    2,
-		// Remove:        true,
+		Field: "group",
+		Process: regex_match_until_valid(
+			regexp.MustCompile(`(?i)- ?([^\-. \[]+[^\-. \[)\]E\d][^\-. \[)\]]*)(?:\[[\w.-]+])?`),
+			validate_and(
+				validate_not_match(regexp.MustCompile(`(?i)- ?(?:\d+$|S\d+|\d+x|ep?\d+|[^[]+]$)`)),
+				validate_lookahead(`(?:[ .]\w{2,4}$|$)`, "i", true),
+			),
+		),
+		// Remove:     true,
 	},
 
 	// parser.addHandler("container", /\.?[[(]?\b(MKV|AVI|MP4|WMV|MPG|MPEG)\b[\])]?/i, lowercase);

@@ -1808,6 +1808,35 @@ func TestPTT(t *testing.T) {
 			Seasons:    []int{2025},
 			Title:      "Formula1",
 		}},
+		{"Georgie and Mandys First Marriage S01E18 TV Money 720p AMZN WEB DL DDP5 1 H 264 FLUX EZTV", Result{
+			Audio:      []string{"DDP"},
+			Channels:   []string{"5.1"},
+			Codec:      "h264",
+			Quality:    "WEB-DL",
+			Resolution: "720p",
+			Seasons:    []int{1},
+			Episodes:   []int{18},
+			Network:    "Amazon",
+			Title:      "Georgie and Mandys First Marriage",
+		}},
+		{"Dragon Ball Z (Complete Series) [1080p] [MP4] [English Audio]", Result{
+			Complete:   true,
+			Container:  "mp4",
+			Languages:  []string{"en"},
+			Resolution: "1080p",
+			Title:      "Dragon Ball Z",
+		}},
+		{"Implosion The Titanic Sub Disaster 2025 720p AMZN WEB-DL DDP2 0 H 264-Kitsune", Result{
+			Audio:      []string{"DDP"},
+			Channels:   []string{"2.0"},
+			Codec:      "h264",
+			Group:      "Kitsune",
+			Network:    "Amazon",
+			Quality:    "WEB-DL",
+			Resolution: "720p",
+			Title:      "Implosion The Titanic Sub Disaster",
+			Year:       "2025",
+		}},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)

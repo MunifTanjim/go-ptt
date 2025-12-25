@@ -1713,10 +1713,6 @@ var handlers = []handler{
 	},
 	// parser.addHandler("complete", /(?:\bthe\W)?(?:\bcomplete|collection|dvd)?\b[ .]?\bbox[ .-]?set\b/i, boolean);
 	// parser.addHandler("complete", /(?:\bthe\W)?(?:\bcomplete|collection|dvd)?\b[ .]?\bmini[ .-]?series\b/i, boolean);
-	// parser.addHandler("complete", /(?:\bthe\W)?(?:\bcomplete|full|all)\b.*\b(?:series|seasons|collection|episodes|set|pack|movies)\b/i, boolean);
-	// parser.addHandler("complete", /\b(?:series|seasons|movies?)\b.*\b(?:complete|collection)\b/i, boolean);
-	// parser.addHandler("complete", /(?:\bthe\W)?\bultimate\b[ .]\bcollection\b/i, boolean, { skipIfAlreadyFound: false });
-	// parser.addHandler("complete", /\bcollection\b.*\b(?:set|pack|movies)\b/i, boolean);
 	{
 		Field:     "complete",
 		Pattern:   regexp.MustCompile(`(?i)(?:\bthe\W)?(?:\bcomplete|collection|dvd)?\b[ .]?\bbox[ .-]?set\b`),
@@ -1727,11 +1723,15 @@ var handlers = []handler{
 		Pattern:   regexp.MustCompile(`(?i)(?:\bthe\W)?(?:\bcomplete|collection|dvd)?\b[ .]?\bmini[ .-]?series\b`),
 		Transform: to_boolean(),
 	},
+	// ~ parser.addHandler("complete", /(?:\bthe\W)?(?:\bcomplete|full|all)\b.*\b(?:series|seasons|collection|episodes|set|pack|movies)\b/i, boolean);
 	{
 		Field:     "complete",
-		Pattern:   regexp.MustCompile(`(?i)(?:\bthe\W)?(?:\bcomplete|full|all)\b.*\b(?:series|seasons|collection|episodes|set|pack|movies)\b`),
+		Pattern:   regexp.MustCompile(`(?i)(?:\bthe\W)?(?:\bcomplete|full|\ball)\b.*\b(?:series|seasons|collection|episodes|set|pack|movies)\b`),
 		Transform: to_boolean(),
 	},
+	// parser.addHandler("complete", /\b(?:series|seasons|movies?)\b.*\b(?:complete|collection)\b/i, boolean);
+	// parser.addHandler("complete", /(?:\bthe\W)?\bultimate\b[ .]\bcollection\b/i, boolean, { skipIfAlreadyFound: false });
+	// parser.addHandler("complete", /\bcollection\b.*\b(?:set|pack|movies)\b/i, boolean);
 	{
 		Field:     "complete",
 		Pattern:   regexp.MustCompile(`(?i)\b(?:series|seasons|movies?)\b.*\b(?:complete|collection)\b`),
@@ -3424,10 +3424,11 @@ var handlers = []handler{
 	// parser.add_handler("subbed", regex.compile(r"\bmulti(?:ple)?[ .-]*(?:su?$|sub\w*|dub\w*)\b|msub", regex.IGNORECASE), boolean, {"remove": True})
 	// parser.add_handler("subbed", regex.compile(r"\b(?:Official.*?|Dual-?)?sub(s|bed)?\b", regex.IGNORECASE), boolean, {"remove": True})
 	{
-		Field:     "subbed",
-		Pattern:   regexp.MustCompile(`(?i)\b(?:Official.*?|Dual-?)?sub(?:s|bed)?\b`),
-		Transform: to_boolean(),
-		Remove:    true,
+		Field:       "subbed",
+		Pattern:     regexp.MustCompile(`(?i)\b(?:Official.*?|Dual-?)?sub(?:s|bed)?\b`),
+		Transform:   to_boolean(),
+		Remove:      true,
+		SkipIfFirst: true,
 	},
 	{
 		Field: "subbed",
@@ -3524,10 +3525,10 @@ var handlers = []handler{
 		Remove:        true,
 		SkipFromTitle: true,
 	},
-	// parser.add_handler("site", regex.compile(r"\b(?:www?.?)?(?:\w+\-)?\w+[\.\s](?:com|org|net|ms|tv|mx|co|party|vip|nu|pics)\b", regex.IGNORECASE), value("$1"), {"remove": True})
+	// ~ parser.add_handler("site", regex.compile(r"\b(?:www?.?)?(?:\w+\-)?\w+[\.\s](?:com|org|net|ms|tv|mx|co|party|vip|nu|pics)\b", regex.IGNORECASE), value("$1"), {"remove": True})
 	{
 		Field:         "site",
-		Pattern:       regexp.MustCompile(`(?i)\b(?:www?.?)?(?:\w+\-)?\w+[\.\s](?:com|org|net|ms|tv|mx|co|party|vip|nu|pics)\b`),
+		Pattern:       regexp.MustCompile(`(?i)\b(?:www?.?)?(?:\w+\-)?\w+\.(?:com|org|net|ms|tv|mx|co|party|vip|nu|pics)\b`),
 		Remove:        true,
 		SkipFromTitle: true,
 	},

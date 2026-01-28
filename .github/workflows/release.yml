@@ -3,13 +3,16 @@ name: Release
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
+
+permissions:
+  id-token: write
+  contents: write
+  issues: write
+  pull-requests: write
 
 jobs:
   release:
     name: release
-    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
       - name: Generate GitHub Token
@@ -61,7 +64,7 @@ jobs:
         if: ${{ steps.release.outputs['packages/js--release_created'] }}
         uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: 24.x
           cache: pnpm
           cache-dependency-path: packages/js
           registry-url: https://registry.npmjs.org
@@ -75,7 +78,5 @@ jobs:
         run: pnpm run build
       - name: JS - Publish
         if: ${{ steps.release.outputs['packages/js--release_created'] }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         working-directory: packages/js
         run: pnpm publish

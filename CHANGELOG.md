@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.1](https://github.com/MunifTanjim/go-ptt/compare/v0.14.0...v0.14.1) (2026-02-16)
+
+
+### Bug Fixes
+
+* remove false positive for languages - it ([a313e2e](https://github.com/MunifTanjim/go-ptt/commit/a313e2e8498e282c71f03878366f51d552e59843))
+
 ## [0.14.0](https://github.com/MunifTanjim/go-ptt/compare/v0.13.1...v0.14.0) (2025-12-25)
 
 

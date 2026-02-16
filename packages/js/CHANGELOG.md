@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.1](https://github.com/MunifTanjim/go-ptt/compare/js-v0.8.0...js-v0.8.1) (2026-02-16)
+
+
+### Bug Fixes
+
+* **js:** bump binary version ([4c7cfab](https://github.com/MunifTanjim/go-ptt/commit/4c7cfab1771bcaf6bce5deb32190068491f3f958))
+
 ## [0.8.0](https://github.com/MunifTanjim/go-ptt/compare/js-v0.7.1...js-v0.8.0) (2025-12-25)
 
 

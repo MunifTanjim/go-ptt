@@ -2733,7 +2733,7 @@ var handlers = []handler{
 	// ~ parser.addHandler("languages", /\b(?<!w{3}\.\w+\.)IT(?=[ .,/-]+(?:[a-zA-Z]{2}[ .,/-]+){2,})\b/, uniqConcat(value("italian")), { skipFromTitle: true, skipIfAlreadyFound: false });
 	{
 		Field:   "languages",
-		Pattern: regexp.MustCompile(`(?i)\bIT\b`),
+		Pattern: regexp.MustCompile(`\bI[tT]\b`),
 		ValidateMatch: validate_and(
 			validate_lookbehind(`(?:w{3}\.\w+\.)`, "i", false),
 			validate_or(

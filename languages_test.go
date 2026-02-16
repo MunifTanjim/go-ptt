@@ -315,6 +315,7 @@ func TestLanguages(t *testing.T) {
 		{"Showdown.In.Little.Tokyo.1991.MULTI.VFQ.VFF.DTSHD-MASTER.1080p.BluRay.x264-ZombiE", []string{"multi audio", "fr"}},
 		{"Nocturnal Animals (2016) MULTi VFQ [1080p] BluRay x264-PopHD", []string{"multi audio", "fr"}},
 		{"Nocturnal Animals 2016 VFQ 1080p BluRay DTS x265-HDHEVC", []string{"fr"}},
+		{"The.Housemaid.2025.2160p.iT.WEB-DL.DV.HDR10+[Ben The Men]", nil},
 	} {
 		t.Run(tc.ttitle, func(t *testing.T) {
 			result := Parse(tc.ttitle)
